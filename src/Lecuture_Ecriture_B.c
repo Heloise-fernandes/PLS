@@ -160,78 +160,78 @@ int getBit(FILE* fichier, int *indice, char *bit)
 void putInt (FILE *F,int size){}
 
 
-int main(int argc, char **argv)
-{
-	
-	if(argc==3)
-	{
-		char car = 0;
-		int taille;
-		int i;
-		/*FILE* fichier = ouvertureFichierLecture(argv[1]);
-		taille = getByte(fichier,&car);
-		printf("Nous avons lu un caractère de %d octet qui est %d\n",taille,car);//a
-		taille = getByte(fichier,&car);
-		printf("Nous avons lu un caractère de %d octet qui est %d\n",taille,car);//2
-		taille = getByte(fichier,&car);
-		printf("Nous avons lu un caractère de %d octet qui est %d\n",taille,car);//5
-		taille = getByte(fichier,&car);
-		printf("Nous avons lu un caractère de %d octet qui est %d\n",taille,car);//b
-		taille = getByte(fichier,&car);
-		printf("Nous avons lu un caractère de %d octet qui est %d\n",taille,car);//\n
-		taille = getByte(fichier,&car);
-		printf("Nous avons lu un caractère de %d\n",taille);//rien
-		fermetureFichier(fichier);
-		*/
-		FILE* fichier = ouvertureFichierLecture(argv[1]);
-
-		int indice = 0;
-		for(i=0; i<14; i++)
-		{
-			if(i%8==0){printf("===========================================\n");}
-			taille = getBit(fichier,&indice,&car);
-			printf("Taille :  %d octet / Valeur : %d\n",taille,car);
-			
-		}
-		printf("===========================================\n");
-		/*taille = getByte(fichier,&car);
-		printf("Nous avons lu un caractère de %d octet qui est %d\n",taille,car);
-		printf("===========================================\n");
-		for(i=0; i<=7; i++)
-		{
-			indice = i%8;
-			taille = getBit(fichier,&indice,&car);
-			printf("Taille :  %d octet / Valeur : %d\n",taille,car);
-			
-		}
-		fermetureFichier(fichier);
-		*/
-		fichier = ouvertureFichierEcriture(argv[2]);
-		putByte(fichier,90);
-		fermetureFichier(fichier);
-		
-		printf("===========================================\n");
-		char blop = 1;
-		fichier = ouvertureFichierEcriture(argv[2]);
-		putBit(fichier,blop,0);
-		putBit(fichier,blop,6);
-		fermetureFichier(fichier);
-		fichier = ouvertureFichierLecture(argv[2]);
-		printf("===========================================\n");
-		for(i = 0; i<=7; i++)
-		{
-
-			indice = i%8;
-			taille = getBit(fichier,&indice,&car);
-			if(taille!=0)
-			{
-				printf("Nous avons lu un bit de %d octet qui est %d\n",taille,car);
-			}
-			else{break;}
-		}
-		fermetureFichier(fichier);
-	}
-	
-	
-	return 0;
-}
+//~ int main(int argc, char **argv)
+//~ {
+	//~ 
+	//~ if(argc==3)
+	//~ {
+		//~ char car = 0;
+		//~ int taille;
+		//~ int i;
+		//~ /*FILE* fichier = ouvertureFichierLecture(argv[1]);
+		//~ taille = getByte(fichier,&car);
+		//~ printf("Nous avons lu un caractère de %d octet qui est %d\n",taille,car);//a
+		//~ taille = getByte(fichier,&car);
+		//~ printf("Nous avons lu un caractère de %d octet qui est %d\n",taille,car);//2
+		//~ taille = getByte(fichier,&car);
+		//~ printf("Nous avons lu un caractère de %d octet qui est %d\n",taille,car);//5
+		//~ taille = getByte(fichier,&car);
+		//~ printf("Nous avons lu un caractère de %d octet qui est %d\n",taille,car);//b
+		//~ taille = getByte(fichier,&car);
+		//~ printf("Nous avons lu un caractère de %d octet qui est %d\n",taille,car);//\n
+		//~ taille = getByte(fichier,&car);
+		//~ printf("Nous avons lu un caractère de %d\n",taille);//rien
+		//~ fermetureFichier(fichier);
+		//~ */
+		//~ FILE* fichier = ouvertureFichierLecture(argv[1]);
+//~ 
+		//~ int indice = 0;
+		//~ for(i=0; i<14; i++)
+		//~ {
+			//~ if(i%8==0){printf("===========================================\n");}
+			//~ taille = getBit(fichier,&indice,&car);
+			//~ printf("Taille :  %d octet / Valeur : %d\n",taille,car);
+			//~ 
+		//~ }
+		//~ printf("===========================================\n");
+		//~ /*taille = getByte(fichier,&car);
+		//~ printf("Nous avons lu un caractère de %d octet qui est %d\n",taille,car);
+		//~ printf("===========================================\n");
+		//~ for(i=0; i<=7; i++)
+		//~ {
+			//~ indice = i%8;
+			//~ taille = getBit(fichier,&indice,&car);
+			//~ printf("Taille :  %d octet / Valeur : %d\n",taille,car);
+			//~ 
+		//~ }
+		//~ fermetureFichier(fichier);
+		//~ */
+		//~ fichier = ouvertureFichierEcriture(argv[2]);
+		//~ putByte(fichier,90);
+		//~ fermetureFichier(fichier);
+		//~ 
+		//~ printf("===========================================\n");
+		//~ char blop = 1;
+		//~ fichier = ouvertureFichierEcriture(argv[2]);
+		//~ putBit(fichier,blop,0);
+		//~ putBit(fichier,blop,6);
+		//~ fermetureFichier(fichier);
+		//~ fichier = ouvertureFichierLecture(argv[2]);
+		//~ printf("===========================================\n");
+		//~ for(i = 0; i<=7; i++)
+		//~ {
+//~ 
+			//~ indice = i%8;
+			//~ taille = getBit(fichier,&indice,&car);
+			//~ if(taille!=0)
+			//~ {
+				//~ printf("Nous avons lu un bit de %d octet qui est %d\n",taille,car);
+			//~ }
+			//~ else{break;}
+		//~ }
+		//~ fermetureFichier(fichier);
+	//~ }
+	//~ 
+	//~ 
+	//~ return 0;
+//~ }
