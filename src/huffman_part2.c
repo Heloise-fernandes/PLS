@@ -314,6 +314,14 @@ int main (){
 	generation_description_arbre(A);
 	printf("\n");
 	FILE * F=ouvertureFichierLecture("../fichier_test/code_huffman.txt");
-	decodage(F,A,32);
+	int indice = 0;
+	char c = 0;
+	for(i=0; i<15; i++)
+	{
+		getBit(F,&indice,&c);
+		printf("%d / ",c);
+	}
+	
+	//decodage(F,A,32);
 	return 0;
 }
