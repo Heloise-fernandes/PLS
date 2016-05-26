@@ -182,6 +182,7 @@ int getBit(FILE* fichier, int *indice, char *bit)
 	*indice = (*indice)+1;
 	return tailleLU;
 }
+void putInt (FILE *F,int size){}
 
 
 int main(int argc, char **argv)
@@ -208,21 +209,13 @@ int main(int argc, char **argv)
 		fermetureFichier(fichier);
 		*/
 		FILE* fichier = ouvertureFichierLecture(argv[1]);
-<<<<<<< HEAD
+
 		int indice = 0;
 		for(i=0; i<=14; i++)
 		{
 			if(i%8==0){printf("===========================================\n");}
 			indice = i%8;
 			taille = getBit(fichier,&indice,&car);
-=======
-		int *indice = 0;
-		for(i=0; i<=14; i++)
-		{
-			if(i%8==0){printf("===========================================\n");}
-			*indice = i%8;
-			taille = getBit(fichier,indice,&car);
->>>>>>> d4389d67d7d48bab0ac946ba470f923b70fd8813
 			printf("Taille :  %d octet / Valeur : %d\n",taille,car);
 			
 		}
@@ -232,13 +225,8 @@ int main(int argc, char **argv)
 		printf("===========================================\n");
 		for(i=0; i<=7; i++)
 		{
-<<<<<<< HEAD
 			indice = i%8;
 			taille = getBit(fichier,&indice,&car);
-=======
-			*indice = i%8;
-			taille = getBit(fichier,indice,&car);
->>>>>>> d4389d67d7d48bab0ac946ba470f923b70fd8813
 			printf("Taille :  %d octet / Valeur : %d\n",taille,car);
 			
 		}
@@ -258,13 +246,9 @@ int main(int argc, char **argv)
 		printf("===========================================\n");
 		for(i = 0; i<=7; i++)
 		{
-<<<<<<< HEAD
+
 			indice = i%8;
 			taille = getBit(fichier,&indice,&car);
-=======
-			*indice = i%8;
-			taille = getBit(fichier,indice,&car);
->>>>>>> d4389d67d7d48bab0ac946ba470f923b70fd8813
 			if(taille!=0)
 			{
 				printf("Nous avons lu un bit de %d octet qui est %d\n",taille,car);
