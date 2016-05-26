@@ -146,10 +146,10 @@ int getBit(FILE* fichier, int *indice, char *bit)
 			case 7 : *bit = (*octet&BIT_0); break;
 			default:printf("L'indice est faux!!!!!\n"); exit(0);
 		}
-		*bit = *bit>>(INDICE_MAX-indice);
+		*bit = *bit>>(INDICE_MAX-(*indice));
 		if((*indice>=0)&&(*indice<7)){fseek(fichier,-1,SEEK_CUR);}//Si tout l'octet n'a pas été lu(le bit d'indice 7 n'as pas été lu) on repositionne le curseur sur l'octet en cours de lecture	
 	}
-	*indice ++;
+	*indice = (*indice)+1;
 	return tailleLU;
 }
 
@@ -178,10 +178,12 @@ int main(int argc, char **argv)
 		fermetureFichier(fichier);
 		*/
 		FILE* fichier = ouvertureFichierLecture(argv[1]);
+		int *indice = 0;
 		for(i=0; i<=14; i++)
 		{
 			if(i%8==0){printf("===========================================\n");}
-			taille = getBit(fichier,i%8,&car);
+			*indice = i%8;
+			taille = getBit(fichier,indice,&car);
 			printf("Taille :  %d octet / Valeur : %d\n",taille,car);
 			
 		}
@@ -191,7 +193,8 @@ int main(int argc, char **argv)
 		printf("===========================================\n");
 		for(i=0; i<=7; i++)
 		{
-			taille = getBit(fichier,i,&car);
+			*indice = i%8;
+			taille = getBit(fichier,indice,&car);
 			printf("Taille :  %d octet / Valeur : %d\n",taille,car);
 			
 		}
@@ -211,7 +214,8 @@ int main(int argc, char **argv)
 		printf("===========================================\n");
 		for(i = 0; i<=7; i++)
 		{
-			taille = getBit(fichier,i%8,&car);
+			*indice = i%8;
+			taille = getBit(fichier,indice,&car);
 			if(taille!=0)
 			{
 				printf("Nous avons lu un bit de %d octet qui est %d\n",taille,car);
