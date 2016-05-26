@@ -277,13 +277,14 @@ void decodage (FILE * fLecture,pArbre A,int taille){
 	for (i=0;i<taille;i++){
 		B=A;
 		if (getBit(fLecture,&indice,&c)==0){exit(0);}
+		printf("%d",c);
 		if (c==0){
 			B=B->ag;
-			printf("%i",0);
+			//printf("%i",0);
 		}
 		else {
 			B=B->ad;
-			printf("%i",1);
+			//printf("%i",1);
 		}
 		
 		if (B==NULL) {printf( "erreur de  decodage\n");}
@@ -310,10 +311,15 @@ int main (){
 	afficherT(T);
 	pArbre A=construction_arbre_canonique(T);
 	afficher_Arbre(A);
-	
+	int indice =0;
+	char c;
 	generation_description_arbre(A);
 	printf("\n");
 	FILE * F=ouvertureFichierLecture("../fichier_test/code_huffman.txt");
+	for (i=0;i<32;i++){
+		getBit(F,&indice,&c);
+		printf("%d",c);
+	}
 	decodage(F,A,32);
 	return 0;
 }
