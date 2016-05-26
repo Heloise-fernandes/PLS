@@ -275,7 +275,7 @@ void decodage (FILE * fLecture,pArbre A,int taille){
 	int i;
 	int indice=0;
 	for (i=0;i<taille;i++){
-		if (getBit(F,&c,&indice)==1){exit(0);}
+		if (getBit(F,&indice,&c)==1){exit(0);}
 		if (c==0){
 			B=B->ag;
 		}
