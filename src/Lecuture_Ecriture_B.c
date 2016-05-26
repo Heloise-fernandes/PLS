@@ -68,26 +68,18 @@ void putByte(FILE* fichier,char octet)
  * */
 void putBit(FILE* fichier,char bit, int indice)
 {
-<<<<<<< HEAD
+
 	char *octet = malloc(sizeof(char));
-=======
-	char octet = 0;
->>>>>>> d4389d67d7d48bab0ac946ba470f923b70fd8813
 	int tailleLu;
 	
 	if(fichier==NULL){printf("Le fichier n'est pas ouvert\n"); exit(0);}
 	if((bit != 1)&&(bit != 0)){printf("On veux un bit\n"); exit(0);}
 	
-<<<<<<< HEAD
+
 	tailleLu = getByte(fichier, octet);//On recupere l'octet pointé par le curseur
 	
 	printf("La taille lu est : %d\n",tailleLu);
 	printf("On recupere l'octet %d\n",*octet);		
-=======
-	tailleLu = getByte(fichier, &octet);//On recupere l'octet pointé par le curseur
-	
-	printf("La taille lu est : %d\n",tailleLu);
->>>>>>> d4389d67d7d48bab0ac946ba470f923b70fd8813
 	
 	bit = bit<<indice;
 	
@@ -98,7 +90,7 @@ void putBit(FILE* fichier,char bit, int indice)
 	}
 	else
 	{		
-<<<<<<< HEAD
+
 		printf("On recupere l'octet %d\n",*octet);		
 
 		switch(indice)//On ajoute le bit à l'octet
@@ -115,24 +107,6 @@ void putBit(FILE* fichier,char bit, int indice)
 		}
 		printf("On ajoute le bit %d\n",bit);
 		putByte(fichier, *octet);//On ecrit l'octet avec le bit ajouté			
-=======
-		printf("On recupere l'octet %d\n",octet);		
-
-		switch(indice)//On ajoute le bit à l'octet
-		{
-			case 0 : octet = (octet&(~BIT_0))+bit; break;
-			case 1 : octet = (octet&(~BIT_1))+bit; break;
-			case 2 : octet = (octet&(~BIT_2))+bit; break;
-			case 3 : octet = (octet&(~BIT_3))+bit; break;
-			case 4 : octet = (octet&(~BIT_4))+bit; break;
-			case 5 : octet = (octet&(~BIT_5))+bit; break;
-			case 6 : octet = (octet&(~BIT_6))+bit; break;
-			case 7 : octet = (octet&(~BIT_7))+bit; break;
-			default:printf("L'indice est faux!!!!!\n"); exit(0);
-		}
-		printf("On ajoute le bit %d\n",bit);
-		putByte(fichier, octet);//On ecrit l'octet avec le bit ajouté			
->>>>>>> d4389d67d7d48bab0ac946ba470f923b70fd8813
 	}
 	if((indice>=0)&&(indice<7)){printf("Bit courant, %d ---",SEEK_CUR);fseek(fichier,-1,SEEK_CUR);printf("Retour au bit precedent, %d\n",SEEK_CUR);}
 	//Si tout l'octet n'a pas été lu(le bit d'indice 7 n'as pas été lu) on repositionne le curseur sur l'octet en cours de lecture	
