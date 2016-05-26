@@ -26,7 +26,7 @@ FILE* ouvertureFichierLecture(char* chemin)
 
 FILE* ouvertureFichierEcriture(char* chemin)
 {
-	FILE* fichier = fopen(chemin,"wb");
+	FILE* fichier = fopen(chemin,"wb+");
 	if(fichier==NULL){printf("Ce fichier ne peut être ouvert en écriture %s\n", chemin); exit(0);}
 	return fichier;
 }
@@ -73,13 +73,12 @@ void putBit(FILE* fichier,char bit, int indice)
 	int tailleLu;
 	
 	if(fichier==NULL){printf("Le fichier n'est pas ouvert\n"); exit(0);}
-	if((bit != 1)&&(bit != 0)){printf("On veux un bit\n"); exit(0);}
+	if((bit != 1)&&(bit != 0)){printf("Ce n'est pas un bit %d\n",bit); exit(0);}
 	
 
 	tailleLu = getByte(fichier, octet);//On recupere l'octet pointé par le curseur
 	
 	printf("La taille lu est : %d\n",tailleLu);
-	printf("On recupere l'octet %d\n",*octet);		
 	
 	bit = bit<<indice;
 	
@@ -92,7 +91,8 @@ void putBit(FILE* fichier,char bit, int indice)
 	{		
 
 		printf("On recupere l'octet %d\n",*octet);		
-
+		printf("On ajoute le bit %d\n",bit);
+		
 		switch(indice)//On ajoute le bit à l'octet
 		{
 			case 0 : *octet = (*octet&(~BIT_0))+bit; break;
@@ -105,7 +105,7 @@ void putBit(FILE* fichier,char bit, int indice)
 			case 7 : *octet = (*octet&(~BIT_7))+bit; break;
 			default:printf("L'indice est faux!!!!!\n"); exit(0);
 		}
-		printf("On ajoute le bit %d\n",bit);
+		printf("On va ajouter l'octet %d\n",*octet);		
 		putByte(fichier, *octet);//On ecrit l'octet avec le bit ajouté			
 	}
 	if((indice>=0)&&(indice<7)){printf("Bit courant, %d ---",SEEK_CUR);fseek(fichier,-1,SEEK_CUR);printf("Retour au bit precedent, %d\n",SEEK_CUR);}
@@ -129,7 +129,6 @@ int getBit(FILE* fichier, int *indice, char *bit)
 	
 	tailleLU = getByte(fichier, octet);//On recupere l'octet pointé par le curseur
 	
-	
 	if(tailleLU != 1)
 	{
 		tailleLU = 0;
@@ -137,6 +136,7 @@ int getBit(FILE* fichier, int *indice, char *bit)
 	}
 	else
 	{
+		
 		tailleLU = 1;
 		switch(*indice)
 		{
@@ -153,7 +153,7 @@ int getBit(FILE* fichier, int *indice, char *bit)
 		*bit = *bit>>(INDICE_MAX-(*indice));
 		if((*indice>=0)&&(*indice<7)){fseek(fichier,-1,SEEK_CUR);}//Si tout l'octet n'a pas été lu(le bit d'indice 7 n'as pas été lu) on repositionne le curseur sur l'octet en cours de lecture	
 	}
-	*indice = (*indice)+1;
+	*indice = ((*indice)+1)%8;
 	return tailleLU;
 }
 void putInt (FILE *F,int size){}
