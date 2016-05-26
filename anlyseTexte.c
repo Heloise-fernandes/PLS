@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "Lecuture_Ecriture_B.c"
 #define NMAX 256
 
 
@@ -36,7 +37,7 @@ void afficher_tableau_poids_symbole(int* symb ){
 		printf("(%d,%d)\n",i,symb[i]);
 	}
 }
-//(get_bytes renvoi la taill caractere suivant en int )
+//(get_bytes renvoi la taille caractere suivant en int )
 
 long remplir_tableau_poids_symbole_et_calcul_taille(int* symb,FILE* fichier_a_compresser){
 	long cpt = 0 ;//reflechier a la fonction stat -c %s nom_fichier_a_compresser
@@ -93,9 +94,12 @@ int main (int argc , char *argv[]){
 	int symb[NMAX];
 	int c = 0 ;
 	//fichier_a_compresser = ouverture_fichier_a_compresser("test.txt");
-	fichier_a_compresser = fopen("test.txt","r");
-/*
- * 
+	//fichier_a_compresser = fopen("test.txt","r");
+	
+	//remplacer par la fonction d' heloise 
+	fichier_a_compresser = ouvertureFichierLecture(argv[1]);
+
+ /* 
 	c = fgetc(fichier_a_compresser);
 	printf ("caractere lu =%c\n ",c);
 	c = fgetc(fichier_a_compresser);
@@ -104,8 +108,10 @@ int main (int argc , char *argv[]){
 	printf ("caractere lu =%c\n ",c);
 
 	*/
-/*	
+	
 	long cpt = 0 ;//reflechr a la fonction stat -c %s nom_fichier_a_compresser
+	
+	
 	//int* value;//atttention
 	while( ( c = fgetc(fichier_a_compresser) ) != 10){//utiliser la fonction d'heloise 
 		
