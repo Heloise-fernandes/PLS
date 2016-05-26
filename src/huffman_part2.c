@@ -34,7 +34,7 @@ void generation_description_arbre_aux (pArbre A, FILE* F, int size){
 
 
 void generation_description_arbre (pArbre A){
-	FILE * F= ouvertureFichierEcriture ("../description_arbre.txt"); //<-A CHANGER !!!
+	FILE * F= ouvertureFichierEcriture ("../fichier_test/description_arbre.txt"); //<-A CHANGER !!!
 	generation_description_arbre_aux(A,F,0);
 }
 //PB il faudrait mettre la taille du fichier et la description de l'arbre avant !
@@ -56,7 +56,7 @@ void generation_code (pArbre A, int *t, int s){
 
 void Transcodage (pArbre A, FILE* fLecture){
 	
-	 FILE * fEcriture = ouvertureFichierEcriture ("../code.txt"); //<-A CHANGER !!!
+	 FILE * fEcriture = ouvertureFichierEcriture ("../fichier_test/code.txt"); //<-A CHANGER !!!
 	 int t[N];
 	 char c;
 	 generation_code(A,t,0);
@@ -269,17 +269,22 @@ pArbre construction_arbre_canonique (int T[] ){
 }
 
 void decodage (FILE * fLecture,pArbre A,int taille){
-	FILE *fEcriture=ouvertureFichierEcriture("../decodage.txt");
+	FILE *fEcriture=ouvertureFichierEcriture("../fichier_test/decodage.txt");
 	char c;
 	pArbre B= NULL;
 	int i;
 	int indice=0;
 	for (i=0;i<taille;i++){
-		if (getBit(F,&indice,&c)==1){exit(0);}
+		B=A;
+		if (getBit(fLecture,&indice,&c)==0){exit(0);}
 		if (c==0){
 			B=B->ag;
+			printf("%i",0);
 		}
-		else B=B->ad;
+		else {
+			B=B->ad;
+			printf("%i",1);
+		}
 		
 		if (B==NULL) {printf( "erreur de  decodage\n");}
 		else if (B->ag==NULL||B->ad==NULL){ //si on est sur une feuille 
@@ -305,8 +310,10 @@ int main (){
 	afficherT(T);
 	pArbre A=construction_arbre_canonique(T);
 	afficher_Arbre(A);
+	
 	generation_description_arbre(A);
+	printf("\n");
+	FILE * F=ouvertureFichierLecture("../fichier_test/code_huffman.txt");
+	decodage(F,A,32);
 	return 0;
-	FILE * F=ouvertureFichierLecture("../code_huffman.txt");
-	decodage(F,A,23);
 }
