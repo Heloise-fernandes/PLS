@@ -77,6 +77,7 @@ void putBit(FILE* fichier,char bit, int indice)
 	
 
 	tailleLu = getByte(fichier, octet);//On recupere l'octet pointé par le curseur
+	fseek(fichier,-1,SEEK_CUR);
 	
 	printf("La taille lu est : %d\n",tailleLu);
 	
@@ -185,16 +186,15 @@ int main(int argc, char **argv)
 		FILE* fichier = ouvertureFichierLecture(argv[1]);
 
 		int indice = 0;
-		for(i=0; i<=14; i++)
+		for(i=0; i<14; i++)
 		{
 			if(i%8==0){printf("===========================================\n");}
-			indice = i%8;
 			taille = getBit(fichier,&indice,&car);
 			printf("Taille :  %d octet / Valeur : %d\n",taille,car);
 			
 		}
 		printf("===========================================\n");
-		taille = getByte(fichier,&car);
+		/*taille = getByte(fichier,&car);
 		printf("Nous avons lu un caractère de %d octet qui est %d\n",taille,car);
 		printf("===========================================\n");
 		for(i=0; i<=7; i++)
@@ -205,7 +205,7 @@ int main(int argc, char **argv)
 			
 		}
 		fermetureFichier(fichier);
-		
+		*/
 		fichier = ouvertureFichierEcriture(argv[2]);
 		putByte(fichier,90);
 		fermetureFichier(fichier);
