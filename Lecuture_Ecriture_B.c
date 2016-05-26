@@ -108,7 +108,7 @@ void putBit(FILE* fichier,char bit, int indice)
  * */
 int getBit(FILE* fichier, int indice, char *bit)
 {
-	char *octet;
+	char *octet = NULL;//initialisation ?
 	int tailleLU;
 	
 	if(fichier==NULL){printf("Le fichier n'est pas ouvert\n"); exit(0);}
@@ -141,7 +141,7 @@ int getBit(FILE* fichier, int indice, char *bit)
 	return tailleLU;
 }
 
-
+/*
 int main(int argc, char **argv)
 {
 	
@@ -182,3 +182,4 @@ int main(int argc, char **argv)
 	
 	return 0;
 }
+ */
