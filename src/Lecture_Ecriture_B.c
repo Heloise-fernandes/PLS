@@ -1,5 +1,6 @@
 /*
  * Lecture_Ecriture_B.c
+ *
  * 
  */
 #include <stdio.h>
@@ -17,8 +18,8 @@
 #define BIT_7 128
 
 #define INDICE_MAX 7
-
-
+ 
+ 
 /* Ouvre le ficher en lecture seulement
  * Paramètre : chemin du fichier à ouvrir*/
 FILE* ouvertureFichierLecture(char* chemin)
@@ -49,8 +50,10 @@ void fermetureFichier(FILE* fichier){fclose(fichier);}
 int getByte(FILE* fichier, char *octet)
 {
 	int tailleLu;
+	unsigned char octet_unsigned;
 	if(fichier==NULL){printf("Le fichier n'est pas ouvert\n"); exit(0);}
-	tailleLu = fread(octet,sizeof(char),1,fichier);
+	tailleLu = fread(&octet_unsigned,sizeof(char),1,fichier);
+	*octet=octet_unsigned;
 	return tailleLu;
 }
 
@@ -62,8 +65,9 @@ int getByte(FILE* fichier, char *octet)
  * */
 void putByte(FILE* fichier,char octet)
 {
+	unsigned char octet_unsigned=(unsigned char)octet;
 	if(fichier==NULL){printf("Le fichier n'est pas ouvert\n"); exit(0);}
-	fwrite(&octet,sizeof(char),1,fichier);
+	fwrite(&octet_unsigned,sizeof(char),1,fichier);
 }
 
 
@@ -196,6 +200,7 @@ void putInt (FILE *F,int size, int *indice)
 	}
 }
 
+
 /* Ecrit un entier dans un fichier
  * Pramètre :
  * F : fichier à modifier
@@ -206,4 +211,5 @@ void putTaille (FILE *F,int taille, int *indice)
 	fwrite(&taille, sizeof(int),1,F);
 	*indice = (*indice+(sizeof(int)*8))%8;
 }
+
 

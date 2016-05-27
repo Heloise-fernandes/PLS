@@ -20,11 +20,12 @@ typedef struct _l{
 
 //fonction auxiliaire pour generation description arbre
 void generation_description_arbre_aux (pArbre A, FILE* F, int size){
+	int indice=0;
 	if (A==NULL){}
 	else {
 		if (A->ag==NULL && A->ad==NULL){// cas d'une feuille -> on ecrit dans le fichier
 			putByte(F,A->cle);
-			putInt (F,size);
+			putInt (F,size,&indice);
 		}
 		else if (A->ag!=NULL && A->ad!=NULL){ // cas d'un noeud -> on va dans les sous arbres  
 			generation_description_arbre_aux(A->ag,F,size+1);
@@ -60,13 +61,13 @@ void generation_code (pArbre A, int *t, int s){
 
 //code un fichier a partir de l'arbre A
 void Transcodage (pArbre A, FILE* fLecture){
-	
+	int indice =0;
 	 FILE * fEcriture = ouvertureFichierEcriture ("../fichier_test/code.txt");
 	 int t[N];
 	 char c;
 	 generation_code(A,t,0);
 	 while (getByte(fLecture,&c)==8){
-		 putInt (fEcriture, t[c]);
+		 putInt (fEcriture, t[c],&indice);
 	 }
 }
 
