@@ -102,7 +102,7 @@ int main (int argc , char *argv[]){
 	//afficher_tableau_poids_symbole(symb );
 	
 
-	fclose(fichier_a_compresser);
+	fermetureFichier(fichier_a_compresser);
 	return 0;}
 	
 
