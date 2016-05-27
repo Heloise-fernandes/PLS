@@ -73,8 +73,8 @@ void Transcodage (pArbre A, FILE* fLecture,FILE * fEcriture ,char* Longueur){
 	generation_code(A,t,0);
 	 
 	while (getByte(fLecture,&c)==1){
-		printf("%c:%i de longueur %i avec un indice : %i\n",c,t[c],Longueur[c],indice);
-		putIntV2(fEcriture,t[c],&indice,Longueur[c]);
+		printf("%c:%i de longueur %i avec un indice : %i\n",c,t[(int)c],Longueur[(int)c],indice);
+		putIntV2(fEcriture,t[(int)c],&indice,Longueur[(int)c]);
 	
 	}
 }
@@ -211,8 +211,7 @@ pArbre construction_arbre_canonique (int T[] ){
 
 //mettre une erreur quand il reste des charactere pas decodable ou pas ...
 //a partir d'un fichier, decode un texte de longueur taille coder avec l'arbre A ,  
-void decodage_texte (FILE * fLecture,pArbre A,int taille){
-	FILE *fEcriture=ouvertureFichierEcriture("../fichier_test/decodage.txt");// ane pas ouvrir ici
+void decodage_texte (FILE * fLecture,FILE* fEcriture,pArbre A,int taille){
 	char c;
 	pArbre B= NULL;
 	int i;
@@ -259,17 +258,43 @@ void codage (FILE *fLecture, FILE* fEcriture, pArbre A, int taille){
 
 void decodage (FILE *fLecture, FILE* fEcriture){
 //lire la transcription de l'arbre
+int T[N];
+int i;
+for (i=0;i<N;i++){T[i]=0;}
+char c;
+char taille;
+//lire le nombre de symbole
+int nb_symbole=7;
+for (i=0;i<nb_symbole;i++){
+	getByte(fLecture,&c);
+	printf("%c:",c);
+	getByte(fLecture,&taille);
+	printf("%c",taille);
+	T[(int)c]=(int)taille;
+}
+printf("Tableau:\n");
+afficherT(T);
 //creer l'arbre
-pArbre A;
+pArbre A= construction_arbre_canonique(T);
+afficher_Arbre(A);
 //lire la taille
-//deocder le fichier	
+int taille_fichier=0;
+for(i=0;i<4;i++){
+	getByte(fLecture,&taille);
+	printf("  %c   ",taille);
+	taille_fichier=(taille_fichier<<8)+(int)taille;// A VERIFIER
+}
+printf("\nTaille du fichier: %i\n",taille_fichier);
+taille_fichier=256;
+//decoder le fichier	
+	decodage_texte(fLecture,fEcriture,A,taille_fichier);
 }	
 
  
 
 int main (){
-	int T[N];
-	
+	/*int T[N];
+	//FILE *fEcriture=ouvertureFichierEcriture("../fichier_test/decodage.txt");// ane pas ouvrir ici
 	int i;
 	for (i=0;i<N;i++){T[i]=0;}
 	T['A']=4;
@@ -296,6 +321,14 @@ int main (){
 	
 	//decodage(F2,A,16);
 	fermetureFichier(F1);
-	fermetureFichier(F2);
+	fermetureFichier(F2);*/
+	FILE *F3= ouvertureFichierLecture("../fichier_test/code_huffman.txt");
+	FILE *F4 = ouvertureFichierEcriture ("../fichier_test/decodage.txt");
+	printf("\n\n Decodage:\n");
+	decodage(F3,F4);
+	printf("Fin du decodage\n");
+	fermetureFichier(F3);
+	fermetureFichier(F4);
+	
 	return 0;
 }
