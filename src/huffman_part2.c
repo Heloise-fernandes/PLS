@@ -319,7 +319,19 @@ int main (){
 	
 	generation_description_arbre(A);
 	FILE * F=ouvertureFichierLecture("../fichier_test/code_huffman.txt");
+<<<<<<< HEAD
 	
 	decodage(F,A,8);
+=======
+	int indice = 0;
+	char c = 0;
+	for(i=0; i<15; i++)
+	{
+		getBit(F,&indice,&c);
+		printf("%d / ",c);
+	}
+	
+	//decodage(F,A,32);
+>>>>>>> 4296248207a1f88d40950452e039024cc3af4325
 	return 0;
 }
