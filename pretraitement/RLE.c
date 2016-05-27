@@ -51,4 +51,6 @@ void unRLE(FILE* fichier_src){
 		}
 		taille_octet = getByte(fichier_src,&octet_lu);
 	}
+	fermetureFichier(fichier_dest);
+
 }
