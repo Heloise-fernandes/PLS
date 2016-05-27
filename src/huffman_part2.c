@@ -2,8 +2,7 @@
 #include "stdio.h"
 #include "limits.h"
 #define N 256
-#include "Lecuture_Ecriture_B.h"
-
+#include "../include/Lecture_Ecriture_B.h"
 typedef struct _Arbre{
 	signed char cle;
 	int dispo;
@@ -19,17 +18,18 @@ typedef struct _l{
 
 
 //fonction auxiliaire pour generation description arbre
-void generation_description_arbre_aux (pArbre A, FILE* F, int size){
-	int indice=0;
+void generation_description_arbre_aux (pArbre A, FILE* F, char size, int indice, char * T){
 	if (A==NULL){}
 	else {
 		if (A->ag==NULL && A->ad==NULL){// cas d'une feuille -> on ecrit dans le fichier
 			putByte(F,A->cle);
-			putInt (F,size,&indice);
+			T[A->cle]=size;
+			
+			putByte (F,size);  
 		}
 		else if (A->ag!=NULL && A->ad!=NULL){ // cas d'un noeud -> on va dans les sous arbres  
-			generation_description_arbre_aux(A->ag,F,size+1);
-			generation_description_arbre_aux(A->ad,F,size+1);
+			generation_description_arbre_aux(A->ag,F,size+1,indice,T);
+			generation_description_arbre_aux(A->ad,F,size+1,indice,T);
 		}
 		else { printf ("Erreur dans huffman_part2: Arbre mal forme\n");exit(50);}		
 	}
@@ -37,9 +37,11 @@ void generation_description_arbre_aux (pArbre A, FILE* F, int size){
 }
 
 // apartir d'un arbre A ecrit dans un fichier la description de l'arbre
-void generation_description_arbre (pArbre A){
-	FILE * F= ouvertureFichierEcriture ("../fichier_test/description_arbre.txt"); 
-	generation_description_arbre_aux(A,F,0);
+void generation_description_arbre (pArbre A,char* T,FILE *F){
+	
+	
+	generation_description_arbre_aux(A,F,0,0,T);printf("\n");
+	
 }
 
 //cree un tableau t avec le code pour chaque symbole
@@ -59,16 +61,22 @@ void generation_code (pArbre A, int *t, int s){
 	
 }
 
+
+
 //code un fichier a partir de l'arbre A
-void Transcodage (pArbre A, FILE* fLecture){
+void Transcodage (pArbre A, FILE* fLecture,FILE * fEcriture ,char* Longueur){
+	printf("Je suis dans transcodage\n");
 	int indice =0;
-	 FILE * fEcriture = ouvertureFichierEcriture ("../fichier_test/code.txt");
-	 int t[N];
-	 char c;
-	 generation_code(A,t,0);
-	 while (getByte(fLecture,&c)==8){
-		 putInt (fEcriture, t[c],&indice);
-	 }
+	
+	int t[N];
+	char c;
+	generation_code(A,t,0);
+	 
+	while (getByte(fLecture,&c)==1){
+		printf("%c:%i de longueur %i avec un indice : %i\n",c,t[(int)c],Longueur[(int)c],indice);
+		putIntV2(fEcriture,t[(int)c],&indice,Longueur[(int)c]);
+	
+	}
 }
 
 //indique si il reste des feuille sans cle dans l'arbre
@@ -178,12 +186,12 @@ pArbre construction_arbre_canonique (int T[] ){
 		T[i]=0;
 		nb_symbole--;
 	}
-	affichage_liste(liste);
+	//affichage_liste(liste);
 	liste=liste->next;// il faudrait le liberer
-	affichage_liste(liste);
+	//affichage_liste(liste);
 	while (liste->next!=NULL){
 		liste2=liste;
-		affichage_liste(liste2);
+		//affichage_liste(liste2);
 		while (liste2!=NULL&&liste2->next!=NULL){
 			if (liste2->poids==liste2->next->poids){
 				A=malloc(sizeof(Arbre));
@@ -203,43 +211,90 @@ pArbre construction_arbre_canonique (int T[] ){
 
 //mettre une erreur quand il reste des charactere pas decodable ou pas ...
 //a partir d'un fichier, decode un texte de longueur taille coder avec l'arbre A ,  
-void decodage (FILE * fLecture,pArbre A,int taille){
-	FILE *fEcriture=ouvertureFichierEcriture("../fichier_test/decodage.txt");// ane pas ouvrir ici
+void decodage_texte (FILE * fLecture,FILE* fEcriture,pArbre A,int taille){
 	char c;
 	pArbre B= NULL;
 	int i;
 	int indice=0;
 	B=A;
 	for (i=0;i<taille;i++){
+		
 		if (getBit(fLecture,&indice,&c)==0){printf(" j'ai fini de lire\n");exit(49);}
+		
 		//printf("%d",c);
 		if (c==0){
-			
-			
-			
 			B=B->ag;
-			printf("%i\n",0);
+			//printf("%i\n",0);
 		}
 		else {
 			B=B->ad;
-			printf("%i\n",1);
+			//printf("%i\n",1);
 		}
 		
 		if (B==NULL) {printf( "erreur de  decodage\n");}
 		else if (B->ag==NULL||B->ad==NULL){ //si on est sur une feuille 
 			putByte(fEcriture,B->cle); //on met le symbole dans le fichier
-			printf ("cle :%d \n  ",B->cle);
+			//printf ("cle :%d \n  ",B->cle);
 			B=A;// on remonte en haut de l'arbre
-			
 		} 
 	}
 	fermetureFichier(fEcriture);
 }
 
+void codage (FILE *fLecture, FILE* fEcriture, pArbre A, int taille){
+	char Longueur[N];
+	int i;
+	for (i=0;i<N;i++){
+		Longueur[i]=0;
+	}
+	//mettre le code en debut de fichier et recuperation de la longueur de chaque code 
+	generation_description_arbre(A,Longueur,fEcriture);// rejouter l'ecriture du nombre de symbole
+	// ecrire la taille du fichier sur 32bit
+	putTaille(fEcriture,taille);
 
+	//transcrire le fichier //
+	Transcodage(A,fLecture,fEcriture,Longueur);
+}
+
+void decodage (FILE *fLecture, FILE* fEcriture){
+//lire la transcription de l'arbre
+int T[N];
+int i;
+for (i=0;i<N;i++){T[i]=0;}
+char c;
+char taille;
+//lire le nombre de symbole
+int nb_symbole=7;
+for (i=0;i<nb_symbole;i++){
+	getByte(fLecture,&c);
+	printf("%c:",c);
+	getByte(fLecture,&taille);
+	printf("%c",taille);
+	T[(int)c]=(int)taille;
+}
+printf("Tableau:\n");
+afficherT(T);
+//creer l'arbre
+pArbre A= construction_arbre_canonique(T);
+afficher_Arbre(A);
+//lire la taille
+int taille_fichier=0;
+for(i=0;i<4;i++){
+	getByte(fLecture,&taille);
+	printf("  %c   ",taille);
+	taille_fichier=(taille_fichier<<8)+(int)taille;// A VERIFIER
+}
+printf("\nTaille du fichier: %i\n",taille_fichier);
+taille_fichier=256;
+//decoder le fichier	
+	decodage_texte(fLecture,fEcriture,A,taille_fichier);
+}	
+
+ 
 
 int main (){
-	int T[N];
+	/*int T[N];
+	//FILE *fEcriture=ouvertureFichierEcriture("../fichier_test/decodage.txt");// ane pas ouvrir ici
 	int i;
 	for (i=0;i<N;i++){T[i]=0;}
 	T['A']=4;
@@ -254,9 +309,26 @@ int main (){
 	afficher_Arbre(A);
 	printf("\n");
 	
-	generation_description_arbre(A);
-	FILE * F=ouvertureFichierLecture("../fichier_test/code_huffman.txt");
+	//generation_description_arbre(A,T2);
+	FILE *F1= ouvertureFichierLecture("../fichier_test/test_texte.txt");
+	FILE *F2 = ouvertureFichierEcriture ("../fichier_test/code.txt");
+	codage(F1,F2,A,256);
+	//printf("J'essaie de coder le texte\n");
+	//Transcodage(A,F1,fEcriture,T2);
+	//printf("J'ai fini de coder le texte\n");
+	//FILE * F2=ouvertureFichierLecture("../fichier_test/code_huffman.txt");
 	
-	decodage(F,A,8);
+	
+	//decodage(F2,A,16);
+	fermetureFichier(F1);
+	fermetureFichier(F2);*/
+	FILE *F3= ouvertureFichierLecture("../fichier_test/code_huffman.txt");
+	FILE *F4 = ouvertureFichierEcriture ("../fichier_test/decodage.txt");
+	printf("\n\n Decodage:\n");
+	decodage(F3,F4);
+	printf("Fin du decodage\n");
+	fermetureFichier(F3);
+	fermetureFichier(F4);
+	
 	return 0;
 }
