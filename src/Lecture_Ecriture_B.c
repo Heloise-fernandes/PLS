@@ -6,7 +6,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include "Lecture_Ecriture_B.h"
 
 // Définition das masks et de l'indice maximale
 #define BIT_0 1
