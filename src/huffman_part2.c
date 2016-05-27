@@ -27,7 +27,7 @@ void generation_description_arbre_aux (pArbre A, FILE* F, int size){
 			generation_description_arbre_aux(A->ag,F,size+1);
 			generation_description_arbre_aux(A->ad,F,size+1);
 		}
-		else { printf ("Erreur dans huffman_part2: Arbre mal forme\n");exit(0);}		
+		else { printf ("Erreur dans huffman_part2: Arbre mal forme\n");exit(50);}		
 	}
 	
 }
@@ -48,7 +48,7 @@ void generation_code (pArbre A, int *t, int s){
 			generation_code(A->ag,t,(s*2));
 			generation_code(A->ad,t,(s*2)+1);
 		}
-		else { printf ("Erreur dans huffman_part2: Arbre mal forme\n");exit(0);}		
+		else { printf ("Erreur dans huffman_part2: Arbre mal forme\n");exit(48);}		
 	}
 	
 }
@@ -89,7 +89,6 @@ int max( int  T[]){
 	int max, imax;
 	imax=0;
 	max=0;
-	afficherT(T);
 	for (i=1;i<N;i++){
 		if (T[i]>max) {
 			max =T[i];
@@ -107,7 +106,6 @@ int min( int  T[]){
 	int min, imin;
 	imin=0;
 	min=INT_MAX;
-	afficherT(T);
 	for (i=1;i<N;i++){
 		if (T[i]<min&&T[i]>0) {
 			min =T[i];
@@ -267,32 +265,38 @@ pArbre construction_arbre_canonique (int T[] ){
 	}
 	return liste->A;
 }
-
+//mettre une erreur quand il reste des charactere pas decodable ou pas ...
 void decodage (FILE * fLecture,pArbre A,int taille){
 	FILE *fEcriture=ouvertureFichierEcriture("../fichier_test/decodage.txt");
 	char c;
 	pArbre B= NULL;
 	int i;
 	int indice=0;
+	B=A;
 	for (i=0;i<taille;i++){
-		B=A;
-		if (getBit(fLecture,&indice,&c)==0){exit(0);}
-		printf("%d",c);
+		if (getBit(fLecture,&indice,&c)==0){printf(" j'ai fini de lire\n");exit(49);}
+		//printf("%d",c);
 		if (c==0){
+			
+			
+			
 			B=B->ag;
-			//printf("%i",0);
+			printf("%i\n",0);
 		}
 		else {
 			B=B->ad;
-			//printf("%i",1);
+			printf("%i\n",1);
 		}
 		
 		if (B==NULL) {printf( "erreur de  decodage\n");}
 		else if (B->ag==NULL||B->ad==NULL){ //si on est sur une feuille 
 			putByte(fEcriture,B->cle); //on met le symbole dans le fichier
+			printf ("cle :%d \n  ",B->cle);
 			B=A;// on remonte en haut de l'arbre
+			
 		} 
 	}
+	fermetureFichier(fEcriture);
 }
 
 
@@ -308,18 +312,14 @@ int main (){
 	T['E']=3;
 	T['F']=3;
 	T['G']=1;
-	afficherT(T);
+	
 	pArbre A=construction_arbre_canonique(T);
 	afficher_Arbre(A);
-	int indice =0;
-	char c;
-	generation_description_arbre(A);
 	printf("\n");
+	
+	generation_description_arbre(A);
 	FILE * F=ouvertureFichierLecture("../fichier_test/code_huffman.txt");
-	for (i=0;i<32;i++){
-		getBit(F,&indice,&c);
-		printf("%d",c);
-	}
-	decodage(F,A,32);
+	
+	decodage(F,A,8);
 	return 0;
 }
