@@ -1,44 +1,62 @@
 /*
- * Lecuture_Ecriture_B.h
+ * Lecture_Ecriture_B.h
  * 
  * 
  * 
  */
 
+/*Ouvre le ficher en lecture seulement
+ * Paramètre : chemin du fichier à ouvrir*/
 FILE* ouvertureFichierLecture(char* chemin);
 
+/*Ouvre le fichier en lecture et en écriture
+ * Paramètre : chemin du fichier à ouvrir*/
 FILE* ouvertureFichierEcriture(char* chemin);
 
+/*Fermer le fichier
+ * Paramètre : fichier à fermer*/
 void fermetureFichier(FILE* fichier);
 
-/* Renvoie 0 si aucun octet lu(fin du fichier) sinon renvoie 1
+/* Lire un octet,renvoie 0 si aucun octet lu(fin du fichier) sinon renvoie 1
  * Paramètre :
  * fichier : le fichier à lire
- * bit : le bit lu
+ * octet : l'octet lu
  * */
 int getByte(FILE* fichier, char *octet);
 
-/* Paramètre :
+/* Ecrit un octet dans un fichier
+ * Paramètre :
  * fichier : le fichier à modifier
- * bit : un char qui vaut 0 ou 1
+ * octet : un char qui vaut 0 ou 1
  * */
 void putByte(FILE* fichier,char octet);
 
-/*Renvoie un entier qui correspond à l'indice du prochain bit pouvant être écrit
+/* Ecrit un bit dans un octet dans un fichier selon un indice
  * Paramètre :
  * fichier : le fichier à modifier
  * bit : un char qui vaut 0 ou 1
- * indice : indice ou écrire le bit, il doit être compris en 0 et 7
+ * indice : indice ou écrire le bit dans l'octet, il doit être compris en 0 et 7
  * */
 void putBit(FILE* fichier,char bit, int *indice);
 
-/* Renvoie un entier qui correspond a l'indice du prochain bit pouvant être lu
+/* Lire un bit, renvoie 0 si aucun bit lu 1 sinon
  * Paramètre :
  * fichier : le fichier à lire
- * indice : bit à lire, il doit être compris en 0 et 7
+ * indice : bit à lire dans l'octet, il doit être compris en 0 et 7
  * bit : le bit lu
  * */
 int getBit(FILE* fichier, int *indice, char *bit);
 
+/* Ecrit un entier dans un fichier en suppriment les 0 de début
+ * Paramètre :
+ * F : ficher à modifier
+ * size : entier à écrire
+ * indice : indice pour savoir ou écrire les differents bits*/
 void putInt (FILE *F,int size, int *indice);
 
+/* Ecrit un entier dans un fichier
+ * Pramètre :
+ * F : fichier à modifier
+ * taille : entier à ajouter
+ * indice : indice ou écrire l'octet*/
+void putTaille (FILE *F,int taille, int *indice);
