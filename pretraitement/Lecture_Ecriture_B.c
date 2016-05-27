@@ -117,7 +117,15 @@ void putBit(FILE* fichier,char bit, int *indice)
  * */
 int getBit(FILE* fichier, int *indice, char *bit)
 {
+<<<<<<< HEAD
 	char *octet = malloc(sizeof(char));
+=======
+<<<<<<< HEAD:Lecuture_Ecriture_B.c
+	char *octet = NULL;//initialisation ?
+=======
+	char *octet=NULL;
+>>>>>>> 055453835b872dc5b87902e2758ef2ccc02a231a:pretraitement/Lecture_Ecriture_B.c
+>>>>>>> d09d2f994d49a441468c64e70c9373372d9630df
 	int tailleLU;
 	unsigned char *bitUnsigned;
 	if(fichier==NULL){printf("Le fichier n'est pas ouvert\n"); exit(0);}
@@ -154,6 +162,7 @@ int getBit(FILE* fichier, int *indice, char *bit)
 	*indice = ((*indice)+1)%8;
 	return tailleLU;
 }
+<<<<<<< HEAD
 
 void putInt (FILE *F,int size, int *indice)
 {
@@ -182,3 +191,51 @@ void putInt (FILE *F,int size, int *indice)
 		putBit(F,bitAAjouter,indice);
 	}
 }
+=======
+<<<<<<< HEAD:Lecuture_Ecriture_B.c
+
+/*
+int main(int argc, char **argv)
+{
+	
+	if(argc==2)
+	{
+		char car;
+		int taille;
+		int i;
+		FILE* fichier = ouvertureFichierLecture(argv[1]);
+		taille = getByte(fichier,&car);
+		printf("Nous avons lu un caractère de %d octet qui est %d\n",taille,car);//a
+		taille = getByte(fichier,&car);
+		printf("Nous avons lu un caractère de %d octet qui est %d\n",taille,car);//2
+		taille = getByte(fichier,&car);
+		printf("Nous avons lu un caractère de %d octet qui est %d\n",taille,car);//5
+		taille = getByte(fichier,&car);
+		printf("Nous avons lu un caractère de %d octet qui est %d\n",taille,car);//b
+		taille = getByte(fichier,&car);
+		printf("Nous avons lu un caractère de %d octet qui est %d\n",taille,car);//\n
+		taille = getByte(fichier,&car);
+		printf("Nous avons lu un caractère de %d\n",taille);//rien
+		fermetureFichier(fichier);
+		
+		fichier = ouvertureFichierLecture(argv[1]);
+		for(i=0; i<=7; i++)
+		{
+			taille = getBit(fichier,i,&car);
+			printf("Nous avons lu un bit de %d octet qui est %d\n",taille,car);//a
+		}
+		taille = getByte(fichier,&car);
+		printf("Nous avons lu un caractère de %d octet qui est %d\n",taille,car);//\n
+		
+		
+		
+		
+	}
+	
+	
+	return 0;
+}
+ */
+=======
+>>>>>>> 055453835b872dc5b87902e2758ef2ccc02a231a:pretraitement/Lecture_Ecriture_B.c
+>>>>>>> d09d2f994d49a441468c64e70c9373372d9630df
