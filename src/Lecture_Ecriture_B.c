@@ -130,7 +130,7 @@ int getBit(FILE* fichier, int *indice, char *bit)
 {
 	char *octet = malloc(sizeof(char));
 	int tailleLU;
-	unsigned char *bitUnsigned = 0;
+	unsigned char *bitUnsigned = malloc(sizeof(unsigned char));
 	if(fichier==NULL){printf("Le fichier n'est pas ouvert\n"); exit(0);}
 	
 	tailleLU = getByte(fichier, octet);//On recupere l'octet pointé par le curseur
