@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define TAILLE_MAX 1000
+#define TAILLE_MAX 256
 
 /*
 compilation
@@ -12,8 +12,7 @@ execution
 necessite le fichier entropie.txt au bon format voit entropie.c)
 */
 typedef struct n {
-  unsigned char cle;
-  //char*  nom; pas eu le temps de mettre en place idee donné des nom pour facilite la recherche dans l'arbre 
+  signed char cle;
   struct n *gauche, *droite;
 } noeud_t ;
 

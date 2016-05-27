@@ -108,7 +108,11 @@ void putBit(FILE* fichier,char bit, int indice)
  * */
 int getBit(FILE* fichier, int indice, char *bit)
 {
+<<<<<<< HEAD:Lecuture_Ecriture_B.c
 	char *octet = NULL;//initialisation ?
+=======
+	char *octet=NULL;
+>>>>>>> 055453835b872dc5b87902e2758ef2ccc02a231a:pretraitement/Lecture_Ecriture_B.c
 	int tailleLU;
 	
 	if(fichier==NULL){printf("Le fichier n'est pas ouvert\n"); exit(0);}
@@ -140,6 +144,7 @@ int getBit(FILE* fichier, int indice, char *bit)
 	}
 	return tailleLU;
 }
+<<<<<<< HEAD:Lecuture_Ecriture_B.c
 
 /*
 int main(int argc, char **argv)
@@ -183,3 +188,5 @@ int main(int argc, char **argv)
 	return 0;
 }
  */
+=======
+>>>>>>> 055453835b872dc5b87902e2758ef2ccc02a231a:pretraitement/Lecture_Ecriture_B.c
