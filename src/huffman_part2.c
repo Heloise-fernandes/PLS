@@ -16,6 +16,8 @@ typedef struct _l{
 	struct _l *next;
 } l,*pl;
 
+
+//fonction auxiliaire pour generation description arbre
 void generation_description_arbre_aux (pArbre A, FILE* F, int size){
 	if (A==NULL){}
 	else {
@@ -32,11 +34,13 @@ void generation_description_arbre_aux (pArbre A, FILE* F, int size){
 	
 }
 
-
+// apartir d'un arbre A ecrit dans un fichier la description de l'arbre
 void generation_description_arbre (pArbre A){
-	FILE * F= ouvertureFichierEcriture ("../fichier_test/description_arbre.txt"); //<-A CHANGER !!!
+	FILE * F= ouvertureFichierEcriture ("../fichier_test/description_arbre.txt"); 
 	generation_description_arbre_aux(A,F,0);
 }
+
+//cree un tableau t avec le code pour chaque symbole
 //PB il faudrait mettre la taille du fichier et la description de l'arbre avant !
 void generation_code (pArbre A, int *t, int s){
 	if (A==NULL){}
@@ -53,10 +57,10 @@ void generation_code (pArbre A, int *t, int s){
 	
 }
 
-
+//code un fichier a partir de l'arbre A
 void Transcodage (pArbre A, FILE* fLecture){
 	
-	 FILE * fEcriture = ouvertureFichierEcriture ("../fichier_test/code.txt"); //<-A CHANGER !!!
+	 FILE * fEcriture = ouvertureFichierEcriture ("../fichier_test/code.txt");
 	 int t[N];
 	 char c;
 	 generation_code(A,t,0);
@@ -65,7 +69,7 @@ void Transcodage (pArbre A, FILE* fLecture){
 	 }
 }
 
-
+//indique si il reste des feuille sans cle dans l'arbre
 int place (pArbre A){
 	int b=0;
 	if (A==NULL) b=1; //arbre vide
@@ -74,6 +78,7 @@ int place (pArbre A){
 	return b;
 }
 
+//affiche un tableau
 void afficherT (int T[]){
 	int i;
 	for (i=0;i<N;i++){
@@ -83,7 +88,7 @@ void afficherT (int T[]){
 	printf ("\n");
 }
 
-
+//calcule la valeur maximum d'un tableau T et retourne l'indice de cette valeur
 int max( int  T[]){
 	int i;
 	int max, imax;
@@ -139,79 +144,6 @@ void afficher_Arbre (pArbre A){
 }
 
 
-// a partir d'un tableau qui contient la longueur du code de chaque symbole on construit un arbre
-
-/*
-pArbre construction_arbre_canonique (int * T){
-	pArbre A=malloc(sizeof(Arbre));A->dispo=1;
-	pArbre B;
-	int i;
-	int j;
-	int nb_symbole=0;
-	for (i=0;i<N;i++){
-		if (T[i]!=0) {nb_symbole++;}
-	}
-	printf("nb_symbole:%i\n",nb_symbole);
-	while (nb_symbole>0){
-		i=min(T);
-		printf("nb_symbole:%i min[T]: %i \n",nb_symbole,i);
-		B=A;
-		for(j=0;j<T[i];j++){
-			printf("je suis dans le for \n");
-			if (B==NULL) {
-				B=malloc(sizeof (Arbre));
-				B->dispo=1;
-				B->ad=malloc(sizeof(Arbre));
-				B->ad->dispo=1;
-				B->ad->ad=NULL;
-				B->ad->ag=NULL;
-				B->ag=malloc(sizeof(Arbre));
-				B->ag->dispo=1;
-				B->ag->ad=NULL;
-				B->ag->ag=NULL;
-				B=B->ad;
-			}
-			
-			else {
-				if (place(B->ad)==1){
-					if (B->ad==NULL){
-						B->ad=malloc(sizeof(Arbre));
-						B->ad->dispo=1;
-						B->ad->ad=NULL;
-						B->ad->ag=NULL;
-					}
-					
-					B->ad->cle=i;
-					B->ad->dispo=0;
-					T[i]=0;
-					nb_symbole--;
-					afficher_Arbre(B);B=B->ad;
-				}
-				else if (place (B->ag)==1){
-					if (B->ad==NULL){
-						B->ag=malloc(sizeof(Arbre));
-						B->ag->dispo=1;
-						B->ag->ad=NULL;
-						B->ag->ag=NULL;
-					}	
-					B->ag->cle=i;
-					B->ag->dispo=0;
-					T[i]=0;
-					nb_symbole--;
-					afficher_Arbre(B);
-					B=B->ag;
-				}
-				else {
-					printf(" Arbre canonique imposible a construire\n"); 
-					exit(0);
-				}
-
-			}
-		}
-	}	
-	return A;
-}
-*/
 
 void affichage_liste (pl liste){
 	while (liste!=NULL){
@@ -221,7 +153,7 @@ void affichage_liste (pl liste){
 	printf("\n");
 }
 
-
+//contruit l'arbre cononique a partir d'un tableau T avec la longueur de chaque symbole dans l'arbre
 pArbre construction_arbre_canonique (int T[] ){
 	pArbre A;
 	pl liste;
@@ -265,9 +197,12 @@ pArbre construction_arbre_canonique (int T[] ){
 	}
 	return liste->A;
 }
+
+
 //mettre une erreur quand il reste des charactere pas decodable ou pas ...
+//a partir d'un fichier, decode un texte de longueur taille coder avec l'arbre A ,  
 void decodage (FILE * fLecture,pArbre A,int taille){
-	FILE *fEcriture=ouvertureFichierEcriture("../fichier_test/decodage.txt");
+	FILE *fEcriture=ouvertureFichierEcriture("../fichier_test/decodage.txt");// ane pas ouvrir ici
 	char c;
 	pArbre B= NULL;
 	int i;
@@ -319,19 +254,7 @@ int main (){
 	
 	generation_description_arbre(A);
 	FILE * F=ouvertureFichierLecture("../fichier_test/code_huffman.txt");
-<<<<<<< HEAD
 	
 	decodage(F,A,8);
-=======
-	int indice = 0;
-	char c = 0;
-	for(i=0; i<15; i++)
-	{
-		getBit(F,&indice,&c);
-		printf("%d / ",c);
-	}
-	
-	//decodage(F,A,32);
->>>>>>> 4296248207a1f88d40950452e039024cc3af4325
 	return 0;
 }
