@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "Lecture_Ecriture_B.h"//attention
+#include "../include/Lecture_Ecriture_B.h"//attention
 #define NMAX 256
 
 

@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 ABCDEFG
+=======
+ABCDEFG€
+>>>>>>> aeb728570ed340ca1fcb1d1ffefeba9d05b17e6e
