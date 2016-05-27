@@ -2,7 +2,7 @@
 #include "stdio.h"
 #include "limits.h"
 #define N 256
-#include "Lecuture_Ecriture_B.h"
+#include "../include/Lecture_Ecriture_B.h"
 
 typedef struct _Arbre{
 	signed char cle;
