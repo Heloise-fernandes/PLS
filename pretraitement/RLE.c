@@ -3,8 +3,9 @@
 
 #include "Lecture_Ecriture_B.c"
 
+
 void RLE(FILE* fichier_src){
-	FILE* fichier_dest = fopen("pretraitement","wb");
+	FILE* fichier_dest = ouvertureFichierEcriture("apres_RLE");
 
 	char octet_lu;
 	char precedent=NULL;
@@ -13,8 +14,8 @@ void RLE(FILE* fichier_src){
 	
 	while (taille_octet == 1){
 		
-		if (precedent!=octet_lu) putByte(fichier_dest,octet_lu);
-		else n+=1;
+		if (precedent!=octet_lu) {putByte(fichier_dest,octet_lu);}
+		else {n+=1;}
 		precedent=octet_lu;
 		taille_octet = getByte(fichier_src,&octet_lu);
 		if((n!=1)  &  ((precedent!=octet_lu)|(taille_octet!=1)|(n==257))){
@@ -28,10 +29,42 @@ void RLE(FILE* fichier_src){
 }
 
 
+void unRLE(FILE* fichier_src){
+	FILE* fichier_dest = ouvertureFichierEcriture("apres_unRLE");
+	
+	unsigned char octet_lu;
+	char precedent=NULL;
+	int taille_octet=getByte(fichier_src,&octet_lu);
+	int i;
+	
+	while(taille_octet == 1){
+		if (octet_lu==precedent){
+			taille_octet=getByte(fichier_src,&octet_lu);
+			printf("%d  ",octet_lu);
+			for(i=0;i<octet_lu;i++){
+				putByte(fichier_dest,precedent);
+			}
+		}
+		else{
+			putByte(fichier_dest,octet_lu);
+			printf("%d  ",octet_lu);
+		}
+		precedent=octet_lu;
+		taille_octet = getByte(fichier_src,&octet_lu);
+	}
+	
+	
+}
+
+
+
 int main(){
-	FILE* test = fopen("fichier_src","rb");
+	FILE* test = ouvertureFichierLecture("fichier_src");
 	RLE(test);
-	printf("fin\n");
+	fclose(test);
+	printf("\n");
+	test = ouvertureFichierLecture("apres_RLE");
+	unRLE(test);
 	fclose(test);
 	return EXIT_SUCCESS;
 }
