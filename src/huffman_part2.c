@@ -3,10 +3,6 @@
 #include "limits.h"
 #define N 256
 #include "../include/Lecture_Ecriture_B.h"
-<<<<<<< HEAD
-=======
-
->>>>>>> aeb728570ed340ca1fcb1d1ffefeba9d05b17e6e
 typedef struct _Arbre{
 	signed char cle;
 	int dispo;
@@ -41,11 +37,11 @@ void generation_description_arbre_aux (pArbre A, FILE* F, char size, int indice,
 }
 
 // apartir d'un arbre A ecrit dans un fichier la description de l'arbre
-void generation_description_arbre (pArbre A,char* T){
+void generation_description_arbre (pArbre A,char* T,FILE *F){
 	
-	FILE * F= ouvertureFichierEcriture ("../fichier_test/description_arbre.txt"); 
+	
 	generation_description_arbre_aux(A,F,0,0,T);printf("\n");
-	fermetureFichier(F);
+	
 }
 
 //cree un tableau t avec le code pour chaque symbole
@@ -68,18 +64,19 @@ void generation_code (pArbre A, int *t, int s){
 
 
 //code un fichier a partir de l'arbre A
-void Transcodage (pArbre A, FILE* fLecture, char* Longueur){
+void Transcodage (pArbre A, FILE* fLecture,FILE * fEcriture ,char* Longueur){
+	printf("Je suis dans transcodage\n");
 	int indice =0;
-	FILE * fEcriture = ouvertureFichierEcriture ("../fichier_test/code.txt");
+	
 	int t[N];
 	char c;
 	generation_code(A,t,0);
 	 
 	while (getByte(fLecture,&c)==1){
+		printf("%c:%i de longueur %i avec un indice : %i\n",c,t[c],Longueur[c],indice);
 		putIntV2(fEcriture,t[c],&indice,Longueur[c]);
 	
 	}
-	fermetureFichier(fEcriture);
 }
 
 //indique si il reste des feuille sans cle dans l'arbre
@@ -244,20 +241,27 @@ void decodage (FILE * fLecture,pArbre A,int taille){
 	}
 	fermetureFichier(fEcriture);
 }
-/*void codage (FILE *fLecture; FILE* fEcriture; pArbre A; int taille){
-	//mettre le code en debut de fichier
-	generation_description_arbre(A);// rejouter l'ecriture du nombre de symbole
+
+void codage (FILE *fLecture, FILE* fEcriture, pArbre A, int taille){
+	char Longueur[N];
+	int i;
+	for (i=0;i<N;i++){
+		Longueur[i]=0;
+	}
+	//mettre le code en debut de fichier et recuperation de la longueur de chaque code 
+	generation_description_arbre(A,Longueur,fEcriture);// rejouter l'ecriture du nombre de symbole
 	// ecrire la taille du fichier sur 32bit
-	
-	//transcrire le fichier // le fichier est il deja ouvert ?
-	Transcodage(A,fLecture);
+	//putTaille(fEcriture,taille);
+
+	//transcrire le fichier //
+	Transcodage(A,fLecture,fEcriture,Longueur);
 }
-*/
+
 int main (){
 	int T[N];
-	char T2[N];
+	
 	int i;
-	for (i=0;i<N;i++){T[i]=0;T2[i]=0;}
+	for (i=0;i<N;i++){T[i]=0;}
 	T['A']=4;
 	T['B']=4;
 	T['C']=4;
@@ -270,17 +274,17 @@ int main (){
 	afficher_Arbre(A);
 	printf("\n");
 	
-	generation_description_arbre(A,T2);
+	//generation_description_arbre(A,T2);
 	FILE *F1= ouvertureFichierLecture("../fichier_test/test_texte.txt");
+	FILE *F2 = ouvertureFichierEcriture ("../fichier_test/code.txt");
+	codage(F1,F2,A,32);
+	//printf("J'essaie de coder le texte\n");
+	//Transcodage(A,F1,fEcriture,T2);
+	//printf("J'ai fini de coder le texte\n");
+	//FILE * F2=ouvertureFichierLecture("../fichier_test/code_huffman.txt");
 	
 	
-	printf("J'essaie de coder le texte\n");
-	Transcodage(A,F1,T2);
-	printf("J'ai fini de coder le texte\n");
-	FILE * F2=ouvertureFichierLecture("../fichier_test/code_huffman.txt");
-	
-	
-	decodage(F2,A,8);
+	//decodage(F2,A,16);
 	fermetureFichier(F1);
 	fermetureFichier(F2);
 	return 0;

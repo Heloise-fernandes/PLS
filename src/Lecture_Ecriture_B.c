@@ -92,6 +92,7 @@ void putBit(FILE* fichier,char bit, int *indice)
 	
 	if ((tailleLu != 1))//On va ajouter un nouvel octet
 	{
+		printf("le bit de putBit: %d \n",bitUnsigned);
 		putByte(fichier, bitUnsigned);//On ajoute l'octet
 	}
 	else
@@ -209,11 +210,11 @@ void putIntV2 (FILE *F,int size, int *indice, int longueur)
 {
 	int mask, bit,i;
 	char bitAAjouter;
-	for(i=longueur;i>=0;i--)
+	for(i=longueur-1;i>=0;i--)
 	{
 		mask = (int) pow(2,i);
 		bit = (size&mask)>>i;
-		printf("Indice : %d, Bits : %d\n",i, bit);
+		//printf("Indice : %d, Bits : %d\n",i, bit);
 		if(bit == 1){bitAAjouter=1;}
 		else{bitAAjouter=0;}
 		putBit(F,bitAAjouter,indice);
@@ -225,10 +226,10 @@ void putIntV2 (FILE *F,int size, int *indice, int longueur)
  * F : fichier à modifier
  * taille : entier à ajouter
  * indice : indice ou écrire l'octet*/
-void putTaille (FILE *F,int taille, int *indice)
-{
+void putTaille (FILE *F,int taille)
+{	//int indice =0;
 	fwrite(&taille, sizeof(int),1,F);
-	*indice = (*indice+(sizeof(int)*8))%8;
+	//*indice = (*indice+(sizeof(int)*8))%8;
 }
 
 
