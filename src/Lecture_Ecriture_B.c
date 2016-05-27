@@ -230,10 +230,12 @@ void putTaille (FILE *F,int taille)
 {
 	int i;
 	char c;
-	int mask =255;
+	int decallage = 255;
+	int mask;
 	for(i = sizeof(int)-1; i >=0;i--)
 	{
-		c = (char) (taille&(mask<<(i*8)))>>(i*8);
+		mask = (unsigned int) decallage<<(i*8);
+		c = ( (unsigned int) taille&mask)>>(i*8);
 		putByte(F,c);
 	}
 	//fwrite(&taille,sizeof(int),1,F);
