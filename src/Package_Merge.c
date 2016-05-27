@@ -66,12 +66,14 @@ void trier_Liste(pl pointeurListe)
 	
 	int i,j;
 	
-	for(i = 0; i < TAILLE_TAB; i++)//parcours
+	for(i = 0; i < TAILLE_TAB; i++)															//pour i de 1 n-1
 	{
-		pointeurSauvegarde = suprElmt(pointeur,null, i);
-		j = i;
-		while((j>0)&&((getElmt(pointeur, j-1))->A->dispo > pointeurSauvegarde->A->dispo))
-		{}
+		pointeurSauvegarde = suprElmt(pointeur,null, i);									//x = T[i]
+		j = i;																				//j<-i
+		while((j>0)&&((getElmt(pointeur, j-1))->A->dispo > pointeurSauvegarde->A->dispo))	//tantque j>0 et T[j - 1] > x
+		{
+			
+		}
 	}
 	
 	
