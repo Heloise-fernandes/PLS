@@ -211,7 +211,7 @@ pArbre construction_arbre_canonique (int T[] ){
 
 //mettre une erreur quand il reste des charactere pas decodable ou pas ...
 //a partir d'un fichier, decode un texte de longueur taille coder avec l'arbre A ,  
-void decodage (FILE * fLecture,pArbre A,int taille){
+void decodage_texte (FILE * fLecture,pArbre A,int taille){
 	FILE *fEcriture=ouvertureFichierEcriture("../fichier_test/decodage.txt");// ane pas ouvrir ici
 	char c;
 	pArbre B= NULL;
@@ -256,6 +256,16 @@ void codage (FILE *fLecture, FILE* fEcriture, pArbre A, int taille){
 	//transcrire le fichier //
 	Transcodage(A,fLecture,fEcriture,Longueur);
 }
+
+void decodage (FILE *fLecture, FILE* fEcriture){
+//lire la transcription de l'arbre
+//creer l'arbre
+pArbre A;
+//lire la taille
+//deocder le fichier	
+}	
+
+void 
 
 int main (){
 	int T[N];

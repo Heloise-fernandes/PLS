@@ -57,6 +57,5 @@ void putInt (FILE *F,int size, int *indice);
 /* Ecrit un entier dans un fichier
  * Pramètre :
  * F : fichier à modifier
- * taille : entier à ajouter
- * indice : indice ou écrire l'octet*/
-void putTaille (FILE *F,int taille, int *indice);
+ * taille : entier à ajouter*/
+void putTaille (FILE *F,int taille);
