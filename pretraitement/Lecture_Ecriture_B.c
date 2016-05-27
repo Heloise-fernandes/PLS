@@ -1,10 +1,6 @@
 /*
  * Lecture_Ecriture_B.c
-<<<<<<< HEAD
- * 
- * 
-=======
->>>>>>> c584020b545b0b60b727e0038b1f05c222ff6b65
+ *
  * 
  */
 #include <stdio.h>
@@ -23,8 +19,8 @@
 #define BIT_7 128
 
 #define INDICE_MAX 7
-
-
+ 
+ 
 /* Ouvre le ficher en lecture seulement
  * Paramètre : chemin du fichier à ouvrir*/
 FILE* ouvertureFichierLecture(char* chemin)
@@ -55,8 +51,10 @@ void fermetureFichier(FILE* fichier){fclose(fichier);}
 int getByte(FILE* fichier, char *octet)
 {
 	int tailleLu;
+	unsigned char octet_unsigned;
 	if(fichier==NULL){printf("Le fichier n'est pas ouvert\n"); exit(0);}
-	tailleLu = fread(octet,sizeof(char),1,fichier);
+	tailleLu = fread(&octet_unsigned,sizeof(char),1,fichier);
+	*octet=octet_unsigned;
 	return tailleLu;
 }
 
@@ -68,8 +66,9 @@ int getByte(FILE* fichier, char *octet)
  * */
 void putByte(FILE* fichier,char octet)
 {
+	unsigned char octet_unsigned=(unsigned char)octet;
 	if(fichier==NULL){printf("Le fichier n'est pas ouvert\n"); exit(0);}
-	fwrite(&octet,sizeof(char),1,fichier);
+	fwrite(&octet_unsigned,sizeof(char),1,fichier);
 }
 
 

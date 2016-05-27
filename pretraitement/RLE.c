@@ -20,7 +20,7 @@ void RLE(FILE* fichier_src){
 		taille_octet = getByte(fichier_src,&octet_lu);
 		if((n!=1)  &  ((precedent!=octet_lu)|(taille_octet!=1)|(n==257))){
 			putByte(fichier_dest,precedent);
-			putByte(fichier_dest,(char)(n-2));
+			putByte(fichier_dest,(unsigned char)(n-2));
 			if (n==257) {putByte(fichier_dest,octet_lu);n=0;}
 			else{n=1;}
 		}
@@ -35,19 +35,19 @@ void unRLE(FILE* fichier_src){
 	char octet_lu;
 	char precedent=NULL;
 	int taille_octet=getByte(fichier_src,&octet_lu);
-	int i;
+	int i,n;
 	
 	while(taille_octet == 1){
 		if (octet_lu==precedent){
 			taille_octet=getByte(fichier_src,&octet_lu);
-			printf("%d  ",octet_lu);
-			for(i=0;i<=octet_lu;i++){
+			n=octet_lu;
+			if (n<0) n+=256;
+			for(i=0;i<=n;i++){
 				putByte(fichier_dest,precedent);
 			}
 		}
 		else{
 			putByte(fichier_dest,octet_lu);
-			printf("%d  ",octet_lu);
 		}
 		precedent=octet_lu;
 		taille_octet = getByte(fichier_src,&octet_lu);
@@ -60,7 +60,6 @@ int main(){
 	FILE* test = ouvertureFichierLecture("fichier_src");
 	RLE(test);
 	fclose(test);
-	printf("\n");
 	test = ouvertureFichierLecture("apres_RLE");
 	unRLE(test);
 	fclose(test);
