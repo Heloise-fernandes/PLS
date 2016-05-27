@@ -251,7 +251,7 @@ void codage (FILE *fLecture, FILE* fEcriture, pArbre A, int taille){
 	//mettre le code en debut de fichier et recuperation de la longueur de chaque code 
 	generation_description_arbre(A,Longueur,fEcriture);// rejouter l'ecriture du nombre de symbole
 	// ecrire la taille du fichier sur 32bit
-	//putTaille(fEcriture,taille);
+	putTaille(fEcriture,taille);
 
 	//transcrire le fichier //
 	Transcodage(A,fLecture,fEcriture,Longueur);
@@ -265,7 +265,7 @@ pArbre A;
 //deocder le fichier	
 }	
 
-void 
+ 
 
 int main (){
 	int T[N];
@@ -287,7 +287,7 @@ int main (){
 	//generation_description_arbre(A,T2);
 	FILE *F1= ouvertureFichierLecture("../fichier_test/test_texte.txt");
 	FILE *F2 = ouvertureFichierEcriture ("../fichier_test/code.txt");
-	codage(F1,F2,A,32);
+	codage(F1,F2,A,256);
 	//printf("J'essaie de coder le texte\n");
 	//Transcodage(A,F1,fEcriture,T2);
 	//printf("J'ai fini de coder le texte\n");

@@ -227,9 +227,20 @@ void putIntV2 (FILE *F,int size, int *indice, int longueur)
  * taille : entier à ajouter
  * indice : indice ou écrire l'octet*/
 void putTaille (FILE *F,int taille)
-{	//int indice =0;
-	fwrite(&taille, sizeof(int),1,F);
-	//*indice = (*indice+(sizeof(int)*8))%8;
+{
+	int i;
+	char c;
+	int mask =255;
+	for(i = sizeof(int)-1; i >=0;i--)
+	{
+		c = (char) (taille&(mask<<(i*8)))>>(i*8);
+		putByte(F,c);
+	}
+	//fwrite(&taille,sizeof(int),1,F);
+	
+	
+
 }
+
 
 

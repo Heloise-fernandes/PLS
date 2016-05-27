@@ -58,4 +58,5 @@ void putInt (FILE *F,int size, int *indice);
  * Pramètre :
  * F : fichier à modifier
  * taille : entier à ajouter*/
+
 void putTaille (FILE *F,int taille);
