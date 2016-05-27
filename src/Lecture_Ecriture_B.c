@@ -130,7 +130,7 @@ int getBit(FILE* fichier, int *indice, char *bit)
 {
 	char *octet = malloc(sizeof(char));
 	int tailleLU;
-	unsigned char *bitUnsigned = 0;
+	unsigned char *bitUnsigned = malloc(sizeof(unsigned char));
 	if(fichier==NULL){printf("Le fichier n'est pas ouvert\n"); exit(0);}
 	
 	tailleLU = getByte(fichier, octet);//On recupere l'octet pointé par le curseur
@@ -141,11 +141,11 @@ int getBit(FILE* fichier, int *indice, char *bit)
 		bit = octet;
 	}
 	else
-	{
+	{	
 		tailleLU = 1;
 		switch(*indice)//Lecture d'un bit dans l'octet lu
 		{
-			case 0 : *bitUnsigned = (*octet&BIT_7); break;
+			case 0 :*bitUnsigned =(unsigned char) (*octet&BIT_7);break;
 			case 1 : *bitUnsigned = (*octet&BIT_6); break;
 			case 2 : *bitUnsigned = (*octet&BIT_5); break;
 			case 3 : *bitUnsigned = (*octet&BIT_4); break;
@@ -156,6 +156,7 @@ int getBit(FILE* fichier, int *indice, char *bit)
 			default:printf("L'indice est faux!!!!!\n"); exit(0);
 			
 		}
+		
 		//Cast en unsigned avant de décaller;
 		*bitUnsigned = *bitUnsigned>>(INDICE_MAX-(*indice));
 		*bit = *bitUnsigned;
@@ -184,16 +185,15 @@ void putInt (FILE *F,int size, int *indice)
 	{
 		mask = (int) pow(2,j);
 		bit = (size&mask)>>j;
-		printf("Indice : %d, Bits : %d\n",j, bit);
 		if(bit==1){break;}
 	}
 	if(j+1 == 0){printf("La taille est nul\n");exit(0);}
-	printf("=====>Ecriture\n");
+	
 	for(i=j;i>=0;i--)
 	{
 		mask = (int) pow(2,i);
 		bit = (size&mask)>>i;
-		printf("Indice : %d, Bits : %d\n",i, bit);
+	
 		if(bit == 1){bitAAjouter=1;}
 		else{bitAAjouter=0;}
 		putBit(F,bitAAjouter,indice);
