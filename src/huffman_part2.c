@@ -2,8 +2,7 @@
 #include "stdio.h"
 #include "limits.h"
 #define N 256
-#include "Lecuture_Ecriture_B.h"
-
+#include "Lecture_Ecriture_B.c"
 typedef struct _Arbre{
 	signed char cle;
 	int dispo;
@@ -235,9 +234,15 @@ void decodage (FILE * fLecture,pArbre A,int taille){
 	}
 	fermetureFichier(fEcriture);
 }
-
-
-
+/*void codage (FILE *fLecture; FILE* fEcriture; pArbre A; int taille){
+	//mettre le code en debut de fichier
+	generation_description_arbre(A);// rejouter l'ecriture du nombre de symbole
+	// ecrire la taille du fichier sur 32bit
+	
+	//transcrire le fichier // le fichier est il deja ouvert ?
+	Transcodage(A,fLecture);
+}
+*/
 int main (){
 	int T[N];
 	int i;
