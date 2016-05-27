@@ -1,6 +1,6 @@
 CC = gcc
 OBJS = Lecture_Ecriture_B.o huffman_part2.o
-EXEC = ../bin/Compresseur
+EXEC = ../bin/huffman_part2
 CFLAGS = -Wall -I ../src
 SRCS = $(OBJS:.c=.o)
 
