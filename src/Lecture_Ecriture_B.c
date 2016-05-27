@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include "Lecture_Ecriture_B.h"
 
 #define BIT_0 1
 #define BIT_1 2
