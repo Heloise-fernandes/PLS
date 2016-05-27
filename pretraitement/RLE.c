@@ -32,7 +32,7 @@ void RLE(FILE* fichier_src){
 void unRLE(FILE* fichier_src){
 	FILE* fichier_dest = ouvertureFichierEcriture("apres_unRLE");
 	
-	unsigned char octet_lu;
+	char octet_lu;
 	char precedent=NULL;
 	int taille_octet=getByte(fichier_src,&octet_lu);
 	int i;
@@ -41,7 +41,7 @@ void unRLE(FILE* fichier_src){
 		if (octet_lu==precedent){
 			taille_octet=getByte(fichier_src,&octet_lu);
 			printf("%d  ",octet_lu);
-			for(i=0;i<octet_lu;i++){
+			for(i=0;i<=octet_lu;i++){
 				putByte(fichier_dest,precedent);
 			}
 		}
@@ -52,8 +52,6 @@ void unRLE(FILE* fichier_src){
 		precedent=octet_lu;
 		taille_octet = getByte(fichier_src,&octet_lu);
 	}
-	
-	
 }
 
 
