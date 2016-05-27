@@ -59,4 +59,4 @@ void putInt (FILE *F,int size, int *indice);
  * F : fichier à modifier
  * taille : entier à ajouter
  * indice : indice ou écrire l'octet*/
-void putTaille (FILE *F,int taille, int *indice);
+void putTaille (FILE *F,int taille);
