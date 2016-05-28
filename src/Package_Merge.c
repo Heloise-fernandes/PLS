@@ -6,7 +6,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "anlyseTexte.c"
+
 #include "../include/Lecture_Ecriture_B.h"
 
 #define TAILLE_TAB 256
@@ -32,69 +32,30 @@ typedef struct _l{
 //1 - faire liste arbre d'origine
 //2 - faire 
 //2 - faire arbre changer pointeur
-
-
-void package_merge(char* chemin)
-{
-	int* tableau = malloc(sizeof(int)*TAILLE_TAB);
-	int i;
-	pl pointeurListe, pointeurConstruction;	
-	pointeurListe = malloc(sizeof(l));
-	pointeurConstruction = pointeurListe;
-	FILE* fichier = ouvertureFichierLecture(chemin);
-	
-	//Remplir le tableau
-	remplir_tableau_poids_symbole_et_calcul_taille(tableau,fichier);
-	for(i = 0; i <TAILLE_TAB; i++)
-	{
-		pointeurConstruction->A->cle = i;
-		pointeurConstruction->A->dispo = tableau[i];
-		pointeurConstruction->A->ag = NULL;
-		pointeurConstruction->A->ad = NULL;
-		pointeurConstruction->next = malloc(sizeof(l));
-	}
-	
-	trier_Liste(pl pointeurListe);
-}
-
-void trier_Liste(pl pointeurListe)
-{
-	pl pointeur = pointeurListe;
-	
-	pl pointeurSauvegarde;
-	pl pointeurparcours;
-	
-	int i,j;
-	
-	for(i = 0; i < TAILLE_TAB; i++)															//pour i de 1 n-1
-	{
-		pointeurSauvegarde = suprElmt(pointeur,null, i);									//x = T[i]
-		j = i;																				//j<-i
-		while((j>0)&&((getElmt(pointeur, j-1))->A->dispo > pointeurSauvegarde->A->dispo))	//tantque j>0 et T[j - 1] > x
-		{
-			
-		}
-	}
-	
-	
-	/*  procédure tri_insertion(tableau T, entier n)
-      pour i de 1 à n-1
-          x ← T[i]
-          j ← i
-          tant que j > 0 et T[j - 1] > x
-              T[j] ← T[j - 1]
-              j ← j - 1
-          fin tant que
-          T[j] ← x
-     fin pour
-  fin procédure*/
-	
-}
-
 pl getElmt(pl pointeur, int indice)
 {
 	if(indice == 0){return pointeur;}
-	else{getElmt(pointeur->next, indice--);}
+	else
+	{	indice = indice - 1;
+		return getElmt(pointeur->next, indice);}
+	return NULL;
+}
+
+void afficherListe(pl pointeurListe)
+{
+	pl pointeur,affiche;
+	int i;
+	pointeur = pointeurListe;
+	for( i = 0; i <TAILLE_TAB; i++)
+	{
+		affiche = getElmt(pointeur, i);
+		printf("Element : %d, nombre : %d\n",i,affiche->poids);
+	}
+}
+
+void afficherPointeur(pl pointeurListe)
+{
+	printf("Element : %d, nombre : %d\n",(unsigned char) pointeurListe->A->cle,pointeurListe->poids);
 }
 
 pl suprElmt(pl pointeurCourant,pl parent, int indice)
@@ -103,20 +64,113 @@ pl suprElmt(pl pointeurCourant,pl parent, int indice)
 	{	if(parent!=NULL)
 		{
 			parent->next = pointeurCourant->next;
-			pointeurCourant->next == null; 
+			pointeurCourant->next = NULL; 
 		}
 		else
 		{
 			parent = pointeurCourant->next;
 			pointeurCourant->next = NULL;
-			 }
+		}
 		return pointeurCourant;
 	}
-	else{getElmt(pointeurCourant->next,pointeurCourant, indice--);}
+	else
+	{	indice = indice - 1;
+		return suprElmt(pointeurCourant->next,pointeurCourant, indice);
+	}
+	return NULL;
 }
+
+
+pl trier_Liste(pl pointeurListe)
+{
+	pl pointeur = pointeurListe;
+	
+	pl pointeurSauvegarde;
+	pl pointeurJ;
+	int i,j;
+	for(i = 1; i < TAILLE_TAB; i++)										//pour i de 1 n-1
+	{
+		pointeurSauvegarde = suprElmt(pointeur,NULL, i);				//x = T[i]
+		j = i;															//j<-i
+		pointeurJ = getElmt(pointeur, j-1);
+		while((j>0)&&(pointeurJ->poids > pointeurSauvegarde->poids))	//tantque j>0 et T[j - 1] > x
+		{
+			j--;
+			if(j>0){pointeurJ = getElmt(pointeur, j-1);}					//T[i]<-T[j-1]; j<-j-1
+			
+		}
+		if(j==0)
+		{
+			pointeurSauvegarde->next = pointeur;
+			pointeur = pointeurSauvegarde;
+		}
+		else
+		{
+			pointeurSauvegarde->next = pointeurJ->next;
+			pointeurJ->next = pointeurSauvegarde;						//T[j] ← x
+		}
+											
+	}
+	return pointeur;
+}
+
+void package_merge(char* chemin)
+{
+	int* tableau = malloc(sizeof(int)*TAILLE_TAB);
+	int i;
+	pl pointeurListe, pointeurConstruction;	
+	pointeurListe = malloc(sizeof(l));
+	pointeurConstruction = pointeurListe;
+	//FILE* fichier = ouvertureFichierLecture(chemin);
+	
+	//Remplir le tableau
+	//remplir_tableau_poids_symbole_et_calcul_taille(tableau,fichier);
+	
+	//Initialisation d'un tableau
+	for(i = 0; i <TAILLE_TAB; i++)
+	{
+		tableau[i]=0;
+	}
+	
+	tableau[0] = 50; 
+	tableau[1] = 5;
+	tableau[2] = 25;
+	tableau[3] = 1;
+	tableau[4] = 70;
+	tableau[5] = 200;
+	tableau[6] = 80;
+	tableau[7] = 17;
+	tableau[8] = 2;
+	tableau[9] = 32;
+	
+	//Création de la liste
+	for(i = 0; i < TAILLE_TAB; i++)
+	{
+		pointeurConstruction->A = malloc(sizeof(Arbre));
+		pointeurConstruction->A->cle = i;
+		pointeurConstruction->A->dispo = tableau[i];
+		pointeurConstruction->A->ag = NULL;
+		pointeurConstruction->A->ad = NULL;
+		pointeurConstruction->poids = tableau[i];
+		pointeurConstruction->next = malloc(sizeof(l));
+		pointeurConstruction = pointeurConstruction->next;
+	}
+	
+	//Trie et affichage de la liste
+	pl trie = trier_Liste(pointeurListe);
+	afficherListe(trie);
+	
+	//Pacourir 2 à 2 et ajouter les nv élements dans une tierce liste sauf si proba 0
+	
+	//Ajouter les élement dans la liste si non existant si hauteur !=0 et pas dans la tirece liste supression
+	
+	//Recommencer operation 8 fois
+}
+
 
 int main(int argc, char **argv)
 {
+	package_merge("chemin");
 	
 	return 0;
 }
