@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "Lecture_Ecriture_B.c"
-
 
 void RLE(FILE* fichier_src){
 	FILE* fichier_dest = ouvertureFichierEcriture("apres_RLE");
@@ -33,7 +31,7 @@ void unRLE(FILE* fichier_src){
 	FILE* fichier_dest = ouvertureFichierEcriture("apres_unRLE");
 	
 	char octet_lu;
-	char precedent=NULL;
+	char precedent=-1;
 	int taille_octet=getByte(fichier_src,&octet_lu);
 	int i,n;
 	
@@ -44,24 +42,15 @@ void unRLE(FILE* fichier_src){
 			if (n<0) n+=256;
 			for(i=0;i<=n;i++){
 				putByte(fichier_dest,precedent);
-			}
+			} 	
+			precedent=-1;
 		}
 		else{
 			putByte(fichier_dest,octet_lu);
+			precedent=octet_lu;
 		}
-		precedent=octet_lu;
 		taille_octet = getByte(fichier_src,&octet_lu);
 	}
-}
+	fermetureFichier(fichier_dest);
 
-
-
-int main(){
-	FILE* test = ouvertureFichierLecture("fichier_src");
-	RLE(test);
-	fclose(test);
-	test = ouvertureFichierLecture("apres_RLE");
-	unRLE(test);
-	fclose(test);
-	return EXIT_SUCCESS;
 }

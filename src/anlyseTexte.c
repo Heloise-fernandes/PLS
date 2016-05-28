@@ -6,7 +6,6 @@
 
 
 
-
 void initialiser_tableau_poids_symbole(int* symb ){
 	//on initialise les 256 cases du tableau du poids des sybole a 0;
 	int i = 0 ;
@@ -68,7 +67,7 @@ int main (int argc , char *argv[]){
 	//int c = 0 ;
 	//fichier_a_compresser = ouverture_fichier_a_compresser("test.txt");
 	//fichier_a_compresser = fopen("test.txt","r");
-	fichier_a_compresser = ouvertureFichierLecture("albatros.txt");
+	fichier_a_compresser = ouvertureFichierLecture("../fichier_test/test1.txt");
 /*
  * 
 	c = fgetc(fichier_a_compresser);
@@ -102,7 +101,7 @@ int main (int argc , char *argv[]){
 	//afficher_tableau_poids_symbole(symb );
 	
 
-	fclose(fichier_a_compresser);
+	fermetureFichier(fichier_a_compresser);
 	return 0;}
 	
 
