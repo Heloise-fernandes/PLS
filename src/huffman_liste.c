@@ -29,6 +29,7 @@ typedef struct _l{
 
 pl getElmt(pl pointeur, int indice)
 {
+	printf("dans getElm\n");
 	if(indice == 0){return pointeur;}
 	else
 	{	indice = indice - 1;
@@ -147,11 +148,15 @@ pArbre ajouter_dispo (pArbre a, int dispo){
   return b ;
 }
 pArbre fusion(pArbre a,pArbre b){
+	printf("Dans fusion\n");
 	pArbre c =  malloc(sizeof(Arbre));
-	//printf(" dans fusion a -> dispo%d",a->dispo);
-	//printf(" dans fusion b -> dispo%d",b->dispo);
+	if (c == NULL) {
+		fprintf(stderr,"pb malloc\n");
+	}
+	printf(" dans fusion a -> dispo%d",a->dispo);
+	printf(" dans fusion b -> dispo%d",b->dispo);
 	c=ajouter_dispo(c,(a->dispo) + (b->dispo));
-	//printf(" dans fusion c -> dispo%d",c->dispo);
+	printf(" dans fusion c -> dispo%d",c->dispo);
 	c->ag = a;
 	c->ad = b;
 	return c;
@@ -248,20 +253,19 @@ pArbre huffman(char* chemin)
 	tableau[0] = 50; 
 	tableau[1] = 5;
 	tableau[2] = 25;
-	//tableau[3] = 1;
-	//tableau[4] = 70;
-	//tableau[5] = 200;
-	//tableau[6] = 80;
-	//tableau[7] = 17;
-	//tableau[8] = 2;
-	//tableau[9] = 32;
+	tableau[3] = 1;
+	tableau[4] = 70;
+	tableau[5] = 200;
+	tableau[6] = 80;
+	tableau[7] = 17;
+	tableau[8] = 2;
+	tableau[9] = 32;
 	
 	//Création de la liste
 	for(i = 0; i < TAILLE_TAB; i++)
 	{
 		pointeurConstruction->A = malloc(sizeof(Arbre));
 		
-		//pointeurConstruction->A =NULL;
 		
 		pointeurConstruction->A->cle = i;
 		pointeurConstruction->A->dispo = tableau[i];
@@ -271,7 +275,6 @@ pArbre huffman(char* chemin)
 		
 		pointeurConstruction->next = malloc(sizeof(l));
 		
-		//pointeurConstruction->next=NULL;
 		
 		pointeurConstruction = pointeurConstruction->next;
 	}
@@ -302,6 +305,9 @@ pArbre huffman(char* chemin)
 		 b = (getElmt(trie,1)->A);
 		afficher_Arbre2(b);
 		//printf(" b -> dispo%d",b->dispo);
+		if (b ==NULL){
+			return a;
+			}
 		 c = fusion(a,b);
 		afficher_Arbre2(c);
 		
