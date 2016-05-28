@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "Lecture_Ecriture_B.h"//attention
+#include "../include/Lecture_Ecriture_B.h"//attention
 #define NMAX 256
-
 
 
 
@@ -68,7 +67,7 @@ int main (int argc , char *argv[]){
 	//int c = 0 ;
 	//fichier_a_compresser = ouverture_fichier_a_compresser("test.txt");
 	//fichier_a_compresser = fopen("test.txt","r");
-	fichier_a_compresser = ouvertureFichierLecture("albatros.txt");
+	fichier_a_compresser = ouvertureFichierLecture("../fichier_test/test1.txt");
 /*
  * 
 	c = fgetc(fichier_a_compresser);
