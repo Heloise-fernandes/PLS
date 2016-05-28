@@ -35,6 +35,7 @@ typedef struct _Arbre{
 
 
 //a supprimer plus tard provient de Package_merge
+
 typedef struct _l{
 	pArbre A;
 	int poids;
@@ -45,63 +46,92 @@ typedef struct _l{
 pl getElmt(pl pointeur, int indice)
 {
 	if(indice == 0){return pointeur;}
-	else{getElmt(pointeur->next, indice--);}
+	else{ return getElmt(pointeur->next, indice--);}
 	
 }
 
-void trier_Liste(pl pointeurListe)
+void afficherListe(pl pointeurListe)
 {
-	pl pointeur = pointeurListe;
-	
-	pl pointeurSauvegarde;
-	pl pointeurparcours;
-	
-	int i,j;
-	
-	for(i = 0; i < TAILLE_TAB; i++)															//pour i de 1 n-1
+	pl pointeur,affiche;
+	int i;
+	pointeur = pointeurListe;
+	for( i = 0; i <TAILLE_TAB; i++)
 	{
-		pointeurSauvegarde = suprElmt(pointeur,null, i);									//x = T[i]
-		j = i;																				//j<-i
-		while((j>0)&&((getElmt(pointeur, j-1))->A->dispo > pointeurSauvegarde->A->dispo))	//tantque j>0 et T[j - 1] > x
-		{
-			
-		}
+		affiche = getElmt(pointeur, i);
+		printf("Element : %d, nombre : %d\n",i,affiche->poids);
 	}
-	
-	/*  procédure tri_insertion(tableau T, entier n)
-      pour i de 1 à n-1
-          x ← T[i]
-          j ← i
-          tant que j > 0 et T[j - 1] > x
-              T[j] ← T[j - 1]
-              j ← j - 1
-          fin tant que
-          T[j] ← x
-     fin pour
-  fin procédure*/
-	
 }
 
 
-/*
+
+
+
+
 pl suprElmt(pl pointeurCourant,pl parent, int indice)
 {
 	if(indice == 0)
 	{	if(parent!=NULL)
 		{
 			parent->next = pointeurCourant->next;
-			pointeurCourant->next == null; 
+			pointeurCourant->next = NULL; 
 		}
 		else
 		{
 			parent = pointeurCourant->next;
 			pointeurCourant->next = NULL;
-			 }
+		}
 		return pointeurCourant;
 	}
-	else{getElmt(pointeurCourant->next,pointeurCourant, indice--);}
+	else
+	{	indice = indice - 1;
+		return suprElmt(pointeurCourant->next,pointeurCourant, indice);
+	}
+	return NULL;
 }
-*/
+pl trier_Liste(pl pointeurListe)
+{
+	pl pointeur = pointeurListe;
+	
+	pl pointeurSauvegarde;
+	pl pointeurJ;
+	int i,j;
+	for(i = 1; i < TAILLE_TAB; i++)										//pour i de 1 n-1
+	{
+		pointeurSauvegarde = suprElmt(pointeur,NULL, i);				//x = T[i]
+		j = i;															//j<-i
+		pointeurJ = getElmt(pointeur, j-1);
+		while((j>0)&&(pointeurJ->poids > pointeurSauvegarde->poids))	//tantque j>0 et T[j - 1] > x
+		{
+			j--;
+			if(j>0){pointeurJ = getElmt(pointeur, j-1);}					//T[i]<-T[j-1]; j<-j-1
+			
+		}
+		if(j==0)
+		{
+			pointeurSauvegarde->next = pointeur;
+			pointeur = pointeurSauvegarde;
+		}
+		else
+		{
+			pointeurSauvegarde->next = pointeurJ->next;
+			pointeurJ->next = pointeurSauvegarde;						//T[j] ← x
+		}
+											
+	}
+	return pointeur;
+}
+
+//rajout dans Package merge ?
+
+
+void insertElm(pl pointeurListe, pArbre a){
+	
+		pl pointeurConstruction;	
+		pointeurConstruction =  malloc(sizeof(l));
+		pointeurConstruction->A = a;
+		pointeurConstruction->poids = a->dispo;
+		
+	}
 
 
 
@@ -159,7 +189,7 @@ pArbre ajouter_dispo (pArbre a, int dispo)
   return b ;
 }
 pArbre fusion(pArbre a,pArbre b){
-	pArbre c = NULL;
+	pArbre c =  malloc(sizeof(Arbre));
 	c=ajouter_dispo(c,(a->dispo) + (b->dispo));
 	c->ag = a;
 	c->ad = b;
@@ -372,6 +402,7 @@ void init_tableau_huffman(int* copie_symb,pArbre* huffman){
 
 pArbre generation_huffman(int* symb){
 /*	
+ * 
 	
 	
 	int nb_elem = nb_element_non_nul(symb);
@@ -429,14 +460,72 @@ pArbre generation_huffman(int* symb){
 	return huffman[0];
 	//liberation de memoire ? quand ? 
 */	
+return NULL;
 }
 
 
 
 
-
-
-pArbre generation_huffman_liste(int* symb){
+//void generation_huffman_liste(int* symb){
+void generation_huffman_liste(){
+	
+	int* tableau = malloc(sizeof(int)*TAILLE_TAB);
+	int i;
+	pl pointeurListe, pointeurConstruction;	
+	pointeurListe = malloc(sizeof(l));
+	pointeurConstruction = pointeurListe;
+	//FILE* fichier = ouvertureFichierLecture(chemin);
+	
+	//Remplir le tableau
+	//remplir_tableau_poids_symbole_et_calcul_taille(tableau,fichier);
+	
+	//Initialisation d'un tableau
+	for(i = 0; i <TAILLE_TAB; i++)
+	{
+		tableau[i]=0;
+	}
+	
+	tableau[0] = 50; 
+	tableau[1] = 5;
+	tableau[2] = 25;
+	tableau[3] = 1;
+	tableau[4] = 70;
+	tableau[5] = 200;
+	tableau[6] = 80;
+	tableau[7] = 17;
+	tableau[8] = 2;
+	tableau[9] = 32;
+	
+	//Création de la liste
+	for(i = 0; i < TAILLE_TAB; i++)
+	{
+		pointeurConstruction->A = malloc(sizeof(Arbre));
+		pointeurConstruction->A->cle = i;
+		pointeurConstruction->A->dispo = tableau[i];
+		pointeurConstruction->A->ag = NULL;
+		pointeurConstruction->A->ad = NULL;
+		pointeurConstruction->poids = tableau[i];
+		pointeurConstruction->next = malloc(sizeof(l));
+		pointeurConstruction = pointeurConstruction->next;
+	}
+	
+	//Trie et affichage de la liste
+	pl trie = trier_Liste(pointeurListe);
+	afficherListe(trie);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*
+	
+	
 	//int nb_elem = nb_element_non_nul(symb);
 	//int copie_symb[nb_elem];
 	//copie_symbole_non_nul(symb,copie_symb);
@@ -445,57 +534,76 @@ pArbre generation_huffman_liste(int* symb){
 	//tri2(copie_symb,TAILLE_MAX);//tableau de poids trie
 	//tri de la liste plus efficace 
 	pl pointeurListe,pointeurConstruction;;	
+	int i = 0;
 	pointeurListe = malloc(sizeof(l));
 	pointeurConstruction = pointeurListe;
-	int i = 0;
+	
 	//Remplir le tableau 
 	//remplir_tableau_poids_symbole_et_calcul_taille(tableau,fichier);
 	
 	//for(i = 0; i <nb_elem; i++)
 	for(i = 0; i <TAILLE_TAB; i++)
 	{
-		pointeurConstruction->A->cle = i-128 ;//pb ici signed char ?
+		
+		
+		//Création de la liste
+		pointeurConstruction->A = malloc(sizeof(Arbre));
+		pointeurConstruction->A->cle = i;
 		pointeurConstruction->A->dispo = symb[i];
 		pointeurConstruction->A->ag = NULL;
 		pointeurConstruction->A->ad = NULL;
+		pointeurConstruction->poids = symb[i];
 		pointeurConstruction->next = malloc(sizeof(l));
+		pointeurConstruction = pointeurConstruction->next;
+		afficherListe(pointeurListe);
 	}
 	
 	
+	afficherListe(pointeurListe);
 	trier_Liste( pointeurListe);
+	afficherListe(pointeurListe);
 	
 	//on enleve les 0 du debut de la liste
 	while(pointeurListe->poids==0){
-		 //pointeurListe = suprElmt(pointeurListe,NULL,O) ;
+		 pointeurListe = suprElmt(pointeurListe,NULL,0) ;
 		 
 		 
-		 pointeurListe = pointeurListe->next;
+		 //pointeurListe = pointeurListe->next;
 		 //attention fuite memoire utiliser supprimer elm des que disponible
 		}
 	//on recupere les deux arbre des plus petit
-	while(tailleliste(pointeurListe) != 1 ){
+	/*
+	 * 
+	while((pointeurListe)->next !=NULL ){
 		pArbre a = (getElmt(pointeurListe,0)->A);
 		pArbre b = (getElmt(pointeurListe,1)->A);
 		pArbre c = fusion(a,b);
-		//pointeurListe = suprElmt(pointeurListe,NULL,O) ; ??
-		//pointeurListe = suprElmt(pointeurListe,NULL,O) ; ??
-		//insertionElm (c)?								??
+		pointeurListe = suprElmt(pointeurListe,NULL,0) ; 
+		pointeurListe = suprElmt(pointeurListe,NULL,0) ; 
+		insertElm (pointeurListe,c);								
 	}
-return (pointeurListe->A);
+	afficherListe(pointeurListe);
+	* */
+//return (pointeurListe);
+
+
+
 }
 
 
 
 
 int main(int argc , char *argv[]){
-	int i = 0 ;
-	int symb[256];//256 TAILLE_MAX N_MAX
 	
-	pArbre resultat = NULL;
+	//int i = 0 ;
+	//int symb[256];//256 TAILLE_MAX N_MAX
 	
-	initialiser_tableau(symb);
+	//pArbre resultat = NULL;
+	
+	//initialiser_tableau(symb);
+	/*
 	for (i = 0 ; i < TAILLE_MAX ;i++){
-			//printf("( %d , %d )/n",i,symb[i]);
+			//printf("( %d , %d )\n",i,symb[i]);
 			;
 		}
 		symb[65]=25000;
@@ -505,12 +613,12 @@ int main(int argc , char *argv[]){
 		symb[69]=50000;
 		
 		for (i = 0 ; i < TAILLE_MAX ;i++){
-			//printf("( %d , %d )/n",i,symb[i]);
+		//printf("( %d , %d )\n",i,symb[i]);
 			;
 		}
-		
-	//resultat = generation_huffman(symb);
-	
+	*/
+	//resultat = generation_huffman_liste(symb);
+	 generation_huffman_liste();
 	
 	
 	
