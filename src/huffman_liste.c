@@ -335,11 +335,34 @@ return NULL;//normalement on ne peux pas venir ici
 	
 }
 
+void afficher_Arbre (pArbre A){
+	if (A!=NULL){
+		if (A->ad==NULL&&A->ag==NULL){//cas d'une feuille
+			printf("F(%c)",A->cle);
+		}
+		else if (A->ad==NULL){//cas d'une feuille
+			printf("F(%c)",A->cle);
+		}
+		else if (A->ag==NULL){//cas d'une feuille
+			printf("F(%c)",A->cle);
+		}
+		else { // cas d'un noeud
+			printf("Noeud (");
+			afficher_Arbre( A->ag);
+			printf(",");
+			afficher_Arbre (A->ad);
+			printf(")");
+		}
+	}
+}
+
+
 
 int main(int argc, char **argv)
 {
 	//huffman("chemin");
 	pArbre res = huffman("chemin");
+	afficher_Arbre(res);
 	return 0;
 }
 

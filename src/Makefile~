@@ -1,6 +1,6 @@
 CC = gcc
-OBJS = Lecture_Ecriture_B.o huffman_part2.o 
-EXEC = ../bin/huffman_part2 
+OBJS = Lecture_Ecriture_B.o huffman_part2.o anlyseTexte.o
+EXEC = ../bin/huffman_part2 ../bin/anlyseTexte
 CFLAGS = -Wall -I ../src
 SRCS = $(OBJS:.c=.o)
 
