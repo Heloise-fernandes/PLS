@@ -293,7 +293,7 @@ taille_fichier=256;
  
 
 int main (){
-	/*int T[N];
+	int T[N];
 	//FILE *fEcriture=ouvertureFichierEcriture("../fichier_test/decodage.txt");// ane pas ouvrir ici
 	int i;
 	for (i=0;i<N;i++){T[i]=0;}
@@ -312,17 +312,14 @@ int main (){
 	//generation_description_arbre(A,T2);
 	FILE *F1= ouvertureFichierLecture("../fichier_test/test_texte.txt");
 	FILE *F2 = ouvertureFichierEcriture ("../fichier_test/code.txt");
+	
 	codage(F1,F2,A,256);
-	//printf("J'essaie de coder le texte\n");
-	//Transcodage(A,F1,fEcriture,T2);
-	//printf("J'ai fini de coder le texte\n");
-	//FILE * F2=ouvertureFichierLecture("../fichier_test/code_huffman.txt");
 	
-	
-	//decodage(F2,A,16);
 	fermetureFichier(F1);
-	fermetureFichier(F2);*/
-	FILE *F3= ouvertureFichierLecture("../fichier_test/code_huffman.txt");
+	fermetureFichier(F2);
+	
+	//decodage
+	FILE *F3= ouvertureFichierLecture("../fichier_test/code.txt");
 	FILE *F4 = ouvertureFichierEcriture ("../fichier_test/decodage.txt");
 	printf("\n\n Decodage:\n");
 	decodage(F3,F4);
