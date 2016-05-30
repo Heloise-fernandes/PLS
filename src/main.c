@@ -13,6 +13,7 @@
 #include "anlyseTexte.h"
 #include "huffman_liste.h"
 #include "huffman_part2.h"
+#include "arbre.h"
 
 #include "arbre.h"
 int main(int argc, char **argv)
@@ -21,26 +22,25 @@ int main(int argc, char **argv)
 	
 	int i;
 	pArbre res = huffman("../fichier_test/test3.txt");
-	
-	
-	//pArbre res = huffman("../fichier_test/exemplecours.txt");
-	//pArbre res = huffman(argv[1]);
-	printf("\nJ'ai construit l'arbre de Huffman\n");
-	afficher_Arbre(res);
-	//afficher_Arbre(res);
-	
+
+
+	afficher_Arbre2(res);
+	printf("\nAffichage ok\n");
 	for (i=0;i<N;i++){
 		T[i]=0;
 	}
-	//profondeur(res,T,0);
-	//recuperation du nombre de symbole 
+	printf("\nInit\n");
 	
+	profondeur(res,T,0);
+	//recuperation du nombre de symbole 
+	printf("\nProfondeur\n");
 	char nb_symbole=0;
 	for (i=0;i<N;i++){ if (T[i]!=0) nb_symbole++;}
 	
 	pArbre A=construction_arbre_canonique(T);
+	printf("\nConstruction cano\n");
 	afficher_Arbre(A);
-	
+	printf("\nCanonique\n");
 	//generation_description_arbre(A,T2);
 	
 	FILE *F1= ouvertureFichierLecture("../fichier_test/test3.txt");

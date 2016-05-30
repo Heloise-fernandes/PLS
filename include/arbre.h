@@ -47,13 +47,12 @@ pl insertElm(pl pointeurListe, pArbre a);
 
 
 
-
 /*=====================================*
  * Fonction sur les arbres 
  * ====================================*/
 
 Arbre  *ajouter_noeud (Arbre *a, Arbre *n);
-
+void afficher_Arbre2 (pArbre A);
 pArbre ajouter_dispo (pArbre a, int dispo);
 pArbre fusion(pArbre a,pArbre b);
 void profondeur (pArbre A,int * T, int p);

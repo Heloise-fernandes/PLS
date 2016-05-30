@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 aaaaabbbccccddeeeeeeeeeeeeeeeeee
 
 
@@ -5,3 +6,6 @@ aaaaabbbccccddeeeeeeeeeeeeeeeeee
 
 
 
+=======
+ABCDABCDABCDABCDABCDABCDABCDABCDG
+>>>>>>> 0b133db651c43f79a8ecb1124e41a5aa426a81e1

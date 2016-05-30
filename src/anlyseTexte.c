@@ -53,7 +53,7 @@ int remplir_tableau_poids_symbole_et_calcul_taille(int* symb,FILE* fichier_a_com
 	//fprintf(stderr," apres initialiser_tableau_poids_symbole \n");
     int taille = remplir_tableau_poids_symbole_et_calcul_taille(symb,fichier_a_compresser);
     //fprintf(stderr," apres remplir_tableau_poids_symbole_et_calcul_taille \n");
-	afficher_tableau_poids_symbole(symb);
+	//afficher_tableau_poids_symbole(symb);
 	//fprintf(stderr," apres afficher_tableau_poids_symbole(symb)\n");
 	return taille;
 }
