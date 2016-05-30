@@ -27,7 +27,7 @@ void afficher_Arbre (pArbre A){
 			afficher_Arbre( A->ag);
 			printf(",");
 			afficher_Arbre (A->ad);
-			printf(")");
+			printf(")\n");
 		}
 	}
 }

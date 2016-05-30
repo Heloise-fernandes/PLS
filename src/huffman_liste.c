@@ -195,7 +195,7 @@ pArbre huffman(char* chemin)
 		//printf("Taille de la liste après réduction : %d, nex null? : %d\n", tailleListePL(trie),(trie->next==NULL));
 		//afficherListe(trie);
 		//printf("============================>\n");
-
+									
 	}
 	return c;
 	//afficherListe(trie);
