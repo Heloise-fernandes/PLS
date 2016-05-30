@@ -7,9 +7,9 @@
 #include <stdlib.h>
 #include <math.h>
 
-#include "Lecture_Ecriture_B.h"
-#include "package_merge.h"
-#include "anlyseTexte.h"
+#include "../include/Lecture_Ecriture_B.h"
+#include "../include/package_merge.h"
+#include "../include/anlyseTexte.h"
 
 //============================================>FONCTIONS MANIPULATION DE LISTE
 
@@ -58,7 +58,7 @@ pliste getElmtMerge(pliste pointeurListe, int indice)
 		if(i == indice){break;}
 		pointeur = pointeur->next;
 	}
-	if(i == taille){printf("Erreur d'indice");exit(0);}
+	if(i == taille){printf("Erreur d'indice\n");exit(0);}
 	return pointeur;
 }
 
@@ -357,15 +357,20 @@ int nombreOccurence(pliste listeOc, unsigned char e, int t)
  * Paramètre :
  * 	   tableauOccurence : tableaux ou stocker les nombres d'occurence
  *     listeCreationArbre : la liste à traiter*/
-void calculOccurence(int *tableauOccurence,pliste listeCreationArbre)
+void calculOccurence(int *tableauOccurence,pliste listeDouble,pliste listeOrigine)
 {
 	int i;
 	unsigned char element;
-	int taille = tailleListe(listeCreationArbre);
+	int taille = tailleListe(listeOrigine);
+	int taille2 = tailleListe(listeDouble);
 	for(i = 0; i < TAILLE_TAB; i++)
 	{
-		element = (unsigned char) i;
-		tableauOccurence[i] = nombreOccurence(listeCreationArbre, element, taille);
+		tableauOccurence[i] = 0;
+	}
+	for(i = 0; i < taille; i++)
+	{
+		element = (unsigned char) getElmtMerge(listeOrigine,i)->elmt[0];
+		tableauOccurence[i] = nombreOccurence(listeDouble, element, taille2)+1;
 	}
 }
 
@@ -452,19 +457,21 @@ void package_merge(char* chemin)
 		listeCreationArbre = constructionListeFinale(listeOrigine,listeDouble);
 		//afficherListeMerge(listeCreationArbre);
 	}
-	libererListe(listeDouble);
+	
 	printf("================================================>OCCURENCE\n");
 	//afficherListeMerge(listeCreationArbre);
 	int *tableauOccurence = malloc(sizeof(int)*TAILLE_TAB);
-	calculOccurence(tableauOccurence,listeCreationArbre);
+	calculOccurence(tableauOccurence,listeDouble,listeOrigine);
 	printf("================================================>AFFICHER TABLEAUX\n");
 	for(i=0; i<TAILLE_TAB; i++)
 	{
 		printf("Element : %d, occurence : %d\n",i,tableauOccurence[i]);
 	}
 	libererListe(listeCreationArbre);
+	libererListe(listeDouble);
+	libererListe(listeTableau);
 }
-/*
+
 
 int main(int argc, char **argv)
 {
@@ -473,4 +480,4 @@ int main(int argc, char **argv)
 	return 0;
 }
 
-*/
+
