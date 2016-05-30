@@ -1,10 +1,3 @@
-//huffman_liste
-/*
- * Package_Merge.c
- * 
- */
-
-
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -24,6 +17,7 @@ typedef struct _l{
 	int poids;
 	struct _l *next;
 } l,*pl;
+
 
 
 pl getElmt(pl pointeur, int indice)
@@ -266,9 +260,6 @@ pArbre huffman(char* chemin)
 	
 	
 	
-
-
-
 	tableau['A'] = 50; 
 	tableau['B'] = 5;
 	tableau['C'] = 25;
@@ -276,8 +267,10 @@ pArbre huffman(char* chemin)
 	tableau['E'] = 70;
 	tableau['F'] = 200;
 	tableau['G'] = 80;
-	tableau['H'] = 81;
-//Création de la liste
+	tableau['H'] = 17;
+	tableau['I'] = 2;
+	tableau['J'] = 32;
+	//Création de la liste
 	for(i = 0; i < TAILLE_TAB; i++)
 	{
 		pointeurConstruction->A = malloc(sizeof(Arbre));
