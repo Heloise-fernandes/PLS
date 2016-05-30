@@ -49,8 +49,8 @@ pl getElmt(pl pointeur, int indice)
 	if(indice == 0){return pointeur;}
 	else
 	{	indice = indice - 1;
+		if(pointeur->next==NULL){return NULL;}
 		return getElmt(pointeur->next, indice);}
-	return NULL;
 }
 
 
@@ -178,7 +178,6 @@ pl insertElm(pl pointeurListe, pArbre a){
 
 
 
-
 /*=====================================*
  * Fonction sur les arbres 
  * ====================================*/
@@ -193,13 +192,14 @@ Arbre  *ajouter_noeud (Arbre *a, Arbre *n){
   return a ;  
 }  
 
-pArbre ajouter_dispo (pArbre a, int dispo){
+pArbre ajouter_dispo (pArbre a, int d){
   Arbre *n ;
   pArbre b ;
   
   n = (Arbre *) malloc (sizeof(Arbre)) ;
  
-  n->dispo = dispo;
+  printf("Dispo : %d\n",d);
+  n->dispo = d;
    //printf(" dans ajouter dispo  n -> dispo%d",n->dispo);
   n->ag = NULL ;
   n->ad = NULL ;
@@ -220,9 +220,11 @@ pArbre fusion(pArbre a,pArbre b){
 		fprintf(stderr,"pb malloc\n");
 		exit(20);
 	}
-	//printf(" dans fusion a -> dispo%d",a->dispo);
-	//printf(" dans fusion b -> dispo%d",b->dispo);
-	c=ajouter_dispo(c,(a->dispo) + (b->dispo));
+	//printf(" dans fusion a -> dispo%d \n",a->dispo);
+	//printf(" dans fusion b -> dispo%d\n",b->dispo);
+	c = malloc (sizeof(Arbre)) ;
+	c-> cle = 0;
+	c-> dispo = (a->dispo) + (b->dispo);
 	//printf(" dans fusion c -> dispo%d",c->dispo);
 	c->ag = a;
 	c->ad = b;

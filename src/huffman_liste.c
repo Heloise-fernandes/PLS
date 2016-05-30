@@ -8,7 +8,11 @@
 #include "Lecture_Ecriture_B.h"
 #include "arbre.h"
 
-
+/*Fonction  nb_element_nul
+ * Paramètre :
+ *     symb : un tableau d'entier
+ * Return
+ *     int : le nombre de case du tableau a zeros */
 int nb_element_nul(int *symb){
 	int i ;
 	int cpt = 0 ;
@@ -19,8 +23,26 @@ int nb_element_nul(int *symb){
 				}
 	} 
 	return cpt;
-}	
+}
 
+int tailleListePL(pl pointeurListe)
+{
+	pl pointeur = pointeurListe;
+	int taille = 0;
+	while(pointeur->next!=NULL)
+	{
+		taille++;
+		pointeur = pointeur->next;
+	}
+	return taille;	
+}
+	
+/*Fonction  huffman
+ * Paramètre :
+ *     chemin : le chemin du fichier à lire
+ * Return
+ *     pArbre : un arbre de huffman  */
+ 
 pArbre huffman(char* chemin)
 {
 	int* tableau = malloc(sizeof(int)*N);
@@ -30,11 +52,12 @@ pArbre huffman(char* chemin)
 	
 	pointeurConstruction = pointeurListe;
 	pArbre a,b,c;
-	//FILE* fichier = ouvertureFichierLecture(chemin);
-	
+	pl pa,pb;
+	FILE* fichier = ouvertureFichierLecture(chemin);
+	printf("je suis dans huffman et j'ai ouvert le fichier \n");
 	//Remplir le tableau
-	//remplir_tableau_poids_symbole_et_calcul_taille(tableau,fichier);
-	
+	remplir_tableau_poids_symbole_et_calcul_taille(tableau,fichier);
+	/*
 	//Initialisation d'un tableau
 	
 	for(i = 0; i <N; i++)
@@ -58,14 +81,15 @@ pArbre huffman(char* chemin)
 	tableau['E'] = 70;
 	tableau['F'] = 200;
 	tableau['G'] = 80;
-	tableau['H'] = 81;
+	tableau['H'] = 81;*/
 //Création de la liste
 
-	for(i = 0; i < N; i++)
+	
+	
+	for(i = 0; i < N-1; i++)
 	{
+		
 		pointeurConstruction->A = malloc(sizeof(Arbre));
-		
-		
 		pointeurConstruction->A->cle = i;
 		pointeurConstruction->A->dispo = tableau[i];
 		pointeurConstruction->A->ag = NULL;
@@ -73,43 +97,64 @@ pArbre huffman(char* chemin)
 		pointeurConstruction->poids = tableau[i];
 		
 		pointeurConstruction->next = malloc(sizeof(l));
-		
-		
 		pointeurConstruction = pointeurConstruction->next;
 	}
+	pointeurConstruction->A = malloc(sizeof(Arbre));
+	pointeurConstruction->A->cle = i;
+	pointeurConstruction->A->dispo = tableau[i];
+	pointeurConstruction->A->ag = NULL;
+	pointeurConstruction->A->ad = NULL;
+	pointeurConstruction->poids = tableau[i];
+	
+	pointeurConstruction->next = NULL;
 	
 	//Trie et affichage de la liste
-	
+	printf("Taille de la liste avant trie : %d\n", tailleListePL(pointeurListe));
 	
 	pl trie = trier_Liste(pointeurListe);
 	//afficherListe(trie);
-	trie = getElmt(trie,1);
-	//afficherListe(trie);
+	
+	afficherListe(trie);
 	
 	//on enleve les 0 du debut de la liste
 	
 	//while(trie->poids==0 && trie->next !=NULL ){
 		// trie = getElmt(trie,1) ;//marche mais pas super efficace 
 	//}
-	trie=getElmt(trie,nb_element_nul(tableau)-1);
+	//trie = getElmt(trie,1);
+	int taille = tailleListePL(pointeurListe);
+	int nb_Element = nb_element_nul(tableau);
+	if(taille == nb_Element){printf (" le fichier est vide \n");return NULL;}
 	
+	trie=getElmt(trie,nb_Element);
+	printf("Taille de la liste après réduction : %d, taille 0 : %d\n", tailleListePL(trie),nb_Element);
 	
 	//afficherListe(trie);
 	//on recupere les deux arbre des plus petit
 	
-	while((trie)->next != NULL ){
+	while(tailleListePL(trie) != 1 )
+	{
+		//printf("============================>\n");
 		//printf("debut while\n");
-		 a = (getElmt(trie,0)->A);
+		 pa = (getElmt(trie,0));
 		//afficher_Arbre2(a);
 		//printf(" a -> dispo%d",a->dispo);
-		 b = (getElmt(trie,1)->A);
+		 pb = (getElmt(trie,1));
+		
+		 a = pa->A;
 		//afficher_Arbre2(b);
 		//printf(" b -> dispo%d",b->dispo);
-		if (b ==NULL){
+		/*if (pb == NULL)
+		{
 			//printf("sortie");
+			printf("Sortie a = %d\n", (a==NULL));
 			return a;
-			}
-		 c = fusion(a,b);
+		}*/
+		//printf("Après sortie\n");
+		b = pb->A;
+		//printf(" a -> dispo%d,  b -> dispo%d\n",a->dispo,b->dispo);
+		c = fusion(a,b);
+		//printf("Après fusion\n");
 		//afficher_Arbre2(c);
 		
 		//fprintf(stderr," si NULL la lista na que deux elem ? %p\n",(trie->next)->next);
@@ -117,21 +162,23 @@ pArbre huffman(char* chemin)
 		
 		//printf(" c -> dispo%d",c->dispo);
 		//printf("poids cumul = %d\n",c->dispo);
-		trie = getElmt(trie,1) ; //on recuprer la liste prive de ses deux premier elem
 		
-		trie = getElmt(trie,1) ;
+		
 		//printf("avant insertion");
 		trie = insertElm (trie,c);	
+		
+		trie = getElmt(trie,2) ; //on recuprer la liste prive de ses deux premier elem
 		//printf("liste apres insertiton\n");
-		afficherListe(trie);							
+		//printf("Taille de la liste après réduction : %d, nex null? : %d\n", tailleListePL(trie),(trie->next==NULL));
+		//afficherListe(trie);
+		//printf("============================>\n");
+									
 	}
-	
+	return c;
 	//afficherListe(trie);
 	//afficher_Arbre2(trie->A);
 //return (pointeurListe);
-	printf (" le fichier est vide \n");
-return NULL;// 	
-
+	
 	
 }
 
