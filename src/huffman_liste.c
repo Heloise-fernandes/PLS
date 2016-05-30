@@ -8,7 +8,11 @@
 #include "Lecture_Ecriture_B.h"
 #include "arbre.h"
 
-
+/*Fonction  nb_element_nul
+ * Paramètre :
+ *     symb : un tableau d'entier
+ * Return
+ *     int : le nombre de case du tableau a zeros */
 int nb_element_nul(int *symb){
 	int i ;
 	int cpt = 0 ;
@@ -19,8 +23,14 @@ int nb_element_nul(int *symb){
 				}
 	} 
 	return cpt;
-}	
-
+}
+	
+/*Fonction  huffman
+ * Paramètre :
+ *     chemin : le chemin du fichier à lire
+ * Return
+ *     pArbre : un arbre de huffman  */
+ 
 pArbre huffman(char* chemin)
 {
 	int* tableau = malloc(sizeof(int)*N);
