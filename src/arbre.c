@@ -19,6 +19,15 @@ void afficherT (int T[]){
 	printf ("\n");
 }
 
+void afficherT2 (char T[]){
+	int i;
+	for (i=0;i<N;i++){
+		
+		printf("_%d_",T[i]);		
+	}
+	printf ("\n");
+}
+
 /*========================================*
  *         Fonction affichage :
  * =======================================*/
@@ -26,13 +35,13 @@ void afficherT (int T[]){
 void afficher_Arbre (pArbre A){
 	if (A!=NULL){
 		if (A->ad==NULL&&A->ag==NULL){//cas d'une feuille
-			printf("F(%c)",A->cle);
+			printf("F(%d)",A->cle);
 		}
 		else if (A->ad==NULL){//cas d'une feuille
-			printf("F(%c)",A->cle);
+			printf("F(%d)",A->cle);
 		}
 		else if (A->ag==NULL){//cas d'une feuille
-			printf("F(%c)",A->cle);
+			printf("F(%d)",A->cle);
 		}
 		else { // cas d'un noeud
 			printf("Noeud (");
@@ -61,14 +70,14 @@ pl getElmt(pl pointeur, int indice)
 	if(indice == 0){return pointeur;}
 	else
 	{	indice = indice - 1;
+		if(pointeur->next==NULL){return NULL;}
 		return getElmt(pointeur->next, indice);}
-	return NULL;
 }
 
 
 void afficherPointeur(pl pointeurListe)
 {
-	printf("Element : %d, nombre : %d\n",(unsigned char) pointeurListe->A->cle,pointeurListe->poids);
+	printf("Element : %d, %c, nombre : %d\n",(unsigned char) pointeurListe->A->cle,(unsigned char) pointeurListe->A->cle,pointeurListe->poids);
 }
 
 void afficherListe(pl pointeurListe)
@@ -86,29 +95,21 @@ void afficherListe(pl pointeurListe)
 	//printf("fin de afficher liste \n");
 }
 
-pl suprElmt(pl pointeurCourant,pl parent, int indice)
+pl suprElmt(pl pointeur,int indice)
 {
+	pl pointeurC,pointeurP;
+	pointeurC = getElmt(pointeur,indice);
 	if(indice == 0)
-	{	if(parent!=NULL)
-		{
-			parent->next = pointeurCourant->next;
-			pointeurCourant->next = NULL; 
-		}
-		else
-		{
-			parent = pointeurCourant->next;
-			pointeurCourant->next = NULL;
-			pl pointeur = pointeurCourant;
-			pointeurCourant=parent;
-			return pointeur;
-		}
-		return pointeurCourant;
+	{	
+		pointeur = pointeurC->next;//On change la tête de liste
 	}
-	else
-	{	indice = indice - 1;
-		return suprElmt(pointeurCourant->next,pointeurCourant, indice);
+	else//On change les liens
+	{	
+		pointeurP = getElmt(pointeur,indice-1);
+		pointeurP->next = pointeurC->next;
 	}
-	return NULL;
+	pointeurC->next = NULL;
+	return pointeurC;
 }
 
 pl trier_Liste(pl pointeurListe)
@@ -120,7 +121,7 @@ pl trier_Liste(pl pointeurListe)
 	int i,j;
 	for(i = 1; i < N; i++)										//pour i de 1 n-1
 	{
-		pointeurSauvegarde = suprElmt(pointeur,NULL, i);				//x = T[i]
+		pointeurSauvegarde = suprElmt(pointeur, i);				//x = T[i]
 		j = i;															//j<-i
 		pointeurJ = getElmt(pointeur, j-1);
 		while((j>0)&&(pointeurJ->poids > pointeurSauvegarde->poids))	//tantque j>0 et T[j - 1] > x
@@ -149,7 +150,7 @@ pl trier_Liste(pl pointeurListe)
 
 int tailleListe2(pl p){
 	int taille = 0;
-	while(p!=NULL)
+	while(p->next!=NULL)
 	{
 		taille++;
 		p = p->next;
@@ -271,7 +272,6 @@ pl insertElm(pl pointeurListe, pArbre a){
 
 
 
-
 /*=====================================*
  * Fonction sur les arbres 
  * ====================================*/
@@ -286,13 +286,14 @@ Arbre  *ajouter_noeud (Arbre *a, Arbre *n){
   return a ;  
 }  
 
-pArbre ajouter_dispo (pArbre a, int dispo){
+pArbre ajouter_dispo (pArbre a, int d){
   Arbre *n ;
   pArbre b ;
   
   n = (Arbre *) malloc (sizeof(Arbre)) ;
  
-  n->dispo = dispo;
+  printf("Dispo : %d\n",d);
+  n->dispo = d;
    //printf(" dans ajouter dispo  n -> dispo%d",n->dispo);
   n->ag = NULL ;
   n->ad = NULL ;
@@ -313,9 +314,11 @@ pArbre fusion(pArbre a,pArbre b){
 		fprintf(stderr,"pb malloc\n");
 		exit(20);
 	}
-	//printf(" dans fusion a -> dispo%d",a->dispo);
-	//printf(" dans fusion b -> dispo%d",b->dispo);
-	c=ajouter_dispo(c,(a->dispo) + (b->dispo));
+	//printf(" dans fusion a -> dispo%d \n",a->dispo);
+	//printf(" dans fusion b -> dispo%d\n",b->dispo);
+	c = malloc (sizeof(Arbre)) ;
+	c-> cle = 0;
+	c-> dispo = (a->dispo) + (b->dispo);
 	//printf(" dans fusion c -> dispo%d",c->dispo);
 	c->ag = a;
 	c->ad = b;
@@ -347,7 +350,7 @@ void afficher_Arbre2 (pArbre A){//modif pour afficher dispo
 
 void profondeur (pArbre A,int * T, int p){
 	if (A==NULL){}
-	else if ((A->ag==NULL)||(A->ad==NULL)){ T[(int) A->cle]=p;}
+	else if ((A->ag==NULL)||(A->ad==NULL)){ T[(unsigned char) A->cle]=p;}
 	else {
 		profondeur(A->ad,T,(p+1));
 		profondeur(A->ag,T,(p+1));}

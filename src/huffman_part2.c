@@ -103,11 +103,16 @@ void Transcodage (pArbre A, FILE* fLecture,FILE * fEcriture ,char* Longueur){
 	int indice =0;
 	int t[N];
 	char c;
+	int i ;
+	for (i=0;i<N;i++){
+		t[i]=0;
+	}
 	generation_code(A,t,0); //<- met dans t le code de chaque symbole present dans le texte 
-	 
+	printf("generer le code :\n");
+	afficherT(t); 
 	while (getByte(fLecture,&c)==1){
 		//printf("%c:%i de longueur %i avec un indice : %i\n",c,t[(int)c],Longueur[(int)c],indice);
-		putIntV2(fEcriture,t[(int)c],&indice,Longueur[(int)c]);
+		putIntV2(fEcriture,t[(unsigned char)c],&indice,Longueur[(unsigned char)c]);
 	}
 }
 
@@ -190,18 +195,6 @@ pArbre construction_arbre_canonique (int T[] ){
 		if (T[i]!=0) {nb_symbole++;}
 	}
 	
-	/*T['A']=3;
-	T['B']=7;
-	T['C']=5;
-	T['D']=8;
-	T['E']=3;
-	T['F']=1;
-	T['G']=3;
-	T['H']=6;
-	T['I']=8;
-	T['J']=4;
-*/
-	
 	printf("nb_symbole:%i\n",nb_symbole);
 	//on suppose le nombre de symbole non nul
 	liste= malloc(sizeof (l));//element fictif de tete
@@ -225,14 +218,14 @@ pArbre construction_arbre_canonique (int T[] ){
 	while (liste->next!=NULL && h<12){
 		h++; // tant qu'il y a plus d'un element dans la liste (encore une fois on suppose qu'il y a au moins un elt)
 	 // on utilise le pointeur liste2 pour avancer dans la liste
-		printf(" je rentre dans le premier while\n");
+	//	printf(" je rentre dans le premier while\n");
 		affichage_liste(liste2);
 		
 		while (liste2!=NULL&&liste2->next!=NULL){ //tant que il reste deux elmt avant la fin de la liste
-			affichage_liste(liste2);
-			printf(" je suis dans le while \n");
+			
+		//	printf(" je suis dans le while \n");
 			if (liste2->poids==liste2->next->poids){ //si deux element on la meme profondeur dans l'arbre
-				printf(" je rentre la \n");
+			//	printf(" je rentre la \n");
 				A=malloc(sizeof(Arbre)); //on cree un arbre avec c'est deux elmt
 				A->ag= liste2->A;
 				A->ad=liste2->next->A;
@@ -246,6 +239,7 @@ pArbre construction_arbre_canonique (int T[] ){
 			
 		}
 	}
+	affichage_liste(liste);
 	return liste->A; //on retourne l' arbre du dernier elmt de la liste
 }
 
@@ -270,18 +264,20 @@ void decodage_texte (FILE * fLecture,FILE* fEcriture,pArbre A,int taille){
 		
 		if (getBit(fLecture,&indice,&c)==0){printf(" j'ai fini de lire\n");exit(49);}
 		
-		//printf("%d",c);
+		//printf("%d\n",c);
 		if (c==0){
 			B=B->ag;
-			//printf("%i\n",0);
+			printf("%i\n",0);
 		}
 		else {
 			B=B->ad;
-			//printf("%i\n",1);
+			printf("%i\n",1);
 		}
 		
 		if (B==NULL) {printf( "erreur de  decodage\n");}
-		else if (B->ag==NULL||B->ad==NULL){ //si on est sur une feuille 
+		else if (B->ag==NULL||B->ad==NULL){ //si on est sur une feuille
+			printf("Affichage:\n");
+			printf(" \n%d\n ",B->cle); 
 			putByte(fEcriture,B->cle); //on met le symbole dans le fichier
 			//printf ("cle :%d \n  ",B->cle);
 			B=A;// on remonte en haut de l'arbre
@@ -310,6 +306,9 @@ void codage (FILE *fLecture, FILE* fEcriture, pArbre A, int taille){
 	putTaille(fEcriture,taille);
 
 	//transcrire le fichier //
+	printf("Tableau des profondeur dans transcodage\n");
+	afficherT2(Longueur);
+	printf("\n");
 	Transcodage(A,fLecture,fEcriture,Longueur);
 }
 /* Decodage:
@@ -333,10 +332,10 @@ void decodage (FILE *fLecture, FILE* fEcriture){
 	printf(" Le nombre de symbole lu est : %d\n",nb_symbole);
 	for (i=0;i<nb_symbole;i++){
 		getByte(fLecture,&c);
-		printf("%c:",c);
+		printf("%d:",(unsigned char)c);
 		getByte(fLecture,&taille);
-		printf("%c",taille);
-		T[(int)c]=(int)taille;
+		printf("%d_",(unsigned char)taille);
+		T[(unsigned char)c]=(unsigned char)taille;
 	}
 	printf("Tableau:\n");
 	afficherT(T);
@@ -344,13 +343,14 @@ void decodage (FILE *fLecture, FILE* fEcriture){
 //creer l'arbre
 	pArbre A= construction_arbre_canonique(T);
 	afficher_Arbre(A);
+	printf("\n Fin de l'affichage de l'arbre.\n");
 
 //lire la taille
 	int taille_fichier=0;
 	for(i=0;i<4;i++){
 		getByte(fLecture,&taille);
-		printf("  %c   ",taille);
-		taille_fichier=(taille_fichier<<8)+(int)taille;// A VERIFIER
+		printf("  %d   ",(unsigned char)taille);
+		taille_fichier=(taille_fichier<<8)+(unsigned char)taille;// A VERIFIER
 	}
 	printf("\nTaille du fichier: %i\n",taille_fichier);
 	//taille_fichier=256; // <- A ENLEVER !!!

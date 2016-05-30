@@ -14,7 +14,7 @@
 
 
 typedef struct _Arbre{
-	signed char cle;
+	unsigned char cle;
 	int dispo;
 	struct _Arbre *ag;
 	struct _Arbre *ad;
@@ -28,7 +28,7 @@ typedef struct _l{
 
 //affiche un tableau
 void afficherT (int T[]);
-
+void afficherT2 (char T[]);
 /*========================================*
  *         Fonction affichage :
  * =======================================*/
@@ -42,11 +42,10 @@ void affichage_liste (pl liste);
 pl getElmt(pl pointeur, int indice);
 void afficherPointeur(pl pointeurListe);
 void afficherListe(pl pointeurListe);
-pl suprElmt(pl pointeurCourant,pl parent, int indice);
+pl suprElmt(pl pointeurCourant, int indice);
 pl trier_Liste(pl pointeurListe);
 
 pl insertElm(pl pointeurListe, pArbre a);
-
 
 
 
@@ -55,7 +54,7 @@ pl insertElm(pl pointeurListe, pArbre a);
  * ====================================*/
 
 Arbre  *ajouter_noeud (Arbre *a, Arbre *n);
-
+void afficher_Arbre2 (pArbre A);
 pArbre ajouter_dispo (pArbre a, int dispo);
 pArbre fusion(pArbre a,pArbre b);
 void profondeur (pArbre A,int * T, int p);

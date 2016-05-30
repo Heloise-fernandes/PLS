@@ -29,7 +29,18 @@ int tailleListe(pliste pointeurListe)
 	}
 	return taille;	
 }
-
+/*
+int tailleListe(pliste pointeurListe)
+{
+	pliste pointeur = pointeurListe;
+	int taille = 0;
+	while(pointeur->next!=NULL)
+	{
+		taille++;
+		pointeur = pointeur->next;
+	}
+	return taille;	
+}*/
 
 /* Fonction qui recupère un elément d'un liste selon l'indice
  * Paramètre :
