@@ -30,11 +30,11 @@ pArbre huffman(char* chemin)
 	
 	pointeurConstruction = pointeurListe;
 	pArbre a,b,c;
-	//FILE* fichier = ouvertureFichierLecture(chemin);
-	
+	FILE* fichier = ouvertureFichierLecture(chemin);
+	printf("je suis dans huffman et j'ai ouvert le fichier \n");
 	//Remplir le tableau
-	//remplir_tableau_poids_symbole_et_calcul_taille(tableau,fichier);
-	
+	remplir_tableau_poids_symbole_et_calcul_taille(tableau,fichier);
+	/*
 	//Initialisation d'un tableau
 	
 	for(i = 0; i <N; i++)
@@ -58,7 +58,7 @@ pArbre huffman(char* chemin)
 	tableau['E'] = 70;
 	tableau['F'] = 200;
 	tableau['G'] = 80;
-	tableau['H'] = 81;
+	tableau['H'] = 81;*/
 //Création de la liste
 
 	for(i = 0; i < N; i++)

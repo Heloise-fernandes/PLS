@@ -57,6 +57,7 @@ void generation_description_arbre_aux (pArbre A, FILE* F, char size, int indice,
 
 
 void generation_description_arbre (pArbre A,char* T,FILE *F){
+
 	generation_description_arbre_aux(A,F,0,0,T);printf("\n");
 }
 
@@ -286,7 +287,6 @@ void decodage_texte (FILE * fLecture,FILE* fEcriture,pArbre A,int taille){
 			B=A;// on remonte en haut de l'arbre
 		} 
 	}
-	fermetureFichier(fEcriture);
 }
 
 /* Codage:
@@ -321,13 +321,16 @@ void codage (FILE *fLecture, FILE* fEcriture, pArbre A, int taille){
  */
 void decodage (FILE *fLecture, FILE* fEcriture){
 //lire la transcription de l'arbre
+	printf("\n==================\nje decode\n================\n");
 	int T[N];
 	int i;
 	for (i=0;i<N;i++){T[i]=0;}
 	char c;
 	char taille;
 	//lire le nombre de symbole
-	int nb_symbole=8;
+	char nb_symbole=0;//=6;
+	getByte(fLecture,&nb_symbole);
+	printf(" Le nombre de symbole lu est : %d\n",nb_symbole);
 	for (i=0;i<nb_symbole;i++){
 		getByte(fLecture,&c);
 		printf("%c:",c);
@@ -350,7 +353,7 @@ void decodage (FILE *fLecture, FILE* fEcriture){
 		taille_fichier=(taille_fichier<<8)+(int)taille;// A VERIFIER
 	}
 	printf("\nTaille du fichier: %i\n",taille_fichier);
-	taille_fichier=256; // <- A ENLEVER !!!
+	//taille_fichier=256; // <- A ENLEVER !!!
 
 //decoder le fichier	
 	decodage_texte(fLecture,fEcriture,A,taille_fichier);
