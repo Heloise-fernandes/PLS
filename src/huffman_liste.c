@@ -1,13 +1,11 @@
 //huffman_liste
 /*
- * Package_Merge.c
+ * huffman_liste.c
  * 
  */
-
-
 #include <stdio.h>
 #include <stdlib.h>
-
+#include "../include/anlyseTexte.h"
 #include "../include/Lecture_Ecriture_B.h"
 
 #define TAILLE_TAB 256
@@ -36,6 +34,12 @@ pl getElmt(pl pointeur, int indice)
 	return NULL;
 }
 
+
+void afficherPointeur(pl pointeurListe)
+{
+	printf("Element : %d, nombre : %d\n",(unsigned char) pointeurListe->A->cle,pointeurListe->poids);
+}
+
 void afficherListe(pl pointeurListe)
 {
 	pl pointeur;
@@ -43,22 +47,19 @@ void afficherListe(pl pointeurListe)
 	//printf("afficher liste \n");
 	while(pointeur->next != NULL)
 	{
+<<<<<<< HEAD
 		//printf(" pointeur NULL %p\n",NULL);
 		//printf(" pointeur %p\n",pointeur);
 		//printf(" pointeur->next %p\n",pointeur->next);
+=======
+		afficherPointeur(pointeur);
+>>>>>>> 732453b161cee8988a63abaccac64f23026ed79d
 		//printf("Element : %d, nombre : %d\n",(unsigned char)pointeur->A->cle,pointeur->poids);
 		pointeur = pointeur-> next;
-		//if (pointeur==NULL){
-			//printf("HOHO");
-		//}
 	}
 	//printf("fin de afficher liste \n");
 }
 
-void afficherPointeur(pl pointeurListe)
-{
-	printf("Element : %d, nombre : %d\n",(unsigned char) pointeurListe->A->cle,pointeurListe->poids);
-}
 
 pl suprElmt(pl pointeurCourant,pl parent, int indice)
 {
@@ -149,8 +150,11 @@ pArbre ajouter_dispo (pArbre a, int dispo){
 pArbre fusion(pArbre a,pArbre b){
 	//printf("Dans fusion\n");
 	pArbre c =  malloc(sizeof(Arbre));
+	//test test malloc
+	//c=NULL;
 	if (c == NULL) {
 		fprintf(stderr,"pb malloc\n");
+		exit(20);
 	}
 	//printf(" dans fusion a -> dispo%d",a->dispo);
 	//printf(" dans fusion b -> dispo%d",b->dispo);
@@ -187,6 +191,10 @@ pl insertElm(pl pointeurListe, pArbre a){
 	
 		pl pointeurConstruction,pointeurCourant,pred;	
 		pointeurConstruction =  malloc(sizeof(l));
+		if ( pointeurConstruction == NULL) {
+			fprintf(stderr,"pb malloc\n");
+			exit(20);
+		}
 		pointeurCourant = pointeurListe;
 		pointeurConstruction->A = a;
 		//printf("dans insertion\n");
@@ -196,7 +204,7 @@ pl insertElm(pl pointeurListe, pArbre a){
 		//printf(" poids %d",pointeurConstruction->poids);
 		
 		//pointeurConstruction->next = malloc(sizeof(l));
-		pointeurConstruction->next =NULL;
+		pointeurConstruction->next = NULL ;
 		
 		
 		//printf("dans insertion\n");
@@ -219,10 +227,20 @@ pl insertElm(pl pointeurListe, pArbre a){
 		pred->next = pointeurConstruction;
 		pointeurConstruction->next =pointeurCourant;
 		}
-		return pointeurListe;//?
+		return pointeurListe;
 	}
 
-
+int nb_element_nul(int *symb){
+	int i ;
+	int cpt = 0 ;
+	for ( i = 0 ; i < TAILLE_TAB ; i++ ){
+				if(symb[i]== 0){
+					cpt++;
+					
+				}
+	} 
+	return cpt;
+}	
 
 
 
@@ -235,6 +253,7 @@ pArbre huffman(char* chemin)
 	int i;
 	pl pointeurListe, pointeurConstruction;	
 	pointeurListe = malloc(sizeof(l));
+	
 	pointeurConstruction = pointeurListe;
 	pArbre a,b,c;
 	//FILE* fichier = ouvertureFichierLecture(chemin);
@@ -249,23 +268,23 @@ pArbre huffman(char* chemin)
 		tableau[i]=0;
 	}
 	
-	/*
-	tableau[0] = 50; 
-	tableau[1] = 5;
-	tableau[2] = 5;
-	tableau[3] = 3;
-	//tableau[4] = 70;
-	//tableau[5] = 200;
+	
+	tableau[128] = 5;
+	tableau[126] = 3;
+	//tableau[2] = 4;
+	//tableau[3] = 2;
+	//tableau[4] = 18;
+	//tableau[5] = 7;
 	//tableau[6] = 80;
 	//tableau[7] = 17;
 	//tableau[8] = 2;
 	//tableau[9] = 32;
 	
-	*/
 	
 	
 	
 	
+<<<<<<< HEAD
 
 
 
@@ -278,6 +297,21 @@ pArbre huffman(char* chemin)
 	tableau['G'] = 80;
 	tableau['H'] = 81;
 //Création de la liste
+=======
+	/* 
+	tableau[0] = 50; 
+	tableau[1] = 5;
+	tableau[2] = 25;
+	tableau[3] = 1;
+	tableau[4] = 70;
+	tableau[5] = 200;
+	tableau[6] = 80;
+	tableau[7] = 17;
+	tableau[8] = 2;
+	tableau[9] = 32;
+	* */
+	//Création de la liste
+>>>>>>> 732453b161cee8988a63abaccac64f23026ed79d
 	for(i = 0; i < TAILLE_TAB; i++)
 	{
 		pointeurConstruction->A = malloc(sizeof(Arbre));
@@ -305,9 +339,10 @@ pArbre huffman(char* chemin)
 	
 	//on enleve les 0 du debut de la liste
 	
-	while(trie->poids==0){
-		 trie = getElmt(trie,1) ;//marche mais pas super efficace 
-	}
+	//while(trie->poids==0 && trie->next !=NULL ){
+		// trie = getElmt(trie,1) ;//marche mais pas super efficace 
+	//}
+	trie=getElmt(trie,nb_element_nul(tableau)-1);
 	
 	
 	//afficherListe(trie);
@@ -345,8 +380,13 @@ pArbre huffman(char* chemin)
 	//afficherListe(trie);
 	//afficher_Arbre2(trie->A);
 //return (pointeurListe);
+<<<<<<< HEAD
 	//printf ("ici?\n");
 return NULL;//normalement on ne peux pas venir ici 	
+=======
+	printf (" le fichier est vide \n");
+return NULL;// 	
+>>>>>>> 732453b161cee8988a63abaccac64f23026ed79d
 	
 }
 
