@@ -7,6 +7,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*AfficherT:
+ * affiche un tableau T
+ */
+void afficherT (int T[]){
+	int i;
+	for (i=0;i<N;i++){
+		
+		printf("_%i_",T[i]);		
+	}
+	printf ("\n");
+}
+
 /*========================================*
  *         Fonction affichage :
  * =======================================*/
@@ -131,6 +143,87 @@ pl trier_Liste(pl pointeurListe)
 	}
 	return pointeur;
 }
+
+/*==========================================*/
+
+
+int tailleListe2(pl p){
+	int taille = 0;
+	while(p!=NULL)
+	{
+		taille++;
+		p = p->next;
+	}
+	return taille;	
+}
+
+pl getElmt2(pl pointeurListe, int indice)
+{
+	pl pointeur = pointeurListe;
+	int i;
+	int taille = tailleListe2(pointeur);
+	for(i = 0; i <taille;i++)
+	{
+		if(i == indice){break;}
+		pointeur = pointeur->next;
+	}
+	if(i == taille){printf("Erreur d'indice");exit(0);}
+	return pointeur;
+}
+
+pl suprElmt2(pl pointeur,int indice)
+{
+	pl pointeurC,pointeurP;
+	pointeurC = getElmt2(pointeur,indice);
+	if(indice == 0)
+	{	
+		pointeur = pointeurC->next;//On change la tête de liste
+	}
+	else//On change les liens
+	{	
+		pointeurP = getElmt2(pointeur,indice-1);
+		pointeurP->next = pointeurC->next;
+	}
+	pointeurC->next = NULL;
+	return pointeurC;
+}
+
+
+pl trier_Liste2(pl pointeurListe)
+{
+	pl pointeur = pointeurListe;
+	
+	pl pointeurSauvegarde;
+	pl pointeurJ;
+	int taille = tailleListe2(pointeurListe);
+	int i,j;
+	for(i = 1; i < taille; i++)											//pour i de 1 n-1
+	{
+		pointeurSauvegarde = suprElmt2(pointeur, i);						//x = T[i]
+		j = i;															//j<-i
+		pointeurJ = getElmt2(pointeur, j-1);
+		while((j>0)&&(pointeurJ->poids > pointeurSauvegarde->poids))	//tantque j>0 et T[j - 1] > x
+		{
+			j--;
+			if(j>0){pointeurJ = getElmt2(pointeur, j-1);}				//T[i]<-T[j-1]; j<-j-1
+			
+		}
+		if(j==0)//Cas tête de liste
+		{
+			pointeurSauvegarde->next = pointeur;						
+			pointeur = pointeurSauvegarde;
+		}
+		else
+		{
+			pointeurSauvegarde->next = pointeurJ->next;
+			pointeurJ->next = pointeurSauvegarde;						//T[j] ← x
+		}
+											
+	}
+	return pointeur;
+}
+
+
 
 pl insertElm(pl pointeurListe, pArbre a){
 	

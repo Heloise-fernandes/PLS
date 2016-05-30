@@ -129,17 +129,7 @@ int place (pArbre A){
 	return b;
 }
 
-/*AfficherT:
- * affiche un tableau T
- */
-void afficherT (int T[]){
-	int i;
-	for (i=0;i<N;i++){
-		
-		printf("%i",T[i]);		
-	}
-	printf ("\n");
-}
+
 
 /* Max:
  * calcule la valeur maximum d'un tableau T et retourne l'indice de cette valeur
@@ -191,6 +181,7 @@ int min( int  T[]){
  */
 
 pArbre construction_arbre_canonique (int T[] ){
+	printf ("je commence a construire l'arbre canonique\n");
 	pArbre A;
 	pl liste;
 	int i;
@@ -225,15 +216,23 @@ pArbre construction_arbre_canonique (int T[] ){
 		T[i]=0;
 		nb_symbole--;
 	}
+	printf("liste de debut\n");
 	affichage_liste(liste);
 	liste=liste->next;// il faudrait le liberer
-	//affichage_liste(liste);
-	while (liste->next!=NULL){ // tant qu'il y a plus d'un element dans la liste (encore une fois on suppose qu'il y a au moins un elt)
-		liste2=liste;  // on utilise le pointeur liste2 pour avancer dans la liste
+	affichage_liste(liste);
+	int h=0;
+	liste2=liste;
+	while (liste->next!=NULL && h<12){
+		h++; // tant qu'il y a plus d'un element dans la liste (encore une fois on suppose qu'il y a au moins un elt)
+	 // on utilise le pointeur liste2 pour avancer dans la liste
+		printf(" je rentre dans le premier while\n");
 		affichage_liste(liste2);
+		
 		while (liste2!=NULL&&liste2->next!=NULL){ //tant que il reste deux elmt avant la fin de la liste
 			affichage_liste(liste2);
+			printf(" je suis dans le while \n");
 			if (liste2->poids==liste2->next->poids){ //si deux element on la meme profondeur dans l'arbre
+				printf(" je rentre la \n");
 				A=malloc(sizeof(Arbre)); //on cree un arbre avec c'est deux elmt
 				A->ag= liste2->A;
 				A->ad=liste2->next->A;
@@ -244,6 +243,7 @@ pArbre construction_arbre_canonique (int T[] ){
 				liste2=liste; // on retourne au debut de la liste
 			}
 			else liste2=liste2->next; // si il n'ont pas le meme poid on avance dans la liste
+			
 		}
 	}
 	return liste->A; //on retourne l' arbre du dernier elmt de la liste

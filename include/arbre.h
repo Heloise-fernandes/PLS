@@ -26,6 +26,8 @@ typedef struct _l{
 	struct _l *next;
 } l,*pl;
 
+//affiche un tableau
+void afficherT (int T[]);
 
 /*========================================*
  *         Fonction affichage :

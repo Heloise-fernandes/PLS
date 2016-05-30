@@ -44,6 +44,8 @@ pArbre huffman(char* chemin)
 	printf("je suis dans huffman et j'ai ouvert le fichier \n");
 	//Remplir le tableau
 	remplir_tableau_poids_symbole_et_calcul_taille(tableau,fichier);
+	afficherT(tableau);
+	printf("j'ai calculer l'occurence de chaque symbole\n");
 	/*
 	//Initialisation d'un tableau
 	
@@ -71,21 +73,23 @@ pArbre huffman(char* chemin)
 	tableau['H'] = 81;*/
 //Création de la liste
 
-	for(i = 0; i < N; i++)
-	{
-		pointeurConstruction->A = malloc(sizeof(Arbre));
+	for(i = 0; i < N; i++){
 		
 		
-		pointeurConstruction->A->cle = i;
-		pointeurConstruction->A->dispo = tableau[i];
-		pointeurConstruction->A->ag = NULL;
-		pointeurConstruction->A->ad = NULL;
-		pointeurConstruction->poids = tableau[i];
-		
-		pointeurConstruction->next = malloc(sizeof(l));
+			pointeurConstruction->A = malloc(sizeof(Arbre));
 		
 		
-		pointeurConstruction = pointeurConstruction->next;
+			pointeurConstruction->A->cle = i;
+			pointeurConstruction->A->dispo = tableau[i];
+			pointeurConstruction->A->ag = NULL;
+			pointeurConstruction->A->ad = NULL;
+			pointeurConstruction->poids = tableau[i];
+		
+			pointeurConstruction->next = malloc(sizeof(l));
+		
+		
+			pointeurConstruction = pointeurConstruction->next;
+		
 	}
 	
 	//Trie et affichage de la liste
@@ -104,11 +108,11 @@ pArbre huffman(char* chemin)
 	trie=getElmt(trie,nb_element_nul(tableau)-1);
 	
 	
-	//afficherListe(trie);
+	afficherListe(trie);
 	//on recupere les deux arbre des plus petit
 	
 	while((trie)->next != NULL ){
-		//printf("debut while\n");
+		
 		 a = (getElmt(trie,0)->A);
 		//afficher_Arbre2(a);
 		//printf(" a -> dispo%d",a->dispo);
@@ -120,26 +124,11 @@ pArbre huffman(char* chemin)
 			return a;
 			}
 		 c = fusion(a,b);
-		//afficher_Arbre2(c);
-		
-		//fprintf(stderr," si NULL la lista na que deux elem ? %p\n",(trie->next)->next);
-	
-		
-		//printf(" c -> dispo%d",c->dispo);
-		//printf("poids cumul = %d\n",c->dispo);
 		trie = getElmt(trie,1) ; //on recuprer la liste prive de ses deux premier elem
-		
 		trie = getElmt(trie,1) ;
-		//printf("avant insertion");
 		trie = insertElm (trie,c);	
-		//printf("liste apres insertiton\n");
-		afficherListe(trie);							
 	}
-	
-	//afficherListe(trie);
-	//afficher_Arbre2(trie->A);
-//return (pointeurListe);
-	printf (" le fichier est vide \n");
+printf (" le fichier est vide \n");
 return NULL;// 	
 
 	

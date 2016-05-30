@@ -34,10 +34,10 @@ void afficher_tableau_poids_symbole(int* symb ){
 int remplir_tableau_poids_symbole_et_calcul_taille(int* symb,FILE* fichier_a_compresser){
 	int cpt = 0 ;//reflechier a la fonction stat -c %s nom_fichier_a_compresser
 	char value =' ';//atttention
-	fprintf(stderr," avant getbyte \n");
+	//fprintf(stderr," avant getbyte \n");
 	while( getByte(fichier_a_compresser, &value ) == 1 ){
 		//fprintf(stderr," dans remplir tableau dans while avant incrementation du nombre d'occurence \n");
-		fprintf(stderr," ( unsigned int )value = %ud\n",(unsigned char) value);
+		//fprintf(stderr," ( unsigned int )value = %ud\n",(unsigned char) value);
 		symb[(unsigned char)value]++ ;
 		//fprintf(stderr," dans remplir tableau dans while apres incrementation du nombre d'occurence \n");
 		cpt++;
@@ -53,7 +53,7 @@ int remplir_tableau_poids_symbole_et_calcul_taille(int* symb,FILE* fichier_a_com
 	//fprintf(stderr," apres initialiser_tableau_poids_symbole \n");
     int taille = remplir_tableau_poids_symbole_et_calcul_taille(symb,fichier_a_compresser);
     //fprintf(stderr," apres remplir_tableau_poids_symbole_et_calcul_taille \n");
-	afficher_tableau_poids_symbole(symb);
+	//afficher_tableau_poids_symbole(symb);
 	//fprintf(stderr," apres afficher_tableau_poids_symbole(symb)\n");
 	return taille;
 }

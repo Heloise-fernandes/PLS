@@ -29,8 +29,7 @@ void generation_code (pArbre A, int *t, int s);
 void Transcodage (pArbre A, FILE* fLecture,FILE * fEcriture ,char* Longueur);
 //indique si il reste des feuille sans cle dans l'arbre
 int place (pArbre A);
-//affiche un tableau
-void afficherT (int T[]);
+
 //calcule la valeur maximum d'un tableau T et retourne l'indice de cette valeur
 int max( int  T[]);
 int min( int  T[]);

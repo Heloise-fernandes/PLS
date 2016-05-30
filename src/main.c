@@ -26,6 +26,7 @@ int main(int argc, char **argv)
 		T[i]=0;
 	}
 	profondeur(res,T,0);
+	printf(" j'ai reussi a calculer les profondeurs\n");
 	//recuperation du nombre de symbole 
 	
 	char nb_symbole=0;
