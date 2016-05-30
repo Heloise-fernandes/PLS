@@ -5,20 +5,7 @@
 #include "../include/Lecture_Ecriture_B.h"
 #include "huffman_liste.c"
 
-/*
-typedef struct _Arbre{
-	signed char cle;
-	int dispo;
-	struct _Arbre *ag;
-	struct _Arbre *ad;
-} Arbre, *pArbre;
 
-typedef struct _l{
-	pArbre A;
-	int poids;
-	struct _l *next;
-} l,*pl;
-*/
 
 //fonction auxiliaire pour generation description arbre
 void generation_description_arbre_aux (pArbre A, FILE* F, char size, int indice, char * T){
@@ -41,10 +28,7 @@ void generation_description_arbre_aux (pArbre A, FILE* F, char size, int indice,
 
 // apartir d'un arbre A ecrit dans un fichier la description de l'arbre
 void generation_description_arbre (pArbre A,char* T,FILE *F){
-	
-	
 	generation_description_arbre_aux(A,F,0,0,T);printf("\n");
-	
 }
 
 //cree un tableau t avec le code pour chaque symbole
@@ -135,38 +119,12 @@ int min( int  T[]){
 } 
 
 
-void afficher_Arbre (pArbre A){
-	if (A!=NULL){
-		if (A->ad==NULL&&A->ag==NULL){//cas d'une feuille
-			printf("F(%c)",A->cle);
-		}
-		else if (A->ad==NULL){//cas d'une feuille
-			printf("F(%c)",A->cle);
-		}
-		else if (A->ag==NULL){//cas d'une feuille
-			printf("F(%c)",A->cle);
-		}
-		else { // cas d'un noeud
-			printf("Noeud (");
-			afficher_Arbre( A->ag);
-			printf(",");
-			afficher_Arbre (A->ad);
-			printf(")");
-		}
-	}
-}
 
 
 
-void affichage_liste (pl liste){
-	while (liste!=NULL){
-		printf("(%i) ",liste->poids);
-		liste=liste->next;
-	}
-	printf("\n");
-}
 
-//contruit l'arbre cononique a partir d'un tableau T avec la longueur de chaque symbole dans l'arbre
+
+//contruit l'arbre canonique a partir d'un tableau T avec la longueur de chaque symbole dans l'arbre
 pArbre construction_arbre_canonique (int T[] ){
 	pArbre A;
 	pl liste;
@@ -308,49 +266,3 @@ taille_fichier=256;
 	decodage_texte(fLecture,fEcriture,A,taille_fichier);
 }	
 
-
-int main (){
-	int T[N];
-	//FILE *fEcriture=ouvertureFichierEcriture("../fichier_test/decodage.txt");// ane pas ouvrir ici
-	int i;
-	/*for (i=0;i<N;i++){T[i]=0;}
-	T['A']=3;
-	T['B']=7;
-	T['C']=5;
-	T['D']=8;
-	T['E']=3;
-	T['F']=1;
-	T['G']=3;
-	T['H']=6;
-	T['I']=8;
-	T['J']=4;*/
-	pArbre res = huffman("chemin");
-	for (i=0;i<N;i++){
-		T[i]=0;
-	}
-	profondeur(res,T,0);
-	
-	
-	pArbre A=construction_arbre_canonique(T);
-	afficher_Arbre(A);
-	
-	//generation_description_arbre(A,T2);
-	FILE *F1= ouvertureFichierLecture("../fichier_test/test_texte.txt");
-	FILE *F2 = ouvertureFichierEcriture ("../fichier_test/code.txt");
-	
-	codage(F1,F2,A,256);
-	
-	fermetureFichier(F1);
-	fermetureFichier(F2);
-	
-	//decodage
-	FILE *F3= ouvertureFichierLecture("../fichier_test/code.txt");
-	FILE *F4 = ouvertureFichierEcriture ("../fichier_test/decodage.txt");
-	printf("\n\n Decodage:\n");
-	decodage(F3,F4);
-	printf("Fin du decodage\n");
-	fermetureFichier(F3);
-	fermetureFichier(F4);
-	
-	return 0;
-}
