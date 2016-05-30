@@ -201,11 +201,12 @@ void putInt (FILE *F,int size, int *indice)
 	}
 }
 
-/* Ecrit un entier dans un fichier en suppriment les 0 de début
+/* Ecrit un entier selon une taille donnée
  * Paramètre :
  * F : ficher à modifier
  * size : entier à écrire
- * indice : indice pour savoir ou écrire les differents bits*/
+ * indice : indice pour savoir ou écrire les differents bits
+ * longeur : nombre de bits à écrire*/
 void putIntV2 (FILE *F,int size, int *indice, int longueur)
 {
 	int mask, bit,i;
@@ -214,7 +215,6 @@ void putIntV2 (FILE *F,int size, int *indice, int longueur)
 	{
 		mask = (int) pow(2,i);
 		bit = (size&mask)>>i;
-		//printf("Indice : %d, Bits : %d\n",i, bit);
 		if(bit == 1){bitAAjouter=1;}
 		else{bitAAjouter=0;}
 		putBit(F,bitAAjouter,indice);
@@ -238,9 +238,6 @@ void putTaille (FILE *F,int taille)
 		c = ( (unsigned int) taille&mask)>>(i*8);
 		putByte(F,c);
 	}
-	//fwrite(&taille,sizeof(int),1,F);
-	
-	
 
 }
 

@@ -3,6 +3,13 @@
  *Arbre.h 
  * 
  */
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#ifndef ARBRE_H
+#define ARBRE_H 
+
 #define N 256
 
 
@@ -50,3 +57,4 @@ Arbre  *ajouter_noeud (Arbre *a, Arbre *n);
 pArbre ajouter_dispo (pArbre a, int dispo);
 pArbre fusion(pArbre a,pArbre b);
 void profondeur (pArbre A,int * T, int p);
+#endif

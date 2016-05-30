@@ -1,6 +1,12 @@
+/*
+ * 
+ * anlyseTexte.c
+ * 
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
-#include "../include/Lecture_Ecriture_B.h"//attention
+#include "Lecture_Ecriture_B.h"
 
 #define NMAX 256
 //faire un seul fichier .h avecc les structures et constantes ? 
@@ -11,8 +17,6 @@ void initialiser_tableau_poids_symbole(int* symb ){
 	for ( i = 0 ; i < NMAX /* nom de cst a changer ? */ ; i++ ){
 		symb[i]=0;
 	}
-
-
 }
 
 void afficher_tableau_poids_symbole(int* symb ){
@@ -55,7 +59,7 @@ int remplir_tableau_poids_symbole_et_calcul_taille(int* symb,FILE* fichier_a_com
 }
 
 //main pour tester 
-int main (int argc , char *argv[]){
+/*int main (int argc , char *argv[]){
 
 	FILE* fichier_a_compresser = NULL;	
 	int symb[NMAX];
@@ -66,4 +70,4 @@ int main (int argc , char *argv[]){
 	fermetureFichier(fichier_a_compresser);
 	return 0;}
 	
-
+*/

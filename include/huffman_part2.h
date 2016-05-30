@@ -1,6 +1,19 @@
+/*
+ * 
+ * huffman_part2.h
+ * 
+ */
+ 
+#ifndef HUFFMAN_PART2_H
+#define HUFFMAN_PART2_H
 
+#include "stdlib.h"
+#include "stdio.h"
+#include "limits.h"
 
-
+#include "Lecture_Ecriture_B.h"
+#include "arbre.h"
+#include "huffman_liste.h"
 
 //fonction auxiliaire pour generation description arbre
 void generation_description_arbre_aux (pArbre A, FILE* F, char size, int indice, char * T);
@@ -19,16 +32,13 @@ int place (pArbre A);
 //affiche un tableau
 void afficherT (int T[]);
 //calcule la valeur maximum d'un tableau T et retourne l'indice de cette valeur
-int max( int  T[]){
+int max( int  T[]);
 int min( int  T[]);
-
-
-
-
-
 
 //contruit l'arbre canonique a partir d'un tableau T avec la longueur de chaque symbole dans l'arbre
 pArbre construction_arbre_canonique (int T[] );
 void decodage_texte (FILE * fLecture,FILE* fEcriture,pArbre A,int taille);
 void codage (FILE *fLecture, FILE* fEcriture, pArbre A, int taille);
 void decodage (FILE *fLecture, FILE* fEcriture);
+
+#endif

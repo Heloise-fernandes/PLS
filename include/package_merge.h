@@ -3,6 +3,19 @@
  * 
  */
 
+
+#ifndef PACKAGE_MERGE_H
+#define PACKAGE_MERGE_H
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+#include "Lecture_Ecriture_B.h"
+#include "package_merge.h"
+#include "anlyseTexte.h"
+
 #define TAILLE_TAB 256
 
 typedef struct _liste{
@@ -13,14 +26,6 @@ typedef struct _liste{
 } liste,*pliste;
 
 //============================================>FONCTIONS MANIPULATION DE LISTE
-
-/*Fonction  maximum
- * Paramètre :
- *     a,b : les entier à comparer
- * Return
- *     int : element maximum*/
-int max(int a, int b);
-
 
 /* Fonction qui calcul la taille d'une liste
  * Paramètre
@@ -36,7 +41,7 @@ int tailleListe(pliste pointeurListe);
  *     indice : l'indice de l'élément souhaité
  * Return
  *     pliste : pointeur sur l'élément de la liste*/
-pliste getElmt(pliste pointeurListe, int indice);
+pliste getElmtMerge(pliste pointeurListe, int indice);
 
 
 /* Fonction qui elève un élément d'une liste
@@ -45,7 +50,7 @@ pliste getElmt(pliste pointeurListe, int indice);
  *     indice : l'indice de l'élément souhaité
  * Return
  *     pliste : pointeur sur l'élément de la liste*/
-pliste suprElmt(pliste pointeur,int indice);
+pliste suprElmtMerge(pliste pointeur,int indice);
 
 
 /* Fonction qui libere une liste
@@ -59,12 +64,12 @@ void libererListe(pliste listeLiberer);
 /* Fonction d'affichage d'un élément d'une liste
  * Paramètre :
  *     pointeur : la liste à traiter*/
-void afficherPointeur(pliste pointeur);
+void afficherPointeurMerge(pliste pointeur);
 
 /* Fonction d'affichage d'une liste
  * Paramètre :
  *     pointeurListe : la liste à traiter*/
-void afficherListe(pliste pointeurListe);
+void afficherListeMerge(pliste pointeurListe);
 
 //============================================>TRIE
 
@@ -73,7 +78,7 @@ void afficherListe(pliste pointeurListe);
  *     pointeurListe : la liste à traiter
  * Return
  *     pliste : pointeur sur la liste trié*/
-pliste trier_Liste(pliste pointeurListe);
+pliste trier_Liste_Merge(pliste pointeurListe);
 
 
 //============================================>CONSTRUCTION LISTE
@@ -139,6 +144,6 @@ int claculIteration(int taille);
  *     chemin : le chemin du fichier à lire*/
 void package_merge(char* chemin);
 
-
+#endif
 
 

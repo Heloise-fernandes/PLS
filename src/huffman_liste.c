@@ -4,8 +4,9 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
-#include "../include/anlyseTexte.h"
-#include "../include/Lecture_Ecriture_B.h"
+#include "anlyseTexte.h"
+#include "Lecture_Ecriture_B.h"
+#include "arbre.h"
 
 /*Fonction  nb_element_nul
  * Paramètre :

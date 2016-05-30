@@ -4,7 +4,18 @@
  * 
  */
 
-int main (){
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h> 
+
+#include "Lecture_Ecriture_B.h"
+#include "package_merge.h"
+#include "anlyseTexte.h"
+#include "huffman_liste.h"
+#include "huffman_part2.h"
+
+int main(int argc, char **argv)
+{
 	int T[N];
 	//FILE *fEcriture=ouvertureFichierEcriture("../fichier_test/decodage.txt");// ane pas ouvrir ici
 	int i;

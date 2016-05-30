@@ -4,6 +4,13 @@
  * 
  * 
  */
+ 
+#ifndef LECTURE_ECRITURE_B_H
+#define LECTURE_ECRITURE_B_H
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
 
 /*Ouvre le ficher en lecture seulement
  * Paramètre : chemin du fichier à ouvrir*/
@@ -54,11 +61,17 @@ int getBit(FILE* fichier, int *indice, char *bit);
  * indice : indice pour savoir ou écrire les differents bits*/
 void putInt (FILE *F,int size, int *indice);
 
-void putIntV2 (FILE *F,int size, int *indice, int longueur);//<- RAJOUTER DES JOLI COMMENTAIRES !!!
+/* Ecrit un entier selon une taille donnée
+ * Paramètre :
+ * F : ficher à modifier
+ * size : entier à écrire
+ * indice : indice pour savoir ou écrire les differents bits
+ * longeur : nombre de bits à écrire*/
+void putIntV2 (FILE *F,int size, int *indice, int longueur);
 
 /* Ecrit un entier dans un fichier
  * Pramètre :
  * F : fichier à modifier
  * taille : entier à ajouter*/
-
 void putTaille (FILE *F,int taille);
+#endif
