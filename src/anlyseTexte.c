@@ -49,7 +49,7 @@ int main (int argc , char *argv[]){
 
 	FILE* fichier_a_compresser = NULL;	
 	int symb[NMAX];
-	fichier_a_compresser = ouvertureFichierLecture("../fichier_test/test1.txt");
+	fichier_a_compresser = ouvertureFichierLecture("../fichier_test/output.eps");
 	printf (" taille du fichier  = %d\n",analyse_fichier_a_compresser(symb,fichier_a_compresser));
 	fermetureFichier(fichier_a_compresser);
 	return 0;}
