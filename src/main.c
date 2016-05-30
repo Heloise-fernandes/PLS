@@ -14,35 +14,43 @@
 #include "huffman_liste.h"
 #include "huffman_part2.h"
 
+#include "arbre.h"
 int main(int argc, char **argv)
 {
 	int T[N];
-	//FILE *fEcriture=ouvertureFichierEcriture("../fichier_test/decodage.txt");// ane pas ouvrir ici
+	
 	int i;
-	/*for (i=0;i<N;i++){T[i]=0;}
-	T['A']=3;
-	T['B']=7;
-	T['C']=5;
-	T['D']=8;
-	T['E']=3;
-	T['F']=1;
-	T['G']=3;
-	T['H']=6;
-	T['I']=8;
-	T['J']=4;*/
-	pArbre res = huffman("chemin");
+	pArbre res = huffman("../fichier_test/test3.txt");
+	
+	
+	//pArbre res = huffman("../fichier_test/exemplecours.txt");
+	//pArbre res = huffman(argv[1]);
+	printf("\nJ'ai construit l'arbre de Huffman\n");
+	afficher_Arbre(res);
+	//afficher_Arbre(res);
+	
 	for (i=0;i<N;i++){
 		T[i]=0;
 	}
-	profondeur(res,T,0);
+	//profondeur(res,T,0);
+	//recuperation du nombre de symbole 
 	
+	char nb_symbole=0;
+	for (i=0;i<N;i++){ if (T[i]!=0) nb_symbole++;}
 	
 	pArbre A=construction_arbre_canonique(T);
 	afficher_Arbre(A);
 	
 	//generation_description_arbre(A,T2);
-	FILE *F1= ouvertureFichierLecture("../fichier_test/test_texte.txt");
+	
+	FILE *F1= ouvertureFichierLecture("../fichier_test/test3.txt");
+	
+	//FILE *F1= ouvertureFichierLecture(argv[1]);
 	FILE *F2 = ouvertureFichierEcriture ("../fichier_test/code.txt");
+	
+	//ecriture du nombre de symbole 
+	putByte(F2,nb_symbole);
+	printf("\nle nombre de symbole est : %d\n",nb_symbole);
 	
 	codage(F1,F2,A,256);
 	
