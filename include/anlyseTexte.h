@@ -1,4 +1,15 @@
-//anlyseTexte.h
+/*
+ * 
+ * anlyseTexte.h
+ * 
+ */
+
+#ifndef ANLYSETEXTE_H
+#define ANLYSETEXTE_H
+
+#include <stdio.h>
+#include <stdlib.h>
+#include "Lecture_Ecriture_B.h"
 
 //initialise par la valeur 0 les cases du tableau 
 void initialiser_tableau_poids_symbole(int* symb );
@@ -14,3 +25,4 @@ int remplir_tableau_poids_symbole_et_calcul_taille(int* symb,FILE* fichier_a_com
 
 //fonction principal qui appelle les autres 
 int analyse_fichier_a_compresser(int* symb,FILE* fichier_a_compresser );
+#endif

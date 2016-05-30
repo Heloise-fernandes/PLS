@@ -1,20 +1,17 @@
+/*
+ * 
+ * huffman_part2.h
+ * 
+ */
+
 #include "stdlib.h"
 #include "stdio.h"
 #include "limits.h"
-#define N 256
-#include "../include/Lecture_Ecriture_B.h"
-typedef struct _Arbre{
-	signed char cle;
-	int dispo;
-	struct _Arbre *ag;
-	struct _Arbre *ad;
-} Arbre, *pArbre;
 
-typedef struct _l{
-	pArbre A;
-	int poids;
-	struct _l *next;
-} l,*pl;
+#include "Lecture_Ecriture_B.h"
+#include "arbre.h"
+#include "huffman_liste.h"
+
 
 
 //fonction auxiliaire pour generation description arbre
@@ -38,10 +35,7 @@ void generation_description_arbre_aux (pArbre A, FILE* F, char size, int indice,
 
 // apartir d'un arbre A ecrit dans un fichier la description de l'arbre
 void generation_description_arbre (pArbre A,char* T,FILE *F){
-	
-	
 	generation_description_arbre_aux(A,F,0,0,T);printf("\n");
-	
 }
 
 //cree un tableau t avec le code pour chaque symbole
@@ -65,7 +59,7 @@ void generation_code (pArbre A, int *t, int s){
 
 //code un fichier a partir de l'arbre A
 void Transcodage (pArbre A, FILE* fLecture,FILE * fEcriture ,char* Longueur){
-	printf("Je suis dans transcodage\n");
+	//printf("Je suis dans transcodage\n");
 	int indice =0;
 	
 	int t[N];
@@ -73,7 +67,7 @@ void Transcodage (pArbre A, FILE* fLecture,FILE * fEcriture ,char* Longueur){
 	generation_code(A,t,0);
 	 
 	while (getByte(fLecture,&c)==1){
-		printf("%c:%i de longueur %i avec un indice : %i\n",c,t[(int)c],Longueur[(int)c],indice);
+		//printf("%c:%i de longueur %i avec un indice : %i\n",c,t[(int)c],Longueur[(int)c],indice);
 		putIntV2(fEcriture,t[(int)c],&indice,Longueur[(int)c]);
 	
 	}
@@ -132,51 +126,38 @@ int min( int  T[]){
 } 
 
 
-void afficher_Arbre (pArbre A){
-	if (A!=NULL){
-		if (A->ad==NULL&&A->ag==NULL){//cas d'une feuille
-			printf("F(%c)",A->cle);
-		}
-		else if (A->ad==NULL){//cas d'une feuille
-			printf("F(%c)",A->cle);
-		}
-		else if (A->ag==NULL){//cas d'une feuille
-			printf("F(%c)",A->cle);
-		}
-		else { // cas d'un noeud
-			printf("Noeud (");
-			afficher_Arbre( A->ag);
-			printf(",");
-			afficher_Arbre (A->ad);
-			printf(")");
-		}
-	}
-}
 
 
 
-void affichage_liste (pl liste){
-	while (liste!=NULL){
-		printf("(%i) ",liste->poids);
-		liste=liste->next;
-	}
-	printf("\n");
-}
 
-//contruit l'arbre cononique a partir d'un tableau T avec la longueur de chaque symbole dans l'arbre
+
+//contruit l'arbre canonique a partir d'un tableau T avec la longueur de chaque symbole dans l'arbre
 pArbre construction_arbre_canonique (int T[] ){
 	pArbre A;
 	pl liste;
 	int i;
 	int nb_symbole=0;
-	for (i=0;i<N;i++){
+	for (i=0;i<N;i++){  // on compte le nombre de symbole a mettre dans l'arbre
 		if (T[i]!=0) {nb_symbole++;}
 	}
+	
+	/*T['A']=3;
+	T['B']=7;
+	T['C']=5;
+	T['D']=8;
+	T['E']=3;
+	T['F']=1;
+	T['G']=3;
+	T['H']=6;
+	T['I']=8;
+	T['J']=4;
+*/
+	
 	printf("nb_symbole:%i\n",nb_symbole);
 	//on suppose le nombre de symbole non nul
 	liste= malloc(sizeof (l));//element fictif de tete
 	pl liste2= liste; 
-	while (nb_symbole>0){
+	while (nb_symbole>0){ // on construit un liste d'arbre -> au debut liste de feuille contenant tout les symboles trie 
 		liste2-> next=malloc(sizeof (l));
 		liste2= liste2->next;
 		liste2->A= malloc (sizeof(Arbre));
@@ -186,26 +167,28 @@ pArbre construction_arbre_canonique (int T[] ){
 		T[i]=0;
 		nb_symbole--;
 	}
-	//affichage_liste(liste);
+	affichage_liste(liste);
 	liste=liste->next;// il faudrait le liberer
 	//affichage_liste(liste);
-	while (liste->next!=NULL){
-		liste2=liste;
-		//affichage_liste(liste2);
-		while (liste2!=NULL&&liste2->next!=NULL){
-			if (liste2->poids==liste2->next->poids){
-				A=malloc(sizeof(Arbre));
+	while (liste->next!=NULL){ // tant qu'il y a plus d'un element dans la liste (encore une fois on suppose qu'il y a au moins un elt)
+		liste2=liste;  // on utilise le pointeur liste2 pour avancer dans la liste
+		affichage_liste(liste2);
+		while (liste2!=NULL&&liste2->next!=NULL){ //tant que il reste deux elmt avant la fin de la liste
+			affichage_liste(liste2);
+			if (liste2->poids==liste2->next->poids){ //si deux element on la meme profondeur dans l'arbre
+				A=malloc(sizeof(Arbre)); //on cree un arbre avec c'est deux elmt
 				A->ag= liste2->A;
 				A->ad=liste2->next->A;
-				liste2->A=A;
+				liste2->A=A; // et on le met a la place de l'arbre de l'element courant de la liste
 				liste2->poids--;
-				liste2->next=liste2->next->next;
-				liste2=liste2->next;
+				liste2->next=liste2->next->next; // penser a le liberer   // on eleve l'element apres l'element courant
+				//liste2=liste2->next;// on avance dans la liste
+				liste2=liste; // on retourne au debut de la liste
 			}
-			else liste2=liste2->next;
+			else liste2=liste2->next; // si il n'ont pas le meme poid on avance dans la liste
 		}
 	}
-	return liste->A;
+	return liste->A; //on retourne l' arbre du dernier elmt de la liste
 }
 
 
@@ -264,7 +247,7 @@ for (i=0;i<N;i++){T[i]=0;}
 char c;
 char taille;
 //lire le nombre de symbole
-int nb_symbole=7;
+int nb_symbole=8;
 for (i=0;i<nb_symbole;i++){
 	getByte(fLecture,&c);
 	printf("%c:",c);
@@ -290,42 +273,3 @@ taille_fichier=256;
 	decodage_texte(fLecture,fEcriture,A,taille_fichier);
 }	
 
- 
-
-int main (){
-	int T[N];
-	//FILE *fEcriture=ouvertureFichierEcriture("../fichier_test/decodage.txt");// ane pas ouvrir ici
-	int i;
-	for (i=0;i<N;i++){T[i]=0;}
-	T['A']=4;
-	T['B']=4;
-	T['C']=4;
-	T['D']=4;
-	T['E']=3;
-	T['F']=3;
-	T['G']=1;
-	
-	pArbre A=construction_arbre_canonique(T);
-	afficher_Arbre(A);
-	printf("\n");
-	
-	//generation_description_arbre(A,T2);
-	FILE *F1= ouvertureFichierLecture("../fichier_test/test_texte.txt");
-	FILE *F2 = ouvertureFichierEcriture ("../fichier_test/code.txt");
-	
-	codage(F1,F2,A,256);
-	
-	fermetureFichier(F1);
-	fermetureFichier(F2);
-	
-	//decodage
-	FILE *F3= ouvertureFichierLecture("../fichier_test/code.txt");
-	FILE *F4 = ouvertureFichierEcriture ("../fichier_test/decodage.txt");
-	printf("\n\n Decodage:\n");
-	decodage(F3,F4);
-	printf("Fin du decodage\n");
-	fermetureFichier(F3);
-	fermetureFichier(F4);
-	
-	return 0;
-}

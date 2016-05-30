@@ -4,6 +4,13 @@
  * 
  * 
  */
+ 
+#ifndef LECTURE_ECRITURE_B_H
+#define LECTURE_ECRITURE_B_H
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
 
 /*Ouvre le ficher en lecture seulement
  * Paramètre : chemin du fichier à ouvrir*/
@@ -67,3 +74,4 @@ void putIntV2 (FILE *F,int size, int *indice, int longueur);
  * F : fichier à modifier
  * taille : entier à ajouter*/
 void putTaille (FILE *F,int taille);
+#endif

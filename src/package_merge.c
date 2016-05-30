@@ -3,24 +3,15 @@
  * 
  */
 
-#include "../include/package_merge.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 
-#include "../include/Lecture_Ecriture_B.h"
-
+#include "Lecture_Ecriture_B.h"
+#include "package_merge.h"
+#include "anlyseTexte.h"
 
 //============================================>FONCTIONS MANIPULATION DE LISTE
-
-/*Fonction  maximum
- * Paramètre :
- *     a,b : les entier à comparer
- * Return
- *     int : element maximum*/
-int max(int a, int b){ return ((a>=b)?a:b);}
-
 
 /* Fonction qui calcul la taille d'une liste
  * Paramètre
@@ -46,7 +37,7 @@ int tailleListe(pliste pointeurListe)
  *     indice : l'indice de l'élément souhaité
  * Return
  *     pliste : pointeur sur l'élément de la liste*/
-pliste getElmt(pliste pointeurListe, int indice)
+pliste getElmtMerge(pliste pointeurListe, int indice)
 {
 	pliste pointeur = pointeurListe;
 	int i;
@@ -67,17 +58,17 @@ pliste getElmt(pliste pointeurListe, int indice)
  *     indice : l'indice de l'élément souhaité
  * Return
  *     pliste : pointeur sur l'élément de la liste*/
-pliste suprElmt(pliste pointeur,int indice)
+pliste suprElmtMerge(pliste pointeur,int indice)
 {
 	pliste pointeurC,pointeurP;
-	pointeurC = getElmt(pointeur,indice);
+	pointeurC = getElmtMerge(pointeur,indice);
 	if(indice == 0)
 	{	
 		pointeur = pointeurC->next;//On change la tête de liste
 	}
 	else//On change les liens
 	{	
-		pointeurP = getElmt(pointeur,indice-1);
+		pointeurP = getElmtMerge(pointeur,indice-1);
 		pointeurP->next = pointeurC->next;
 	}
 	pointeurC->next = NULL;
@@ -95,7 +86,7 @@ void libererListe(pliste listeLiberer)
 	int i;
 	for(i = taille-1; i >=0; i--)
 	{
-		element = getElmt(listeLiberer,i);
+		element = getElmtMerge(listeLiberer,i);
 		free(element);
 	}
 }
@@ -106,7 +97,7 @@ void libererListe(pliste listeLiberer)
 /* Fonction d'affichage d'un élément d'une liste
  * Paramètre :
  *     pointeur : la liste à traiter*/
-void afficherPointeur(pliste pointeur)
+void afficherPointeurMerge(pliste pointeur)
 {
 	int i;
 	printf("Nombre éléments : %d, ",pointeur->nbElmt);
@@ -121,7 +112,7 @@ void afficherPointeur(pliste pointeur)
 /* Fonction d'affichage d'une liste
  * Paramètre :
  *     pointeurListe : la liste à traiter*/
-void afficherListe(pliste pointeurListe)
+void afficherListeMerge(pliste pointeurListe)
 {
 	pliste pointeur,affiche;
 	int i;
@@ -129,8 +120,8 @@ void afficherListe(pliste pointeurListe)
 	pointeur = pointeurListe;
 	for( i = 0; i <taille; i++)
 	{
-		affiche = getElmt(pointeur, i);
-		afficherPointeur(affiche);
+		affiche = getElmtMerge(pointeur, i);
+		afficherPointeurMerge(affiche);
 	}
 }
 
@@ -142,7 +133,7 @@ void afficherListe(pliste pointeurListe)
  *     pointeurListe : la liste à traiter
  * Return
  *     pliste : pointeur sur la liste trié*/
-pliste trier_Liste(pliste pointeurListe)
+pliste trier_Liste_Merge(pliste pointeurListe)
 {
 	pliste pointeur = pointeurListe;
 	
@@ -152,13 +143,13 @@ pliste trier_Liste(pliste pointeurListe)
 	int i,j;
 	for(i = 1; i < taille; i++)											//pour i de 1 n-1
 	{
-		pointeurSauvegarde = suprElmt(pointeur, i);						//x = T[i]
+		pointeurSauvegarde = suprElmtMerge(pointeur, i);						//x = T[i]
 		j = i;															//j<-i
-		pointeurJ = getElmt(pointeur, j-1);
+		pointeurJ = getElmtMerge(pointeur, j-1);
 		while((j>0)&&(pointeurJ->poids > pointeurSauvegarde->poids))	//tantque j>0 et T[j - 1] > x
 		{
 			j--;
-			if(j>0){pointeurJ = getElmt(pointeur, j-1);}				//T[i]<-T[j-1]; j<-j-1
+			if(j>0){pointeurJ = getElmtMerge(pointeur, j-1);}				//T[i]<-T[j-1]; j<-j-1
 			
 		}
 		if(j==0)//Cas tête de liste
@@ -226,8 +217,8 @@ pliste constructionListeDouble(pliste listeSymbole,int tailleListeDouble)
 	listeDouble = indice;
 	for(i = 0; i <taille; i+=2)
 	{
-		elmt1 = getElmt(listeSymbole,i);								//Element 1
-		elmt2 = getElmt(listeSymbole,i+1);								//Element 2
+		elmt1 = getElmtMerge(listeSymbole,i);								//Element 1
+		elmt2 = getElmtMerge(listeSymbole,i+1);								//Element 2
 		
 		indice->nbElmt = elmt1->nbElmt + elmt2->nbElmt;					//Nombre d'element
 		
@@ -272,7 +263,7 @@ pliste constructionListeFinale(pliste listeSymbole,pliste listeDouble)
 	
 	for(i = 0; i < tailleListeSymbole; i++)								//Ajout de la première liste
 	{
-		elmt = getElmt(listeSymbole,i);
+		elmt = getElmtMerge(listeSymbole,i);
 		
 		indice->nbElmt = elmt->nbElmt;
 		
@@ -286,7 +277,7 @@ pliste constructionListeFinale(pliste listeSymbole,pliste listeDouble)
 	}
 	for(j = 0; j < tailleListeDouble; j++)								//Ajout de la deuxième liste
 	{
-		elmt = getElmt(listeDouble,j);
+		elmt = getElmtMerge(listeDouble,j);
 		
 		indice->nbElmt = elmt->nbElmt;
 		
@@ -302,7 +293,7 @@ pliste constructionListeFinale(pliste listeSymbole,pliste listeDouble)
 	}
 	indice = NULL;
 	
-	return trier_Liste(listefinal);
+	return trier_Liste_Merge(listefinal);
 }
 
 
@@ -342,7 +333,7 @@ int nombreOccurence(pliste listeOc, unsigned char e, int t)
 	int i,j;
 	for(i=0; i < t; i++)
 	{
-		element = getElmt(listeOc,i);
+		element = getElmtMerge(listeOc,i);
 		for(j=0; j < element->nbElmt; j++)
 		{
 			if(element->elmt[j]==e){occurence++;}
@@ -420,7 +411,7 @@ void package_merge(char* chemin)
 	
 	//Trier la liste
 	printf("================================================> LISTE TRIEE\n");
-	pliste trie = trier_Liste(listeTableau);
+	pliste trie = trier_Liste_Merge(listeTableau);
 	//afficherListe(trie);
 	
 	//Creer liste origine
@@ -429,30 +420,30 @@ void package_merge(char* chemin)
 	int nombreSymbole = tailleListe(listeOrigine);
 	int tailleListeDouble = nombreSymbole-2;
 	nbIteration = claculIteration(nombreSymbole)-1;
-	//afficherListe(listeOrigine);
+	//afficherListeMerge(listeOrigine);
 	
 	//Creer liste association
 	printf("================================================>LISTE DOUBLE - 0\n");
 	pliste listeDouble = constructionListeDouble(listeOrigine,tailleListeDouble);
-	//afficherListe(listeDouble);
+	//afficherListeMerge(listeDouble);
 	
 	//Creation nvListe
 	printf("================================================>LISTE ORIGINE + DOUBLE\n");
 	pliste listeCreationArbre = constructionListeFinale(listeOrigine,listeDouble);
-	//afficherListe(listeCreationArbre);
+	//afficherListeMerge(listeCreationArbre);
 	for(i=1;i<nbIteration;i++)
 	{
 		printf("================================================>LISTE DOUBLE - %d\n",i);
 		libererListe(listeDouble);
 		listeDouble = constructionListeDouble(listeCreationArbre,tailleListeDouble);
-		//afficherListe(listeDouble);
+		//afficherListeMerge(listeDouble);
 		libererListe(listeCreationArbre);
 		listeCreationArbre = constructionListeFinale(listeOrigine,listeDouble);
-		//afficherListe(listeCreationArbre);
+		//afficherListeMerge(listeCreationArbre);
 	}
 	libererListe(listeDouble);
 	printf("================================================>OCCURENCE\n");
-	//afficherListe(listeCreationArbre);
+	//afficherListeMerge(listeCreationArbre);
 	int *tableauOccurence = malloc(sizeof(int)*TAILLE_TAB);
 	calculOccurence(tableauOccurence,listeCreationArbre);
 	printf("================================================>AFFICHER TABLEAUX\n");
@@ -462,7 +453,7 @@ void package_merge(char* chemin)
 	}
 	libererListe(listeCreationArbre);
 }
-
+/*
 
 int main(int argc, char **argv)
 {
@@ -471,3 +462,4 @@ int main(int argc, char **argv)
 	return 0;
 }
 
+*/
