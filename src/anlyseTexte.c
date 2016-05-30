@@ -59,15 +59,16 @@ int remplir_tableau_poids_symbole_et_calcul_taille(int* symb,FILE* fichier_a_com
 }
 
 //main pour tester 
-/*int main (int argc , char *argv[]){
+/*
+int main (int argc , char *argv[]){
 
 	FILE* fichier_a_compresser = NULL;	
 	int symb[NMAX];
 	//fichier_a_compresser = ouvertureFichierLecture("../fichier_test/test@.txt");
-	fichier_a_compresser = ouvertureFichierLecture("anlyseTexte");
+	fichier_a_compresser = ouvertureFichierLecture("../fichier_testalbatros.txt");
 	//fprintf(stderr," apres ouverture \n");
 	printf (" taille du fichier  = %d\n",analyse_fichier_a_compresser(symb,fichier_a_compresser));
 	fermetureFichier(fichier_a_compresser);
 	return 0;}
-	
 */
+

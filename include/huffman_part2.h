@@ -35,7 +35,7 @@ int max( int  T[]);
 int min( int  T[]);
 
 //contruit l'arbre canonique a partir d'un tableau T avec la longueur de chaque symbole dans l'arbre
-pArbre construction_arbre_canonique (unsigned char T[] );
+pArbre construction_arbre_canonique (int T[] );//<- possible beug remettre unsigned char ATTENTION !!!!
 void decodage_texte (FILE * fLecture,FILE* fEcriture,pArbre A,int taille);
 void codage (FILE *fLecture, FILE* fEcriture, pArbre A, int taille);
 void decodage (FILE *fLecture, FILE* fEcriture);

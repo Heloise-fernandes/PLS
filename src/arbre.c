@@ -53,6 +53,7 @@ void afficher_Arbre (pArbre A){
 	}
 }
 
+
 void affichage_liste (pl liste){
 	while (liste!=NULL){
 		printf("(%i) ",liste->poids);
@@ -345,6 +346,7 @@ void afficher_Arbre2 (pArbre A){//modif pour afficher dispo
 			printf(")");
 		}
 	}
+	else{printf("NULL !!! ");}
 }
 
 
