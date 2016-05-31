@@ -143,8 +143,8 @@ int max( int  T[]){
 	int i;
 	int max, imax;
 	imax=0;
-	max=0;
-	for (i=0;i<N;i++){
+	max=T[imax];
+	for (i=1;i<N;i++){
 		if (T[i]>max) {
 			max = T[i];
 			imax=i;
@@ -198,7 +198,11 @@ pArbre construction_arbre_canonique (int T[] ){
 	printf("nb_symbole:%i\n",nb_symbole);
 	//on suppose le nombre de symbole non nul
 	liste1 = malloc(sizeof (l));//element fictif de tete
+	
+	liste1->poids=42;
 	pl liste2 = liste1; 
+	
+	afficherT(T);
 	
 	while (nb_symbole>0){ // on construit un liste d'arbre -> au debut liste de feuille contenant tout les symboles trie 
 		liste2-> next=malloc(sizeof (l));
@@ -211,6 +215,10 @@ pArbre construction_arbre_canonique (int T[] ){
 		liste2->poids=T[i];
 		T[i]=0;
 		nb_symbole--;
+		
+		printf("\n==============================================\n");
+		afficherT(T);
+		affichage_liste(liste1);
 	}
 	//printf("liste de debut\n");
 	//affichage_liste(liste1);
