@@ -10,6 +10,7 @@
 #include "Lecture_Ecriture_B.h"
 #include "package_merge.h"
 #include "anlyseTexte.h"
+#include "arbre.h"
 
 //============================================>FONCTIONS MANIPULATION DE LISTE
 
@@ -404,18 +405,19 @@ void fonction_package_merge(char* chemin, int* tableauOccurence)
 	FILE* fichier = ouvertureFichierLecture(chemin);
 	
 	//Remplir le tableau
-	analyse_fichier_a_compresser(tableau,fichier);
-	
+	remplir_tableau_poids_symbole_et_calcul_taille(tableau,fichier);
+	afficherT(tableau);
 	
 	int nbIteration;
 	pliste listeTableau = malloc(sizeof(liste));
 	//Construire la liste
 	construireListe(listeTableau, tableau);
 	
+	
 	//Trier la liste
 	printf("================================================> LISTE TRIEE\n");
 	pliste trie = trier_Liste_Merge(listeTableau);
-	//afficherListe(trie);
+	afficherListeMerge(trie);
 	
 	//Creer liste origine
 	printf("================================================>LISTE REDUITE\n");
