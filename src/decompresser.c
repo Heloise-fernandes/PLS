@@ -57,7 +57,7 @@ void extentionDossierCreation(char* chemin, char* exten, char* repository,int* e
 	printf("\n");
 }
  
-void decompressionSimple(char* chemin, char* name, char* extention, char * deco)
+void decompressionPretraitement(char* chemin, char* name, char* extention, char * deco)
 {
 	int f,d;
 		
@@ -155,6 +155,44 @@ void decompressionSimple(char* chemin, char* name, char* extention, char * deco)
 	
 }
 
+void decompressionSimple(char* chemin, char* name, char* extention)
+{
+	
+	int f,d;
+	
+	extentionDossierCalcul(chemin,&f,&d);
+	
+	char* format = malloc(sizeof(char)*(f+1));
+	char* dossier = malloc(sizeof(char)*(d+1));
+	
+	extentionDossierCreation(chemin,format,dossier,&f,&d);	
+	
+	char fichierRetour[strlen(dossier)+strlen(name)+1+strlen(extention)];
+	
+	if (strcmp("",extention)==0)
+	{
+		strcpy(fichierRetour,dossier);
+		strcat(fichierRetour,name);
+	}
+	else 
+	{
+		
+		strcpy(fichierRetour,dossier);
+		strcat(fichierRetour,name);
+		strcat(fichierRetour,".");
+		strcat(fichierRetour,extention);
+	}
+
+	//decodage
+	FILE *F3= ouvertureFichierLecture(chemin);
+	FILE *F4 = ouvertureFichierEcriture (fichierRetour);
+	decodage(F3,F4);
+	fermetureFichier(F3);
+	fermetureFichier(F4);
+	//remove(chemin);
+}
+
+
 int main(int argc, char **argv)
 {
 	char* modeDEmploie = "\nNAME : Decompression\n\nSYNOPSIS : \n	./decompresser Fichier nom extention\n\n";
@@ -165,18 +203,17 @@ int main(int argc, char **argv)
 	else if (argc == 3)
 	{
 		printf("Compression sans pretraitement avec huffman\n");
-		decompressionSimple(argv[1], argv[2],"","");
+		decompressionSimple(argv[1], argv[2],"");
 	}
 	else if (argc == 4)
 	{
 		printf("Compression sans pretraitement avec huffman\n");
-		if (strcmp("",argv[3])==0){decompressionSimple(argv[1], argv[2],argv[3],"");}
-		else{decompressionSimple(argv[2], argv[3],"",argv[1]);}
+		decompressionSimple(argv[1], argv[2],argv[3]);
 	}
 	else if (argc == 5)
 	{
 		printf("Compression avec pretraitement avec huffman\n");
-		decompressionSimple(argv[2], argv[3],argv[4],argv[1]);		
+		decompressionPretraitement(argv[2], argv[3],argv[4],argv[1]);		
 	}
 	else
 	{
