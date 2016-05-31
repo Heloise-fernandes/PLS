@@ -7,6 +7,27 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*AfficherT:
+ * affiche un tableau T
+ */
+void afficherT (int T[]){
+	int i;
+	for (i=0;i<N;i++){
+		
+		printf("_%i_",T[i]);		
+	}
+	printf ("\n");
+}
+
+void afficherT2 (char T[]){
+	int i;
+	for (i=0;i<N;i++){
+		
+		printf("_%d_",T[i]);		
+	}
+	printf ("\n");
+}
+
 /*========================================*
  *         Fonction affichage :
  * =======================================*/
@@ -14,13 +35,13 @@
 void afficher_Arbre (pArbre A){
 	if (A!=NULL){
 		if (A->ad==NULL&&A->ag==NULL){//cas d'une feuille
-			printf("F(%c)",A->cle);
+			printf("F(%d)",A->cle);
 		}
 		else if (A->ad==NULL){//cas d'une feuille
-			printf("F(%c)",A->cle);
+			printf("F(%d)",A->cle);
 		}
 		else if (A->ag==NULL){//cas d'une feuille
-			printf("F(%c)",A->cle);
+			printf("F(%d)",A->cle);
 		}
 		else { // cas d'un noeud
 			printf("Noeud (");
@@ -57,7 +78,7 @@ pl getElmt(pl pointeur, int indice)
 
 void afficherPointeur(pl pointeurListe)
 {
-	printf("Element : %d, nombre : %d\n",(unsigned char) pointeurListe->A->cle,pointeurListe->poids);
+	printf("Element : %d, %c, nombre : %d\n",(unsigned char) pointeurListe->A->cle,(unsigned char) pointeurListe->A->cle,pointeurListe->poids);
 }
 
 void afficherListe(pl pointeurListe)
@@ -65,6 +86,7 @@ void afficherListe(pl pointeurListe)
 	pl pointeur;
 	pointeur = pointeurListe;
 	//printf("afficher liste \n");
+	//while(pointeur!= NULL)
 	while(pointeur->next != NULL)
 	{
 		afficherPointeur(pointeur);
@@ -75,29 +97,21 @@ void afficherListe(pl pointeurListe)
 	//printf("fin de afficher liste \n");
 }
 
-pl suprElmt(pl pointeurCourant,pl parent, int indice)
+pl suprElmt(pl pointeur,int indice)
 {
+	pl pointeurC,pointeurP;
+	pointeurC = getElmt(pointeur,indice);
 	if(indice == 0)
-	{	if(parent!=NULL)
-		{
-			parent->next = pointeurCourant->next;
-			pointeurCourant->next = NULL; 
-		}
-		else
-		{
-			parent = pointeurCourant->next;
-			pointeurCourant->next = NULL;
-			pl pointeur = pointeurCourant;
-			pointeurCourant=parent;
-			return pointeur;
-		}
-		return pointeurCourant;
+	{	
+		pointeur = pointeurC->next;//On change la tête de liste
 	}
-	else
-	{	indice = indice - 1;
-		return suprElmt(pointeurCourant->next,pointeurCourant, indice);
+	else//On change les liens
+	{	
+		pointeurP = getElmt(pointeur,indice-1);
+		pointeurP->next = pointeurC->next;
 	}
-	return NULL;
+	pointeurC->next = NULL;
+	return pointeurC;
 }
 
 pl trier_Liste(pl pointeurListe)
@@ -109,7 +123,7 @@ pl trier_Liste(pl pointeurListe)
 	int i,j;
 	for(i = 1; i < N; i++)										//pour i de 1 n-1
 	{
-		pointeurSauvegarde = suprElmt(pointeur,NULL, i);				//x = T[i]
+		pointeurSauvegarde = suprElmt(pointeur, i);				//x = T[i]
 		j = i;															//j<-i
 		pointeurJ = getElmt(pointeur, j-1);
 		while((j>0)&&(pointeurJ->poids > pointeurSauvegarde->poids))	//tantque j>0 et T[j - 1] > x
@@ -132,6 +146,87 @@ pl trier_Liste(pl pointeurListe)
 	}
 	return pointeur;
 }
+
+/*==========================================*/
+
+
+int tailleListe2(pl p){
+	int taille = 0;
+	while(p->next!=NULL)
+	{
+		taille++;
+		p = p->next;
+	}
+	return taille;	
+}
+
+pl getElmt2(pl pointeurListe, int indice)
+{
+	pl pointeur = pointeurListe;
+	int i;
+	int taille = tailleListe2(pointeur);
+	for(i = 0; i <taille;i++)
+	{
+		if(i == indice){break;}
+		pointeur = pointeur->next;
+	}
+	if(i == taille){printf("Erreur d'indice");exit(0);}
+	return pointeur;
+}
+
+pl suprElmt2(pl pointeur,int indice)
+{
+	pl pointeurC,pointeurP;
+	pointeurC = getElmt2(pointeur,indice);
+	if(indice == 0)
+	{	
+		pointeur = pointeurC->next;//On change la tête de liste
+	}
+	else//On change les liens
+	{	
+		pointeurP = getElmt2(pointeur,indice-1);
+		pointeurP->next = pointeurC->next;
+	}
+	pointeurC->next = NULL;
+	return pointeurC;
+}
+
+
+pl trier_Liste2(pl pointeurListe)
+{
+	pl pointeur = pointeurListe;
+	
+	pl pointeurSauvegarde;
+	pl pointeurJ;
+	int taille = tailleListe2(pointeurListe);
+	int i,j;
+	for(i = 1; i < taille; i++)											//pour i de 1 n-1
+	{
+		pointeurSauvegarde = suprElmt2(pointeur, i);						//x = T[i]
+		j = i;															//j<-i
+		pointeurJ = getElmt2(pointeur, j-1);
+		while((j>0)&&(pointeurJ->poids > pointeurSauvegarde->poids))	//tantque j>0 et T[j - 1] > x
+		{
+			j--;
+			if(j>0){pointeurJ = getElmt2(pointeur, j-1);}				//T[i]<-T[j-1]; j<-j-1
+			
+		}
+		if(j==0)//Cas tête de liste
+		{
+			pointeurSauvegarde->next = pointeur;						
+			pointeur = pointeurSauvegarde;
+		}
+		else
+		{
+			pointeurSauvegarde->next = pointeurJ->next;
+			pointeurJ->next = pointeurSauvegarde;						//T[j] ← x
+		}
+											
+	}
+	return pointeur;
+}
+
+
 
 pl insertElm(pl pointeurListe, pArbre a){
 	
@@ -258,7 +353,7 @@ void afficher_Arbre2 (pArbre A){//modif pour afficher dispo
 
 void profondeur (pArbre A,int * T, int p){
 	if (A==NULL){}
-	else if ((A->ag==NULL)||(A->ad==NULL)){ T[(int) A->cle]=p;}
+	else if ((A->ag==NULL)||(A->ad==NULL)){ T[(unsigned char) A->cle]=p;}
 	else {
 		profondeur(A->ad,T,(p+1));
 		profondeur(A->ag,T,(p+1));}

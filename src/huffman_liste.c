@@ -7,18 +7,6 @@
 #include "anlyseTexte.h"
 #include "Lecture_Ecriture_B.h"
 #include "arbre.h"
-//~ 
-//~ void afficher_tableau_poids_symbole(int* symb ){
-	//~ //on affiche les 256 cases du tableau du poids des symbole ;
-	//~ int i = 0 ;
-	//~ for ( i = 0 ; i < NMAX  /* nom de cst a changer ? */ ; i++ ){
-		//~ if ( (i>=65 && i<=90) || (i>=97 && i<=122) || (i>=48 && i<=57) ){
-			//~ printf("(%c,%d)\n",i,symb[i]);
-		//~ }else{
-			//~ printf("(%d,%d)\n",i,symb[i]);
-		//~ }	
-	//~ }
-//~ }
 
 /*Fonction  nb_element_nul
  * Paramètre :
@@ -36,7 +24,15 @@ int nb_element_nul(int *symb){
 	} 
 	return cpt;
 }
+//retourne le nombre d'elm de la liste -1
+//0 si la liste a 1 elm
+//255 si l liste a 256 elm
 
+/*Fonction  tailleListePL
+ * Paramètre :
+ *     pointeurListe : un pointeur sur le premier elm d'une liste 
+ * Return
+ *     taille : nb d'elm de la liste -1    */
 int tailleListePL(pl pointeurListe)
 {
 	pl pointeur = pointeurListe;
@@ -52,12 +48,13 @@ int tailleListePL(pl pointeurListe)
 /*Fonction  huffman
  * Paramètre :
  *     chemin : le chemin du fichier à lire
+ * 	   tableau : le tableau du nombre d'occurences des symboles
  * Return
  *     pArbre : un arbre de huffman  */
  
-pArbre huffman(char* chemin)
+pArbre huffman(char* chemin, int * tableau)
 {
-	int* tableau = malloc(sizeof(int)*N);
+	//int* tableau = malloc(sizeof(int)*N);
 	int i;
 	pl pointeurListe, pointeurConstruction;	
 	pointeurListe = malloc(sizeof(l));
@@ -68,8 +65,14 @@ pArbre huffman(char* chemin)
 	FILE* fichier = ouvertureFichierLecture(chemin);
 	printf("je suis dans huffman et j'ai ouvert le fichier \n");
 	//Remplir le tableau
+	for (i = 0 ; i < N ; i++ ){
+		tableau[i] = 0 ;
+	}
 	remplir_tableau_poids_symbole_et_calcul_taille(tableau,fichier);
-	//afficher_tableau_poids_symbole(tableau);
+
+	afficherT(tableau);
+	printf("j'ai calculer l'occurence de chaque symbole\n");
+
 	/*
 	//Initialisation d'un tableau
 	
@@ -97,6 +100,7 @@ pArbre huffman(char* chemin)
 	tableau['H'] = 81;*/
 //Création de la liste
 
+
 	
 	for(i = 0; i < N-1; i++)
 	{
@@ -110,6 +114,7 @@ pArbre huffman(char* chemin)
 		
 		pointeurConstruction->next = malloc(sizeof(l));
 		pointeurConstruction = pointeurConstruction->next;
+
 	}
 		
 		pointeurConstruction->A = malloc(sizeof(Arbre));
@@ -127,10 +132,10 @@ pArbre huffman(char* chemin)
 	//Trie et affichage de la liste
 	printf("Taille de la liste avant trie : %d\n", tailleListePL(pointeurListe));
 	
-	pl trie = trier_Liste(pointeurListe);
+	pl trie = trier_Liste2(pointeurListe);
 	//afficherListe(trie);
 	
-	afficherListe(trie);
+	
 	
 	//on enleve les 0 du debut de la liste
 	
@@ -141,22 +146,23 @@ pArbre huffman(char* chemin)
 
 
 	int taille = tailleListePL(pointeurListe);
-	int nb_Element = nb_element_nul(tableau);
+	int nb_Element = nb_element_nul(tableau)-1;
 	if(taille == nb_Element){printf (" le fichier est vide \n");return NULL;}
 	
-	trie=getElmt(trie,nb_Element);
+	trie = getElmt(trie,nb_Element);
 	printf("Taille de la liste après réduction : %d, taille 0 : %d\n", tailleListePL(trie),nb_Element);
 
 	
-	//afficherListe(trie);
+	afficherListe(trie);
 	//on recupere les deux arbre des plus petit
 	fprintf(stderr," apres tri \n");
-	
+	//while(tailleListePL(trie) != 0 )
 	while(tailleListePL(trie) != 1 )
 	{
 		//printf("============================>\n");
 		//printf("debut while\n");
 		 pa = (getElmt(trie,0));
+
 		//afficher_Arbre2(a);
 		//printf(" a -> dispo%d",a->dispo);
 		 pb = (getElmt(trie,1));
@@ -202,6 +208,7 @@ pArbre huffman(char* chemin)
 	//afficher_Arbre2(trie->A);
 //return (pointeurListe);
 	
+
 	
 }
 /*
