@@ -14,7 +14,7 @@
 
 
 typedef struct _Arbre{
-	signed char cle;
+	unsigned char cle;
 	int dispo;
 	struct _Arbre *ag;
 	struct _Arbre *ad;
@@ -26,7 +26,9 @@ typedef struct _l{
 	struct _l *next;
 } l,*pl;
 
-
+//affiche un tableau
+void afficherT (int T[]);
+void afficherT2 (char T[]);
 /*========================================*
  *         Fonction affichage :
  * =======================================*/
@@ -40,11 +42,11 @@ void affichage_liste (pl liste);
 pl getElmt(pl pointeur, int indice);
 void afficherPointeur(pl pointeurListe);
 void afficherListe(pl pointeurListe);
-pl suprElmt(pl pointeurCourant,pl parent, int indice);
+pl suprElmt(pl pointeurCourant, int indice);
 pl trier_Liste(pl pointeurListe);
-
+pl trier_Liste2(pl pointeurListe);
 pl insertElm(pl pointeurListe, pArbre a);
-
+int tailleListe1(pl p);
 
 
 /*=====================================*

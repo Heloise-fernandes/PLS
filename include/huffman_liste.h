@@ -26,7 +26,7 @@
  *     chemin : le chemin du fichier à lire
  * Return
  *     pArbre : un arbre de huffman  */
-pArbre huffman(char* chemin);
+pArbre huffman(char* chemin,int * tableau);
 
 #endif
 

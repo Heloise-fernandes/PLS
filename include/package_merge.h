@@ -142,7 +142,7 @@ int claculIteration(int taille);
 /* Fonction package-merge
  * Paramètre :
  *     chemin : le chemin du fichier à lire*/
-void package_merge(char* chemin);
+void fonction_package_merge(char* chemin, int* tableauOccurence);
 
 #endif
 
