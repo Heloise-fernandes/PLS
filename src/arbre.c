@@ -160,6 +160,16 @@ int tailleListe2(pl p){
 	return taille;	
 }
 
+int tailleListe1(pl p){
+	int taille = 0;
+	while(p!=NULL)
+	{
+		taille++;
+		p = p->next;
+	}
+	return taille;	
+}
+
 pl getElmt2(pl pointeurListe, int indice)
 {
 	pl pointeur = pointeurListe;
