@@ -83,8 +83,9 @@ void lancementSimple(char* chemin, char* name)
 	}
 	
 	profondeur(res,T,0);
-	char nb_symbole=0;
-	for (i=0;i<N;i++){ if (T[i]!=0) nb_symbole++;}
+	afficherT(T);
+	unsigned char nb_symbole=255;
+	for (i=0;i<N;i++){ if (T[i]!=0){ nb_symbole++;printf("Nb symbole : %d\n",nb_symbole);}}
 	
 	
 	//calcul de la taille
@@ -92,7 +93,7 @@ void lancementSimple(char* chemin, char* name)
 	for (i=0;i<N;i++){
 		taille= taille + nb_occurence[i]*T[i];
 	}
-	
+	printf("Taille : %d, symbole: %d", taille, nb_symbole);
 	
 	pArbre A=construction_arbre_canonique(T);
 	
@@ -138,7 +139,7 @@ void lancementPackageMarge(char* chemin, char* name)
 
 	fonction_package_merge(chemin, T);
 	
-	char nb_symbole=0;
+	char nb_symbole=-1;
 	for (i=0;i<N;i++){ if (T[i]!=0) nb_symbole++;}
 	
 	
@@ -148,7 +149,7 @@ void lancementPackageMarge(char* chemin, char* name)
 		taille= taille + nb_occurence[i]*T[i];
 	}
 	
-	
+	printf("Taille : %d, symbole: %d", (unsigned int) taille, nb_symbole);
 	pArbre A=construction_arbre_canonique(T);
 	
 	FILE *F1= ouvertureFichierLecture(chemin);

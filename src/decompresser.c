@@ -75,7 +75,7 @@ void decompressionSimple(char* chemin, char* name, char* extention)
 	decodage(F3,F4);
 	fermetureFichier(F3);
 	fermetureFichier(F4);
-	remove(chemin);
+	//remove(chemin);
 }
 
 int main(int argc, char **argv)
