@@ -33,6 +33,7 @@ void afficherT2 (char T[]){
  * =======================================*/
 
 void afficher_Arbre (pArbre A){
+	
 	if (A!=NULL){
 		if (A->ad==NULL&&A->ag==NULL){//cas d'une feuille
 			printf("F(%d)",A->cle);

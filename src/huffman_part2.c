@@ -188,27 +188,33 @@ int min( int  T[]){
 pArbre construction_arbre_canonique (int T[] ){
 	printf ("je commence a construire l'arbre canonique\n");
 	pArbre A;
-	pl liste1;
+	pl liste1=NULL;
 	int i;
 	int nb_symbole=0;
 	for (i=0;i<N;i++){  // on compte le nombre de symbole a mettre dans l'arbre
 		if (T[i]!=0) {nb_symbole++;}
 	}
 	
+	afficherT(T);
 	printf("nb_symbole:%i\n",nb_symbole);
 	//on suppose le nombre de symbole non nul
 	liste1 = malloc(sizeof (l));//element fictif de tete
 	
 	liste1->poids=42;
+	liste1->next=NULL;
+	printf("Liste de debut :\n");
+	affichage_liste(liste1);
 	pl liste2 = liste1; 
-	
+	affichage_liste (liste2);
 	afficherT(T);
 	
 	while (nb_symbole>0){ // on construit un liste d'arbre -> au debut liste de feuille contenant tout les symboles trie 
 		liste2-> next=malloc(sizeof (l));
+		liste2->next->next=NULL;
 		liste2= liste2->next;
 		liste2->A= malloc (sizeof(Arbre));
-		
+		liste2->A->ad=NULL;
+		liste2->A->ag=NULL;
 		i=max(T);
 		
 		liste2->A->cle=i;
@@ -252,6 +258,8 @@ pArbre construction_arbre_canonique (int T[] ){
 		}
 	}
 	affichage_liste(liste1);
+	printf("je suis la \n");
+	afficher_Arbre(liste1->A);
 	return liste1->A; //on retourne l' arbre du dernier elmt de la liste
 }
 
