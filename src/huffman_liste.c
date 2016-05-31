@@ -7,18 +7,6 @@
 #include "anlyseTexte.h"
 #include "Lecture_Ecriture_B.h"
 #include "arbre.h"
-//~ 
-//~ void afficher_tableau_poids_symbole(int* symb ){
-	//~ //on affiche les 256 cases du tableau du poids des symbole ;
-	//~ int i = 0 ;
-	//~ for ( i = 0 ; i < NMAX  /* nom de cst a changer ? */ ; i++ ){
-		//~ if ( (i>=65 && i<=90) || (i>=97 && i<=122) || (i>=48 && i<=57) ){
-			//~ printf("(%c,%d)\n",i,symb[i]);
-		//~ }else{
-			//~ printf("(%d,%d)\n",i,symb[i]);
-		//~ }	
-	//~ }
-//~ }
 
 /*Fonction  nb_element_nul
  * Paramètre :
@@ -71,8 +59,10 @@ pArbre huffman(char* chemin, int * tableau)
 	for (i=0;i<N;i++){
 		tableau[i]=0;
 	}
-	remplir_tableau_poids_symbole_et_calcul_taille(tableau,fichier);
-
+	int t = remplir_tableau_poids_symbole_et_calcul_taille(tableau,fichier);
+	
+	printf("La taille d'origine est de %d bits :\n",t*8);
+	
 	afficherT(tableau);
 	printf("j'ai calculer l'occurence de chaque symbole\n");
 
@@ -133,7 +123,7 @@ pArbre huffman(char* chemin, int * tableau)
 
 	
 	//Trie et affichage de la liste
-	printf("Taille de la liste avant trie : %d\n", tailleListePL(pointeurListe));
+	printf("Taille de la liste avant trie : %d\n", tailleListe1(pointeurListe));
 	
 	pl trie = trier_Liste2(pointeurListe);
 	//afficherListe(trie);
@@ -148,19 +138,19 @@ pArbre huffman(char* chemin, int * tableau)
 	//trie = getElmt(trie,1);
 
 
-	int taille = tailleListePL(pointeurListe);
+	int taille = tailleListe1(trie);
 	int nb_Element = nb_element_nul(tableau)-1;
 	if(taille == nb_Element){printf (" le fichier est vide \n");return NULL;}
-	
+	if(nb_Element==-1){nb_Element=0;}
 	trie=getElmt(trie,nb_Element);
-	printf("Taille de la liste après réduction : %d, taille 0 : %d\n", tailleListePL(trie),nb_Element);
+	//printf("Taille de la liste après réduction : %d, taille 0 : %d\n", tailleListePL(trie),nb_Element);
 
 	
-	afficherListe(trie);
+	//afficherListe(trie);
 	//on recupere les deux arbre des plus petit
 	fprintf(stderr," apres tri \n");
 	
-	while(tailleListePL(trie) != 1 )
+	while(tailleListe1(trie) != 1 )
 	{
 		//printf("============================>\n");
 		//printf("debut while\n");
