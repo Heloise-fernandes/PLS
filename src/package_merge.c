@@ -370,7 +370,7 @@ void calculOccurence(int *tableauOccurence,pliste listeDouble,pliste listeOrigin
 	for(i = 0; i < taille; i++)
 	{
 		element = (unsigned char) getElmtMerge(listeOrigine,i)->elmt[0];
-		tableauOccurence[i] = nombreOccurence(listeDouble, element, taille2)+1;
+		tableauOccurence[(unsigned char) element] = nombreOccurence(listeDouble, element, taille2)+1;
 	}
 }
 
@@ -452,7 +452,7 @@ void fonction_package_merge(char* chemin, int* tableauOccurence)
 	printf("================================================>AFFICHER TABLEAUX\n");
 	for(i=0; i<TAILLE_TAB; i++)
 	{
-		printf("Element : %d, occurence : %d\n",i,tableauOccurence[i]);
+		printf("Element : %d:%c, occurence : %d\n",i,i,tableauOccurence[i]);
 	}
 	libererListe(listeCreationArbre);
 	libererListe(listeDouble);

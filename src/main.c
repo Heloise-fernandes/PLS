@@ -22,8 +22,8 @@ int main(int argc, char **argv)
 	int nb_occurence[N];
 	int i;
 
-	pArbre res = huffman("../fichier_test/test3.txt",nb_occurence);
-
+	//pArbre res = huffman("../fichier_test/test3.txt",nb_occurence);
+	pArbre res = huffman("../fichier_test/test4.txt",nb_occurence);
 	afficher_Arbre2(res);
 	printf("\n------------------\n");
 	afficher_Arbre(res);
@@ -60,7 +60,9 @@ int main(int argc, char **argv)
 	printf("\nCanonique\n");
 	//generation_description_arbre(A,T2);
 	
-	FILE *F1= ouvertureFichierLecture("../fichier_test/test3.txt");
+	//FILE *F1= ouvertureFichierLecture("../fichier_test/test3.txt");
+	
+	FILE *F1= ouvertureFichierLecture("../fichier_test/test4.txt");
 	
 	//FILE *F1= ouvertureFichierLecture(argv[1]);
 	FILE *F2 = ouvertureFichierEcriture ("../fichier_test/code.txt");

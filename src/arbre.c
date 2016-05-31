@@ -33,6 +33,7 @@ void afficherT2 (char T[]){
  * =======================================*/
 
 void afficher_Arbre (pArbre A){
+	
 	if (A!=NULL){
 		if (A->ad==NULL&&A->ag==NULL){//cas d'une feuille
 			printf("F(%d)",A->cle);
@@ -48,7 +49,7 @@ void afficher_Arbre (pArbre A){
 			afficher_Arbre( A->ag);
 			printf(",");
 			afficher_Arbre (A->ad);
-			printf(")");
+			printf(")\n");
 		}
 	}
 }
@@ -86,6 +87,7 @@ void afficherListe(pl pointeurListe)
 	pl pointeur;
 	pointeur = pointeurListe;
 	//printf("afficher liste \n");
+	//while(pointeur!= NULL)
 	while(pointeur->next != NULL)
 	{
 		afficherPointeur(pointeur);

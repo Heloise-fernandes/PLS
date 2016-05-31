@@ -24,7 +24,15 @@ int nb_element_nul(int *symb){
 	} 
 	return cpt;
 }
+//retourne le nombre d'elm de la liste -1
+//0 si la liste a 1 elm
+//255 si l liste a 256 elm
 
+/*Fonction  tailleListePL
+ * Paramètre :
+ *     pointeurListe : un pointeur sur le premier elm d'une liste 
+ * Return
+ *     taille : nb d'elm de la liste -1    */
 int tailleListePL(pl pointeurListe)
 {
 	pl pointeur = pointeurListe;
@@ -40,6 +48,7 @@ int tailleListePL(pl pointeurListe)
 /*Fonction  huffman
  * Paramètre :
  *     chemin : le chemin du fichier à lire
+ * 	   tableau : le tableau du nombre d'occurences des symboles
  * Return
  *     pArbre : un arbre de huffman  */
  
@@ -56,8 +65,8 @@ pArbre huffman(char* chemin, int * tableau)
 	FILE* fichier = ouvertureFichierLecture(chemin);
 	printf("je suis dans huffman et j'ai ouvert le fichier \n");
 	//Remplir le tableau
-	for (i=0;i<N;i++){
-		tableau[i]=0;
+	for (i = 0 ; i < N ; i++ ){
+		tableau[i] = 0 ;
 	}
 	int t = remplir_tableau_poids_symbole_et_calcul_taille(tableau,fichier);
 	
@@ -141,16 +150,20 @@ pArbre huffman(char* chemin, int * tableau)
 	int taille = tailleListe1(trie);
 	int nb_Element = nb_element_nul(tableau)-1;
 	if(taille == nb_Element){printf (" le fichier est vide \n");return NULL;}
+
 	if(nb_Element==-1){nb_Element=0;}
 	trie=getElmt(trie,nb_Element);
 	//printf("Taille de la liste après réduction : %d, taille 0 : %d\n", tailleListePL(trie),nb_Element);
+
 
 	
 	//afficherListe(trie);
 	//on recupere les deux arbre des plus petit
 	fprintf(stderr," apres tri \n");
+
 	
 	while(tailleListe1(trie) != 1 )
+
 	{
 		//printf("============================>\n");
 		//printf("debut while\n");
@@ -194,7 +207,7 @@ pArbre huffman(char* chemin, int * tableau)
 		//printf("Taille de la liste après réduction : %d, nex null? : %d\n", tailleListePL(trie),(trie->next==NULL));
 		//afficherListe(trie);
 		//printf("============================>\n");
-
+									
 	}
 	return c;
 	//afficherListe(trie);
