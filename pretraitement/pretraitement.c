@@ -15,7 +15,7 @@ void comp_MTF_RLE(FILE* fichier_src,FILE* fichier_dest){
 	tmp=ouvertureFichierLecture("tmp");
 	RLE(tmp,fichier_dest);
 	fclose(tmp);
-	//remove("tmp");
+	remove("tmp");
 }
 void decomp_MTF_RLE(FILE* fichier_src,FILE* fichier_dest){
 	FILE* tmp=ouvertureFichierEcriture("tmp2");
@@ -24,7 +24,7 @@ void decomp_MTF_RLE(FILE* fichier_src,FILE* fichier_dest){
 	tmp=ouvertureFichierLecture("tmp2");
 	unMTF(tmp,fichier_dest);
 	fclose(tmp);
-	//remove("tmp2");
+	remove("tmp2");
 }
 
 
@@ -53,12 +53,12 @@ void decomp_RLE_MTF(FILE* fichier_src,FILE* fichier_dest){
 int main(){
 	FILE* src=ouvertureFichierLecture("fichier_src");
 	FILE* resultat=ouvertureFichierEcriture("resultat");
-	comp_RLE_MTF(src,resultat);
+	comp_MTF_RLE(src,resultat);
 	fclose(src);
 	fclose(resultat);
 	
 	src=ouvertureFichierLecture("resultat");
 	resultat=ouvertureFichierEcriture("resultat2");
-	decomp_RLE_MTF(src,resultat);
+	decomp_MTF_RLE(src,resultat);
 	return EXIT_SUCCESS;
 }
