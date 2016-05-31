@@ -92,7 +92,6 @@ void putBit(FILE* fichier,char bit, int *indice)
 	
 	if ((tailleLu != 1))//On va ajouter un nouvel octet
 	{
-		//printf("le bit de putBit: %d \n",bitUnsigned);
 		putByte(fichier, bitUnsigned);//On ajoute l'octet
 	}
 	else

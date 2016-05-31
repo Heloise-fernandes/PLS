@@ -30,18 +30,6 @@ int tailleListe(pliste pointeurListe)
 	}
 	return taille;	
 }
-/*
-int tailleListe(pliste pointeurListe)
-{
-	pliste pointeur = pointeurListe;
-	int taille = 0;
-	while(pointeur->next!=NULL)
-	{
-		taille++;
-		pointeur = pointeur->next;
-	}
-	return taille;	
-}*/
 
 /* Fonction qui recupère un elément d'un liste selon l'indice
  * Paramètre :
@@ -406,56 +394,37 @@ void fonction_package_merge(char* chemin, int* tableauOccurence)
 	
 	//Remplir le tableau
 	remplir_tableau_poids_symbole_et_calcul_taille(tableau,fichier);
-	//afficherT(tableau);
 	
 	int nbIteration;
 	pliste listeTableau = malloc(sizeof(liste));
+	
 	//Construire la liste
 	construireListe(listeTableau, tableau);
 	
 	
 	//Trier la liste
-	//printf("================================================> LISTE TRIEE\n");
 	pliste trie = trier_Liste_Merge(listeTableau);
-	//afficherListeMerge(trie);
 	
 	//Creer liste origine
-	//printf("================================================>LISTE REDUITE\n");
 	pliste listeOrigine = reduireListe(trie);
 	int nombreSymbole = tailleListe(listeOrigine);
 	int tailleListeDouble = nombreSymbole-2;
 	nbIteration = claculIteration(nombreSymbole)-1;
-	//afficherListeMerge(listeOrigine);
 	
 	//Creer liste association
-	//printf("================================================>LISTE DOUBLE - 0\n");
 	pliste listeDouble = constructionListeDouble(listeOrigine,tailleListeDouble);
-	//afficherListeMerge(listeDouble);
 	
 	//Creation nvListe
-	//printf("================================================>LISTE ORIGINE + DOUBLE\n");
 	pliste listeCreationArbre = constructionListeFinale(listeOrigine,listeDouble);
-	//afficherListeMerge(listeCreationArbre);
 	for(i=1;i<nbIteration;i++)
 	{
-		//printf("================================================>LISTE DOUBLE - %d\n",i);
 		libererListe(listeDouble);
 		listeDouble = constructionListeDouble(listeCreationArbre,tailleListeDouble);
-		//afficherListeMerge(listeDouble);
 		libererListe(listeCreationArbre);
 		listeCreationArbre = constructionListeFinale(listeOrigine,listeDouble);
-		//afficherListeMerge(listeCreationArbre);
 	}
 	
-	//printf("================================================>OCCURENCE\n");
-	//afficherListeMerge(listeCreationArbre);
-	//int *tableauOccurence = malloc(sizeof(int)*TAILLE_TAB);
 	calculOccurence(tableauOccurence,listeDouble,listeOrigine);
-	//printf("================================================>AFFICHER TABLEAUX\n");
-	for(i=0; i<TAILLE_TAB; i++)
-	{
-		//printf("Element : %d:%c, occurence : %d\n",i,i,tableauOccurence[i]);
-	}
 	libererListe(listeCreationArbre);
 	libererListe(listeDouble);
 	libererListe(listeTableau);

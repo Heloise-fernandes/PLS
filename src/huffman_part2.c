@@ -108,10 +108,8 @@ void Transcodage (pArbre A, FILE* fLecture,FILE * fEcriture ,char* Longueur){
 		t[i]=0;
 	}
 	generation_code(A,t,0); //<- met dans t le code de chaque symbole present dans le texte 
-	//printf("generer le code :\n");
-	//afficherT(t); 
+
 	while (getByte(fLecture,&c)==1){
-		//printf("%c:%d de longueur %d avec un indice : %i\n",c,t[(unsigned char)c],Longueur[(unsigned char)c],indice);
 		putIntV2(fEcriture,t[(unsigned char)c],&indice,Longueur[(unsigned char)c]);
 	}
 }
@@ -186,7 +184,6 @@ int min( int  T[]){
  */
 
 pArbre construction_arbre_canonique (int T[] ){
-	//printf ("je commence a construire l'arbre canonique\n");
 	pArbre A;
 	pl liste1=NULL;
 	int i;
@@ -195,18 +192,13 @@ pArbre construction_arbre_canonique (int T[] ){
 		if (T[i]!=0) {nb_symbole++;}
 	}
 	
-	//afficherT(T);
-	//printf("nb_symbole:%i\n",nb_symbole);
 	//on suppose le nombre de symbole non nul
 	liste1 = malloc(sizeof (l));//element fictif de tete
 	
 	liste1->poids=42;
 	liste1->next=NULL;
-	//printf("Liste de debut :\n");
-	//affichage_liste(liste1);
+	
 	pl liste2 = liste1; 
-	//affichage_liste (liste2);
-	//afficherT(T);
 	
 	while (nb_symbole>0){ // on construit un liste d'arbre -> au debut liste de feuille contenant tout les symboles trie 
 		liste2-> next=malloc(sizeof (l));
@@ -221,45 +213,34 @@ pArbre construction_arbre_canonique (int T[] ){
 		liste2->poids=T[i];
 		T[i]=0;
 		nb_symbole--;
-		
-		//printf("\n==============================================\n");
-		//afficherT(T);
-		//affichage_liste(liste1);
 	}
-	//printf("liste de debut\n");
-	//affichage_liste(liste1);
 	liste1=liste1->next;// il faudrait le liberer
-	//affichage_liste(liste1);
+	
 	int h=0;
 	liste2=liste1;
 	while (liste1->next!=NULL && h<12)
 	{
 		h++; // tant qu'il y a plus d'un element dans la liste (encore une fois on suppose qu'il y a au moins un elt)
 	 // on utilise le pointeur liste2 pour avancer dans la liste
-	//	printf(" je rentre dans le premier while\n");
-		//affichage_liste(liste2);
 		
 		while (liste2!=NULL&&liste2->next!=NULL){ //tant que il reste deux elmt avant la fin de la liste
 			
-		//	printf(" je suis dans le while \n");
+
 			if (liste2->poids==liste2->next->poids){ //si deux element on la meme profondeur dans l'arbre
-			//	printf(" je rentre la \n");
+		
 				A=malloc(sizeof(Arbre)); //on cree un arbre avec c'est deux elmt
 				A->ag= liste2->A;
 				A->ad=liste2->next->A;
 				liste2->A=A; // et on le met a la place de l'arbre de l'element courant de la liste
 				liste2->poids--;
 				liste2->next=liste2->next->next; // penser a le liberer   // on eleve l'element apres l'element courant
-				//liste2=liste2->next;// on avance dans la liste
+				// on avance dans la liste
 				liste2=liste1; // on retourne au debut de la liste
 			}
 			else liste2=liste2->next; // si il n'ont pas le meme poid on avance dans la liste
 			
 		}
 	}
-	//affichage_liste(liste1);
-	//printf("je suis la \n");
-	//afficher_Arbre(liste1->A);
 	return liste1->A; //on retourne l' arbre du dernier elmt de la liste
 }
 
@@ -284,22 +265,19 @@ void decodage_texte (FILE * fLecture,FILE* fEcriture,pArbre A,int taille){
 		
 		if (getBit(fLecture,&indice,&c)==0){printf(" j'ai fini de lire\n");exit(49);}
 		
-		//printf("%d\n",c);
+		
 		if (c==0){
 			B=B->ag;
-			//printf("%i\n",0);
+		
 		}
 		else {
 			B=B->ad;
-			//printf("%i\n",1);
+		
 		}
 		
 		if (B==NULL) {printf( "erreur de  decodage\n");}
 		else if (B->ag==NULL||B->ad==NULL){ //si on est sur une feuille
-			//printf("Affichage:\n");
-			//printf(" \n%d\n ",B->cle); 
 			putByte(fEcriture,B->cle); //on met le symbole dans le fichier
-			//printf ("cle :%d \n  ",B->cle);
 			B=A;// on remonte en haut de l'arbre
 		} 
 	}
@@ -326,9 +304,6 @@ void codage (FILE *fLecture, FILE* fEcriture, pArbre A, int taille){
 	putTaille(fEcriture,taille);
 
 	//transcrire le fichier //
-	//printf("Tableau des profondeur dans transcodage\n");
-	//afficherT2(Longueur);
-	//printf("\n");
 	Transcodage(A,fLecture,fEcriture,Longueur);
 }
 /* Decodage:
@@ -339,44 +314,33 @@ void codage (FILE *fLecture, FILE* fEcriture, pArbre A, int taille){
  *  fEcriture: Un fichier ouvert en Ecriture
  */
 void decodage (FILE *fLecture, FILE* fEcriture){
-//lire la transcription de l'arbre
-	printf("\n==================\nje decode\n================\n");
+	//lire la transcription de l'arbre
 	int T[N];
 	int i;
 	for (i=0;i<N;i++){T[i]=0;}
 	char c;
 	char taille;
 	//lire le nombre de symbole
-	char nb_symbole=0;//=6;
+	char nb_symbole=0;
+	
 	getByte(fLecture,&nb_symbole);
-	printf(" Le nombre de symbole lu est : %d\n",(unsigned char) nb_symbole);
 	for (i=0;i<=((unsigned char) nb_symbole);i++){
 		getByte(fLecture,&c);
-		//printf("%d:",(unsigned char)c);
 		getByte(fLecture,&taille);
-		//printf("%d_",(unsigned char)taille);
 		T[(unsigned char)c]=(unsigned char)taille;
 	}
-	//printf("Tableau:\n");
-	//afficherT(T);
 	
-//creer l'arbre
+	//creer l'arbre
 	pArbre A= construction_arbre_canonique(T);
-	//afficher_Arbre(A);
-	//printf("\n Fin de l'affichage de l'arbre.\n");
-
-//lire la taille
+	
+	//lire la taille
 	unsigned int taille_fichier=0;
 	for(i=0;i<4;i++){
 		getByte(fLecture,&taille);
-		//printf("  %d   ",(unsigned char)taille);
-		taille_fichier=(taille_fichier<<8)+(unsigned char)taille;// A VERIFIER
+		taille_fichier=(taille_fichier<<8)+(unsigned char)taille;
 	}
-	//printf("\nTaille : %u\n",taille);
-	//printf("\nTaille du fichier: %i\n",taille_fichier);
-	//taille_fichier=256; // <- A ENLEVER !!!
 
-//decoder le fichier	
+	//decoder le fichier	
 	decodage_texte(fLecture,fEcriture,A,taille_fichier);
 }	
 

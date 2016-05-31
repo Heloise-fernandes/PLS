@@ -68,7 +68,6 @@ void affichage_liste (pl liste){
 
 pl getElmt(pl pointeur, int indice)
 {
-	//printf("dans getElm\n");
 	if(indice == 0){return pointeur;}
 	else
 	{	indice = indice - 1;
@@ -86,16 +85,12 @@ void afficherListe(pl pointeurListe)
 {
 	pl pointeur;
 	pointeur = pointeurListe;
-	//printf("afficher liste \n");
-	//while(pointeur!= NULL)
+	
 	while(pointeur->next != NULL)
 	{
 		afficherPointeur(pointeur);
-
-		//printf("Element : %d, nombre : %d\n",(unsigned char)pointeur->A->cle,pointeur->poids);
 		pointeur = pointeur-> next;
 	}
-	//printf("fin de afficher liste \n");
 }
 
 pl suprElmt(pl pointeur,int indice)
@@ -122,15 +117,15 @@ pl trier_Liste(pl pointeurListe)
 	pl pointeurSauvegarde;
 	pl pointeurJ;
 	int i,j;
-	for(i = 1; i < N; i++)										//pour i de 1 n-1
+	for(i = 1; i < N; i++)												//pour i de 1 n-1
 	{
-		pointeurSauvegarde = suprElmt(pointeur, i);				//x = T[i]
+		pointeurSauvegarde = suprElmt(pointeur, i);						//x = T[i]
 		j = i;															//j<-i
 		pointeurJ = getElmt(pointeur, j-1);
 		while((j>0)&&(pointeurJ->poids > pointeurSauvegarde->poids))	//tantque j>0 et T[j - 1] > x
 		{
 			j--;
-			if(j>0){pointeurJ = getElmt(pointeur, j-1);}					//T[i]<-T[j-1]; j<-j-1
+			if(j>0){pointeurJ = getElmt(pointeur, j-1);}				//T[i]<-T[j-1]; j<-j-1
 			
 		}
 		if(j==0)
@@ -213,7 +208,7 @@ pl trier_Liste2(pl pointeurListe)
 	int i,j;
 	for(i = 1; i < taille; i++)											//pour i de 1 n-1
 	{
-		pointeurSauvegarde = suprElmt2(pointeur, i);						//x = T[i]
+		pointeurSauvegarde = suprElmt2(pointeur, i);					//x = T[i]
 		j = i;															//j<-i
 		pointeurJ = getElmt2(pointeur, j-1);
 		while((j>0)&&(pointeurJ->poids > pointeurSauvegarde->poids))	//tantque j>0 et T[j - 1] > x
@@ -249,18 +244,9 @@ pl insertElm(pl pointeurListe, pArbre a){
 		}
 		pointeurCourant = pointeurListe;
 		pointeurConstruction->A = a;
-		//printf("dans insertion\n");
-		//afficher_Arbre2(a);
-		//printf(" a -> dispo%d",a->dispo);
 		pointeurConstruction->poids = a->dispo;
-		//printf(" poids %d",pointeurConstruction->poids);
-		
-		//pointeurConstruction->next = malloc(sizeof(l));
 		pointeurConstruction->next = NULL ;
 		
-		
-		//printf("dans insertion\n");
-		//afficherListe(pointeurConstruction);
 		
 		while( (pointeurCourant->next !=NULL) && (pointeurCourant->poids< pointeurConstruction->poids)){
 			pred=pointeurCourant;
@@ -269,13 +255,9 @@ pl insertElm(pl pointeurListe, pArbre a){
 		}
 		if (pointeurCourant==pointeurListe){
 				pointeurConstruction->next =pointeurCourant;
-				//printf("ajout en tete");
 				pointeurListe=pointeurConstruction;
 			}
 		else{
-		//printf("dans insert \n");
-		//afficherPointeur(pred);
-		//afficherPointeur(pointeurCourant);
 		pred->next = pointeurConstruction;
 		pointeurConstruction->next =pointeurCourant;
 		}
@@ -300,39 +282,29 @@ Arbre  *ajouter_noeud (Arbre *a, Arbre *n){
 }  
 
 pArbre ajouter_dispo (pArbre a, int d){
-  Arbre *n ;
-  pArbre b ;
+	Arbre *n ;
+	pArbre b ;
   
-  n = (Arbre *) malloc (sizeof(Arbre)) ;
+	n = (Arbre *) malloc (sizeof(Arbre)) ;
  
-  printf("Dispo : %d\n",d);
-  n->dispo = d;
-   //printf(" dans ajouter dispo  n -> dispo%d",n->dispo);
-  n->ag = NULL ;
-  n->ad = NULL ;
+	n->dispo = d;
+	n->ag = NULL ;
+	n->ad = NULL ;
   
 	
 	b = ajouter_noeud  (n,(Arbre *)a) ;
-  //b = ajouter_noeud ((Arbre *)a, n) ;
-  
-  // printf(" dans ajouter dispo  b -> dispo%d",b->dispo);
   return b ;
 }
 pArbre fusion(pArbre a,pArbre b){
-	//printf("Dans fusion\n");
 	pArbre c =  malloc(sizeof(Arbre));
-	//test test malloc
-	//c=NULL;
+
 	if (c == NULL) {
 		fprintf(stderr,"pb malloc\n");
 		exit(20);
 	}
-	//printf(" dans fusion a -> dispo%d \n",a->dispo);
-	//printf(" dans fusion b -> dispo%d\n",b->dispo);
 	c = malloc (sizeof(Arbre)) ;
 	c-> cle = 0;
 	c-> dispo = (a->dispo) + (b->dispo);
-	//printf(" dans fusion c -> dispo%d",c->dispo);
 	c->ag = a;
 	c->ad = b;
 	return c;

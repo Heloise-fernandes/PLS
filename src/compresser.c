@@ -109,9 +109,9 @@ void lancementSimple(char* chemin, char* name)
 	}
 	
 	profondeur(res,T,0);
-	//afficherT(T);
+
 	unsigned char nb_symbole=255;
-	for (i=0;i<N;i++){ if (T[i]!=0){ nb_symbole++;/*printf("Nb symbole : %d\n",nb_symbole);*/}}
+	for (i=0;i<N;i++){ if (T[i]!=0){ nb_symbole++;}}
 	
 	
 	//calcul de la taille
@@ -119,17 +119,14 @@ void lancementSimple(char* chemin, char* name)
 	for (i=0;i<N;i++){
 		taille= taille + nb_occurence[i]*T[i];
 	}
-	printf("Taille : %d, symbole: %d", taille, nb_symbole);
 	
 	pArbre A=construction_arbre_canonique(T);
 	
 	FILE *F1= ouvertureFichierLecture(chemin);
-	
 	FILE *F2 = ouvertureFichierEcriture (fichierCode);
 	
 	//ecriture du nombre de symbole 
 	putByte(F2,nb_symbole);
-	
 	
 	codage(F1,F2,A,taille);
 	
@@ -175,7 +172,6 @@ void lancementPackageMarge(char* chemin, char* name)
 		taille= taille + nb_occurence[i]*T[i];
 	}
 	
-	printf("Taille : %d, symbole: %d", (unsigned int) taille, nb_symbole);
 	pArbre A=construction_arbre_canonique(T);
 	
 	FILE *F1= ouvertureFichierLecture(chemin);
@@ -184,7 +180,6 @@ void lancementPackageMarge(char* chemin, char* name)
 	
 	//ecriture du nombre de symbole 
 	putByte(F2,nb_symbole);
-	
 	
 	codage(F1,F2,A,taille);
 	
@@ -239,7 +234,7 @@ int main(int argc, char **argv)
 			}
 			else if (strcmp("-rm",argv[1])==0)
 			{
-				printf("Lancement  prétraitement avec mtf et rel \n");
+				printf("Lancement  prétraitement avec rle et mtf \n");
 				FILE* src=ouvertureFichierLecture(chemin);
 				FILE* resultat=ouvertureFichierEcriture("../bin/temp.txt");
 				comp_RLE_MTF(src,resultat);
@@ -286,7 +281,7 @@ int main(int argc, char **argv)
 				}
 				else if (strcmp("-mr",argv[2])==0)
 				{
-					printf("Lancement  prétraitement avec mtf et rel \n");
+					printf("Lancement  prétraitement avec rle et mtf \n");
 					FILE* src=ouvertureFichierLecture(chemin);
 					FILE* resultat=ouvertureFichierEcriture("../bin/temp.txt");
 					comp_RLE_MTF(src,resultat);

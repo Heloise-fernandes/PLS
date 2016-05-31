@@ -48,17 +48,3 @@ void decomp_RLE_MTF(FILE* fichier_src,FILE* fichier_dest){
 	fclose(tmp);
 	remove("tmp2");
 }
-
-
-//~ int main(){
-	//~ FILE* src=ouvertureFichierLecture("fichier_src");
-	//~ FILE* resultat=ouvertureFichierEcriture("resultat");
-	//~ comp_MTF_RLE(src,resultat);
-	//~ fclose(src);
-	//~ fclose(resultat);
-	//~ 
-	//~ src=ouvertureFichierLecture("resultat");
-	//~ resultat=ouvertureFichierEcriture("resultat2");
-	//~ decomp_MTF_RLE(src,resultat);
-	//~ return EXIT_SUCCESS;
-//~ }

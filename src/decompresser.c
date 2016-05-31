@@ -187,30 +187,30 @@ void decompressionSimple(char* chemin, char* name, char* extention)
 	decodage(F3,F4);
 	fermetureFichier(F3);
 	fermetureFichier(F4);
-	//remove(chemin);
 }
 
 
 int main(int argc, char **argv)
 {
-	char* modeDEmploie = "\nNAME : Decompression\n\nSYNOPSIS : \n	./decompresser Fichier nom extention\n\n";
+	char* modeDEmploie = "\nNAME : Decompression\n\nSYNOPSIS : \n	./decompresser [OPTIONS] Fichier nom extention\n\n";
 	if(argc < 3)
 	{
 		printf("%s", modeDEmploie);
 	}
 	else if (argc == 3)
 	{
-		printf("Compression sans pretraitement avec huffman\n");
+		printf("Decompression sans pretraitement avec huffman\n");
 		decompressionSimple(argv[1], argv[2],"");
 	}
 	else if (argc == 4)
 	{
-		printf("Compression sans pretraitement avec huffman\n");
-		decompressionSimple(argv[1], argv[2],argv[3]);
+		printf("Decompression sans pretraitement avec huffman\n");
+		if((strcmp("-m",argv[1])==0)||(strcmp("-r",argv[1])==0)||(strcmp("-rm",argv[1])==0)||(strcmp("-mr",argv[1])==0)){decompressionPretraitement(argv[2], argv[3], "", argv[1]);}
+		else{decompressionSimple(argv[1], argv[2],argv[3]);}
 	}
 	else if (argc == 5)
 	{
-		printf("Compression avec pretraitement avec huffman\n");
+		printf("Decompression avec pretraitement avec huffman\n");
 		decompressionPretraitement(argv[2], argv[3],argv[4],argv[1]);		
 	}
 	else
