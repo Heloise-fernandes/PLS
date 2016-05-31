@@ -128,7 +128,7 @@ int nombreOccurence(pliste listeOc, unsigned char e, int t);
  * Paramètre :
  * 	   tableauOccurence : tableaux ou stocker les nombres d'occurence
  *     listeCreationArbre : la liste à traiter*/
-void calculOccurence(int *tableauOccurence,pliste listeCreationArbre);
+void calculOccurence(int *tableauOccurence,pliste listeDouble,pliste listeOrigine);
 
 /* Fonction qui calcul Lmax
  * Paramètre :
@@ -142,7 +142,7 @@ int claculIteration(int taille);
 /* Fonction package-merge
  * Paramètre :
  *     chemin : le chemin du fichier à lire*/
-void package_merge(char* chemin);
+void fonction_package_merge(char* chemin, int* tableauOccurence);
 
 #endif
 

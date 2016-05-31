@@ -44,9 +44,9 @@ void afficherPointeur(pl pointeurListe);
 void afficherListe(pl pointeurListe);
 pl suprElmt(pl pointeurCourant, int indice);
 pl trier_Liste(pl pointeurListe);
-
+pl trier_Liste2(pl pointeurListe);
 pl insertElm(pl pointeurListe, pArbre a);
-
+int tailleListe1(pl p);
 
 
 /*=====================================*
