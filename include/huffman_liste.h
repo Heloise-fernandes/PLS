@@ -4,14 +4,15 @@
  * 
  */
 
+
+#ifndef HUFFMAN_LISTE_H
+#define HUFFMAN_LISTE_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "anlyseTexte.h"
 #include "arbre.h"
 #include "Lecture_Ecriture_B.h"
-
-#ifndef HUFFMAN_LISTE_H
-#define HUFFMAN_LISTE_H
 
 /*Fonction  nb_element_nul
  * Paramètre :

@@ -349,7 +349,6 @@ void decodage (FILE *fLecture, FILE* fEcriture){
 	//lire le nombre de symbole
 	char nb_symbole=0;//=6;
 	getByte(fLecture,&nb_symbole);
-	nb_symbole;
 	printf(" Le nombre de symbole lu est : %d\n",(unsigned char) nb_symbole);
 	for (i=0;i<=((unsigned char) nb_symbole);i++){
 		getByte(fLecture,&c);

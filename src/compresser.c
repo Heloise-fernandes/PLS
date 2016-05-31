@@ -14,6 +14,9 @@
 #include "anlyseTexte.h"
 #include "huffman_liste.h"
 #include "huffman_part2.h"
+#include "RLE.h"
+#include "MTF.h"
+#include "pretraitement.h"
 
 void extentionDossierCalcul(char* chemin, int* exten, int* repository)
 {
@@ -49,6 +52,29 @@ void extentionDossierCreation(char* chemin, char* exten, char* repository,int* e
 	}
 	repository[i] = '\0';
 	printf("\n");
+}
+
+void fichierChemin(char* fichierRetour, char* fichierCode, char* name, char* chemin)
+{
+	int f,d;	
+	extentionDossierCalcul(chemin,&f,&d);
+	
+	char* format = malloc(sizeof(char)*(f+1));
+	char* dossier = malloc(sizeof(char)*(d+1));
+	
+	extentionDossierCreation(chemin,format,dossier,&f,&d);	
+	
+	fichierCode = malloc(sizeof(char)*(strlen(dossier)+strlen(name)+4));
+	fichierRetour = malloc(sizeof(char)*(strlen(dossier)+strlen(name)+1+strlen(format)));
+	
+	strcpy(fichierCode,dossier);
+	strcat(fichierCode,name);
+	strcat(fichierCode,".txt");
+	
+	strcpy(fichierRetour,dossier);
+	strcat(fichierRetour,name);
+	strcat(fichierRetour,".");
+	strcat(fichierRetour,format);
 }
 
 void lancementSimple(char* chemin, char* name)
@@ -191,25 +217,93 @@ int main(int argc, char **argv)
 				printf("Lancement  avec package merge\n");	
 				lancementPackageMarge(argv[2], argv[3]);				
 			}
-			else if (strcmp("-m",argv[2])==0)
-			{printf("Lancement avec prétraitement mtf \n");}
-			else if (strcmp("-r",argv[2])==0)
-			{printf("Lancement  avec prétraitement rle\n");}
-			else if (strcmp("-mr",argv[2])==0)
-			{printf("Lancement  prétraitement avec mtf et rel \n");}
+			else if (strcmp("-m",argv[1])==0)
+			{
+				printf("Lancement avec prétraitement mtf \n");
+				FILE* src=ouvertureFichierLecture(chemin);
+				FILE* resultat=ouvertureFichierEcriture("../bin/temp.txt");
+				MTF(src,resultat);
+				fermetureFichier(src);
+				fermetureFichier(resultat);
+				lancementSimple("../bin/temp.txt", argv[3]);
+			}
+			else if (strcmp("-r",argv[1])==0)
+			{
+				printf("Lancement  avec prétraitement rle\n");
+				FILE* src=ouvertureFichierLecture(chemin);
+				FILE* resultat=ouvertureFichierEcriture("../bin/temp.txt");
+				RLE(src,resultat);
+				fermetureFichier(src);
+				fermetureFichier(resultat);
+				lancementSimple("../bin/temp.txt", argv[3]);
+			}
+			else if (strcmp("-rm",argv[1])==0)
+			{
+				printf("Lancement  prétraitement avec mtf et rel \n");
+				FILE* src=ouvertureFichierLecture(chemin);
+				FILE* resultat=ouvertureFichierEcriture("../bin/temp.txt");
+				comp_RLE_MTF(src,resultat);
+				fermetureFichier(src);
+				fermetureFichier(resultat);
+				lancementSimple("../bin/temp.txt", argv[3]);
+			}
+			else if (strcmp("-mr",argv[1])==0)
+			{
+				printf("Lancement  prétraitement avec mtf et rel \n");
+				FILE* src=ouvertureFichierLecture(chemin);
+				FILE* resultat=ouvertureFichierEcriture("../bin/temp.txt");
+				comp_MTF_RLE(src,resultat);
+				fermetureFichier(src);
+				fermetureFichier(resultat);
+				lancementSimple("../bin/temp.txt", argv[3]);
+			}
 			else{printf("%s",modeDEmploie);}
 		}
 		else
 		{
-			char* chemin = argv[4];
-			if (strcmp("-p",argv[2])==0)
+			char* chemin = argv[3];
+			if (strcmp("-p",argv[1])==0)
 			{
-				if (strcmp("-m",argv[3])==0)
-				{printf("Lancement codage package merge avec prétraitement mtf\n");}
-				else if (strcmp("-r",argv[3])==0)
-				{printf("Lancement  codage package merge avec prétraitement rle\n");}
-				else if (strcmp("-mr",argv[3])==0)
-				{printf("Lancement  codage package merge avec prétraitement mtf et rel\n");}
+				if (strcmp("-m",argv[2])==0)
+				{
+					printf("Lancement avec prétraitement mtf \n");
+					FILE* src=ouvertureFichierLecture(chemin);
+					FILE* resultat=ouvertureFichierEcriture("../bin/temp.txt");
+					MTF(src,resultat);
+					fermetureFichier(src);
+					fermetureFichier(resultat);
+					lancementPackageMarge("../bin/temp.txt", argv[4]);
+				}
+				else if (strcmp("-r",argv[2])==0)
+				{
+					printf("Lancement  avec prétraitement rle\n");
+					FILE* src=ouvertureFichierLecture(chemin);
+					FILE* resultat=ouvertureFichierEcriture("../bin/temp.txt");
+					RLE(src,resultat);
+					fermetureFichier(src);
+					fermetureFichier(resultat);
+					lancementPackageMarge("../bin/temp.txt", argv[4]);
+				}
+				else if (strcmp("-mr",argv[2])==0)
+				{
+					printf("Lancement  prétraitement avec mtf et rel \n");
+					FILE* src=ouvertureFichierLecture(chemin);
+					FILE* resultat=ouvertureFichierEcriture("../bin/temp.txt");
+					comp_RLE_MTF(src,resultat);
+					fermetureFichier(src);
+					fermetureFichier(resultat);
+					lancementPackageMarge("../bin/temp.txt", argv[4]);
+				}
+				else if (strcmp("-rm",argv[2])==0)
+				{
+					printf("Lancement  prétraitement avec mtf et rel \n");
+					FILE* src=ouvertureFichierLecture(chemin);
+					FILE* resultat=ouvertureFichierEcriture("../bin/temp.txt");
+					comp_MTF_RLE(src,resultat);
+					fermetureFichier(src);
+					fermetureFichier(resultat);
+					lancementPackageMarge("../bin/temp.txt", argv[4]);
+				}
 				else{printf("%s",modeDEmploie);}
 			}
 			else{printf("%s",modeDEmploie);}
