@@ -53,7 +53,6 @@ void extentionDossierCreation(char* chemin, char* exten, char* repository,int* e
 		repository[i] = chemin[i];
 	}
 	repository[i] = '\0';
-	printf("blopextent\n");
 	printf("\n");
 }
  
@@ -85,7 +84,6 @@ void decompressionPretraitement(char* chemin, char* name, char* extention, char 
 	}
 
 	//decodage
-	printf("Après chemin retour\n");
 	if (strcmp("-m",deco)==0)
 	{
 		printf("Lancement avec prétraitement mtf \n");

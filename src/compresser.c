@@ -109,9 +109,9 @@ void lancementSimple(char* chemin, char* name)
 	}
 	
 	profondeur(res,T,0);
-	afficherT(T);
+	//afficherT(T);
 	unsigned char nb_symbole=255;
-	for (i=0;i<N;i++){ if (T[i]!=0){ nb_symbole++;printf("Nb symbole : %d\n",nb_symbole);}}
+	for (i=0;i<N;i++){ if (T[i]!=0){ nb_symbole++;/*printf("Nb symbole : %d\n",nb_symbole);*/}}
 	
 	
 	//calcul de la taille
@@ -196,7 +196,7 @@ void lancementPackageMarge(char* chemin, char* name)
 int main(int argc, char **argv)
 {
 	
-	char* modeDEmploie = "\nNAME : Compression\n\nSYNOPSIS : \n	./compresser [OPTIONS] nomFichier \n\nDESCRIPTION : 	\n	-p\n		compression package merge sans prétraitement\n\n	-r,-m,-rm\n		compression avec prétraitement rle(r) ou mtf(m) ou rle et mtf (mr)\n\nExemple : ./compresser -p nomFichier, ./compresser -r nomFichier, ./compresser -p -m nomFichier\n\n";
+	char* modeDEmploie = "\nNAME : Compression\n\nSYNOPSIS : \n	./compresser [OPTIONS] nomFichier nom \n\nDESCRIPTION : 	\n	-p\n		compression package merge sans prétraitement\n\n	-r,-m,-rm\n		compression avec prétraitement rle(r) ou mtf(m) ou rle et mtf (mr)\n\nExemple : ./compresser -p nomFichier, ./compresser -r nomFichier, ./compresser -p -m nomFichier\n\n";
 	if(argc < 3)
 	{
 		printf("%s", modeDEmploie);

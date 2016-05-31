@@ -369,10 +369,10 @@ void decodage (FILE *fLecture, FILE* fEcriture){
 	unsigned int taille_fichier=0;
 	for(i=0;i<4;i++){
 		getByte(fLecture,&taille);
-		printf("  %d   ",(unsigned char)taille);
+		//printf("  %d   ",(unsigned char)taille);
 		taille_fichier=(taille_fichier<<8)+(unsigned char)taille;// A VERIFIER
 	}
-	printf("\nTaille : %u\n",taille);
+	//printf("\nTaille : %u\n",taille);
 	//printf("\nTaille du fichier: %i\n",taille_fichier);
 	//taille_fichier=256; // <- A ENLEVER !!!
 

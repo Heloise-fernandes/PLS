@@ -63,17 +63,17 @@ pArbre huffman(char* chemin, int * tableau)
 	pArbre a,b,c;
 	pl pa,pb;
 	FILE* fichier = ouvertureFichierLecture(chemin);
-	printf("je suis dans huffman et j'ai ouvert le fichier \n");
+	//printf("je suis dans huffman et j'ai ouvert le fichier \n");
 	//Remplir le tableau
 	for (i = 0 ; i < N ; i++ ){
 		tableau[i] = 0 ;
 	}
 	int t = remplir_tableau_poids_symbole_et_calcul_taille(tableau,fichier);
 	
-	printf("La taille d'origine est de %d bits :\n",t*8);
+	//printf("La taille d'origine est de %d bits :\n",t*8);
 	
-	afficherT(tableau);
-	printf("j'ai calculer l'occurence de chaque symbole\n");
+	//afficherT(tableau);
+	//printf("j'ai calculer l'occurence de chaque symbole\n");
 
 	/*
 	//Initialisation d'un tableau
@@ -132,7 +132,7 @@ pArbre huffman(char* chemin, int * tableau)
 
 	
 	//Trie et affichage de la liste
-	printf("Taille de la liste avant trie : %d\n", tailleListe1(pointeurListe));
+	//printf("Taille de la liste avant trie : %d\n", tailleListe1(pointeurListe));
 	
 	pl trie = trier_Liste2(pointeurListe);
 	//afficherListe(trie);
@@ -159,7 +159,7 @@ pArbre huffman(char* chemin, int * tableau)
 	
 	//afficherListe(trie);
 	//on recupere les deux arbre des plus petit
-	fprintf(stderr," apres tri \n");
+	//fprintf(stderr," apres tri \n");
 
 	
 	while(tailleListe1(trie) != 1 )

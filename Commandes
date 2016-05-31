@@ -1,0 +1,35 @@
+=======================>COMMANDE
+
+
+=======================>HUFFMAN
+../bin/compresser ../fichier_test/ciel.jpg blop
+../bin/decompresser ../fichier_test/blop.txt res jpg
+
+../bin/compresser ../fichier_test/text3.jpg blop
+../bin/decompresser ../fichier_test/blop.txt res txt
+
+=======================>PACKAGE MERGE
+
+../bin/compresser -p ../fichier_test/ciel.jpg blop
+../bin/decompresser ../fichier_test/blop.txt res jpg
+
+../bin/compresser -p ../fichier_test/text3.jpg blop
+../bin/decompresser ../fichier_test/blop.txt res txt
+
+=======================>MTF
+
+../bin/compresser -r ../fichier_test/affichage.c blop
+../bin/decompresser -r ../bin/blop.txt res c
+
+=======================>RLE
+../bin/compresser -m ../fichier_test/affichage.c blop
+../bin/decompresser -m ../bin/blop.txt res c
+
+=======================>MTF RLE
+
+../bin/compresser -mr ../fichier_test/affichage.c blop
+../bin/decompresser -mr ../bin/blop.txt res c
+
+=======================>RLE MTF
+../bin/compresser -rm ../fichier_test/affichage.c blop
+../bin/decompresser -rm ../bin/blop.txt res c
